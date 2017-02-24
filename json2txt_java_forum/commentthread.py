@@ -5,7 +5,7 @@ def create_table(conn, table):
     c.execute("CREATE TABLE " + table + " "
               "(id varchar(100), votes_up int, votes_down int, votes_count int, votes_point int,"
               "thread_type varchar(50),comment_count int, title text, body text, updated_at datetime,"
-              "created_at datetime, last_activity_at datetime, commentable_id varchar(50), author_id int, author_username varchar(50);")
+              "created_at datetime, last_activity_at datetime, commentable_id varchar(50), author_id int, author_username varchar(50));")
     conn.commit()
 
 

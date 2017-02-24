@@ -8,12 +8,12 @@ import user_id_map, auth_user, auth_userprofile, certificates_generatedcertifica
 
 terms = ['102.1x-2T2015', '102.1x-2T2016', '102.1x-4T2015', '102.2x-1T2016', '102.2x-2T2016', '102.2x-4T2015',
          '102x-2T2014', '102.1x-3T2016', '102.2x-3T2016']
-table_prefix = [x.replace('.', '_') for x in terms]
+table_prefix = [x.replace('.', '_').replace('-', '_') for x in terms]
 dir = sys.argv[1]
 if not dir.endswith('/'):
     dir += '/'
 
-conn = MySQLdb.connect(host="localhost", user="mmy", passwd="123", db="eLearning_Java")
+conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 for i in range(len(terms)):
     auth_user.create_table(conn, table_prefix[i] + '_auth_user')
     auth_user.insert_table(conn, dir + "HKUSTx-COMP" + terms[i] + "-auth_user-prod-analytics.sql", table_prefix[i] + '_auth_user')

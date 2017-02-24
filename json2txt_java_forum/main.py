@@ -1,8 +1,8 @@
 import json_wrapper
 
-f = open("/Users/maomaoyu/Downloads/e-learning/HKUSTx/hkustx-2016-09-11/java_useful_data/HKUSTx-COMP102.1x-4T2015-prod.mongo")
-of1 = open('/Users/maomaoyu/Downloads/e-learning/HKUSTx/hkustx-2016-09-11/4T2015_commentthread.txt', 'w')
-of2 = open('/Users/maomaoyu/Downloads/e-learning/HKUSTx/hkustx-2016-09-11/4T2015_comment.txt', 'w')
+f = open("/Users/maomaoyu/Downloads/e-learning/HKUSTx/hkustx-2016-09-11/HKUSTx-COMP102.1x-2T2015-prod.mongo")
+of1 = open('/Users/maomaoyu/Downloads/e-learning/HKUSTx/hkustx-2016-09-11/commentthread.txt', 'w')
+of2 = open('/Users/maomaoyu/Downloads/e-learning/HKUSTx/hkustx-2016-09-11/comment.txt', 'w')
 line = f.readline()
 # types = []
 comment_text = []

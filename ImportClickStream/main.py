@@ -7,7 +7,7 @@ import sys
 if __name__ == '__main__':
     file_name = sys.argv[1]
     table_name = sys.argv[2]
-    conn = MySQLdb.connect(host="localhost", user="mmy", passwd="123", db="test")
+    conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
     coursera.create_table(conn, table_name)
     m = {}
     for row in read_file.read(file_name):
