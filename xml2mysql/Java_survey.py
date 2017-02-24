@@ -24,7 +24,7 @@ create_question_table(conn, "Java_survey_questions")
 create_choice_table(conn, "Java_survey_choices")
 file = ["4b9026e2ae434af79e436a5161145b43", "642a6320ec6646539a5c4796291d4e39"]
 for file_id in file:
-    tree = ET.parse('/disk02/data/eLearning/data/Java/DB Snapshots/xml/HKUSTx-COMP102.1x-2T2016-course-prod-analytics/HKUSTx-COMP102.1x-2T2016/problem' + file_id + '.xml')
+    tree = ET.parse('/disk02/data/eLearning/data/Java/DB Snapshots/xml/HKUSTx-COMP102.1x-2T2016-course-prod-analytics/HKUSTx-COMP102.1x-2T2016/problem/' + file_id + '.xml')
     root = tree.getroot()
     xml_id = file_id
     survey_type = root.get('display_name')
