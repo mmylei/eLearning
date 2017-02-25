@@ -79,6 +79,8 @@ if __name__ == '__main__':
                 if isinstance(event, str):
                     event = json_wrapper.loads(event)
                 try:
+                    if 'old_time' not in event:
+                        event['old_time'] = None
                     insert_table(conn,
                                  ['user_name', 'user_id', 'event_source', 'event_type',
                                   'event_time', 'course_id', '`session`', 'slide_type', 'old_time', 'new_time'],
