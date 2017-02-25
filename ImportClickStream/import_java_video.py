@@ -59,7 +59,9 @@ if __name__ == '__main__':
                     print(row['time'])
                     raise
             elif row['event_type'] in ['play_video', 'pause_video', 'stop_video']:
-                event = json_wrapper.loads(row['event'])
+                event = row['event']
+                if isinstance(event, str):
+                    event = json_wrapper.loads(event)
                 if 'currentTime' not in event:
                     event['currentTime'] = None
                 try:
@@ -73,7 +75,9 @@ if __name__ == '__main__':
                     print(row['time'])
                     raise
             elif row['event_type'] == 'seek_video':
-                event = json_wrapper.loads(row['event'])
+                event = row['event']
+                if isinstance(event, str):
+                    event = json_wrapper.loads(event)
                 try:
                     insert_table(conn,
                                  ['user_name', 'user_id', 'event_source', 'event_type',
@@ -85,7 +89,9 @@ if __name__ == '__main__':
                     print(row['time'])
                     raise
             elif row['event_type'] == 'speed_change_video':
-                event = json_wrapper.loads(row['event'])
+                event = row['event']
+                if isinstance(event, str):
+                    event = json_wrapper.loads(event)
                 try:
                     insert_table(conn,
                                  ['user_name', 'user_id', 'event_source', 'event_type',
