@@ -40,7 +40,7 @@ if __name__ == '__main__':
         'COMP102.2x-4T2015',
         'COMP102x-2T2014'
     ]
-    conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
+    conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
     for term in terms:
         table_name = ('HKUSTx-' + term + '-clickstream').replace('-', '_').replace('.', '_')
         file_name = dir + 'HKUSTx-' + term + '-clickstream.log'
