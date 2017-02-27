@@ -16,7 +16,7 @@ table_prefix = [x.replace('.', '_').replace('-', '_') for x in terms]
 
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 # conn = MySQLdb.connect(host="10.89.54.131", user="mmy", passwd="123", db="eLearning_Java")
-create_relation_table(conn, "java_survey_answers")
+create_relation_table(conn, "Java_survey_answers")
 cursor = conn.cursor()
 cursor.execute("SELECT xml_id, survey_type FROM Java_survey_questions;")
 result = cursor.fetchall()
