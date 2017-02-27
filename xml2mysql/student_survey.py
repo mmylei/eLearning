@@ -6,7 +6,7 @@ def create_relation_table(conn, table):
     c.execute("DROP TABLE IF EXISTS " + table + ";")
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
-              "(`student_id` int, xml_id varchar(50), survey_type varchar(30), question_id int, answer int, `term_id`);")
+              "(`student_id` int, xml_id varchar(50), survey_type varchar(30), question_id int, answer int, `term_id` varchar(50));")
     conn.commit()
 
 terms = ['102.1x-2T2015', '102.1x-2T2016', '102.1x-4T2015', '102.2x-1T2016', '102.2x-2T2016', '102.2x-4T2015',
