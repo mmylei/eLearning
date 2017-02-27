@@ -26,7 +26,7 @@ for row in result:
 
 # cursor = conn.cursor()
 for table in table_prefix:
-    cursor.execute("SELECT module_type, module_id, student_id, state FROM" + table + "_courseware_studentmodule;")
+    cursor.execute("SELECT module_type, module_id, student_id, state FROM " + table + "_courseware_studentmodule;")
     result = cursor.fetchall()
     term_id = table
     for row in result:
