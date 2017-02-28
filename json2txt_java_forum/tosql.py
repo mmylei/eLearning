@@ -28,13 +28,28 @@ def process(file_name, conn, term):
     f.close()
 
 if __name__ == '__main__':
-    terms = ['102.1x-2T2015', '102.1x-2T2016', '102.1x-4T2015', '102.2x-1T2016', '102.2x-2T2016', '102.2x-4T2015',
+    old_terms = ['102.1x-2T2015', '102.1x-2T2016', '102.1x-4T2015', '102.2x-1T2016', '102.2x-2T2016', '102.2x-4T2015',
              '102x-2T2014', '102.1x-3T2016', '102.2x-3T2016']
     # terms = ['102.1x-2T2015']
+
+    java_terms = ['102.1x-2T2015', '102.1x-2T2016', '102.1x-4T2015', '102.2x-1T2016', '102.2x-2T2016', '102.2x-4T2015',
+                  '102x-2T2014', '102.1x-3T2016', '102.2x-3T2016']
+    # java_table_prefix = [x.replace('.', '_').replace('-', '_') for x in java_terms]
+
+    android_terms = ['107x-3T2016', '107x-2016_T1', '107x-1T2016']
+    # android_table_prefix = [x.replace('.', '_').replace('-', '_') for x in android_terms]
+
+    speaking_terms = ['101x-3T2016', '101x-3T2014', '101x-1T2016']
+    # speaking_table_prefix = [x.replace('.', '_').replace('-', '_') for x in speaking_terms]
+
+    writing_terms = ['102x-4Q2015', '102x-3T2016', '102x-1T2016']
+    # writing_table_prefix = [x.replace('.', '_').replace('-', '_') for x in writing_terms]
+
     dir = sys.argv[1]
     if not dir.endswith('/'):
         dir += '/'
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
+    terms = android_terms
     for term in terms:
         file_name = dir + "HKUSTx-COMP" + term + "-prod.mongo"
         process(file_name, conn, term)
