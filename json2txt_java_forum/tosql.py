@@ -49,8 +49,8 @@ if __name__ == '__main__':
     if not dir.endswith('/'):
         dir += '/'
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
-    terms = android_terms
+    terms = speaking_terms
     for term in terms:
-        file_name = dir + "HKUSTx-COMP" + term + "-prod.mongo"
+        file_name = dir + "HKUSTx-EBA" + term + "-prod.mongo"
         process(file_name, conn, term)
     conn.close()
