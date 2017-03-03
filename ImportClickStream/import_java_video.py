@@ -133,13 +133,14 @@ if __name__ == '__main__':
                 event = row['event']
                 if isinstance(event, str):
                     event = json_wrapper.loads(event)
+                video_position = video_position_to_decimal(event['POST']['saved_video_position'][0]) if 'saved_video_position' in event['POST'] else None
                 try:
                     insert_table(conn,
                                  ['user_name', 'user_id', 'event_source', 'event_type',
                                   'event_time', 'course_id', 'video_id', 'saved_video_position'],
                                  [row['username'], row['context']['user_id'], row['event_source'], 'save_user_state',
                                   row['time'], row['context']['course_id'], extract_video_id(row['event_type']),
-                                  video_position_to_decimal(event['POST']['saved_video_position'][0]), event['new_speed']],
+                                  video_position, event['new_speed']],
                                  table_name)
                 except Exception:
                     print("exception found in term " + term)
