@@ -133,7 +133,9 @@ if __name__ == '__main__':
                 event = row['event']
                 if isinstance(event, str):
                     event = json_wrapper.loads(event)
-                video_position = video_position_to_decimal(event['POST']['saved_video_position'][0]) if 'saved_video_position' in event['POST'] else None
+                if 'saved_video_position' not in event['POST']:
+                    continue
+                video_position = video_position_to_decimal(event['POST']['saved_video_position'][0])
                 try:
                     insert_table(conn,
                                  ['user_name', 'user_id', 'event_source', 'event_type',
