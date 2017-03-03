@@ -142,7 +142,7 @@ if __name__ == '__main__':
                                   'event_time', 'course_id', 'video_id', 'saved_video_position'],
                                  [row['username'], row['context']['user_id'], row['event_source'], 'save_user_state',
                                   row['time'], row['context']['course_id'], extract_video_id(row['event_type']),
-                                  video_position, event['new_speed']],
+                                  video_position],
                                  table_name)
                 except Exception:
                     print("exception found in term " + term)
