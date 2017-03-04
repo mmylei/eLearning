@@ -13,9 +13,9 @@ def create_table(conn, table):
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
               "(user_name varchar(64), user_id int, event_source varchar(32), event_type varchar(256),"
-              "event_time datetime, course_id varchar(128), `session` varchar(64), `current_time` decimal(10, 5),"
+              "event_time datetime, course_id varchar(128), `session` varchar(64), `current_time` decimal(15, 5),"
               "slide_type varchar(16), old_time decimal(10, 5), new_time decimal(10, 5), old_speed decimal(4, 2),"
-              "new_speed decimal(4, 2), saved_video_position int, video_id varchar(32));")
+              "new_speed decimal(4, 2), saved_video_position int, video_id varchar(64));")
     conn.commit()
 
 
@@ -30,12 +30,19 @@ def truncate(date_time):
 
 
 def extract_video_id(event_type):
+    for x in event_type.split('/'):
+        if '@' in x:
+            return x.split('@')[-1]
     return reg.search(event_type).group()
 
 
 def video_position_to_decimal(position):
     parts = position.split(':')
-    return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
+    try:
+        return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
+    except:
+        print(position)
+        raise
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
@@ -45,14 +52,14 @@ if __name__ == '__main__':
     if not dir.endswith('/'):
         dir += '/'
     terms = [
-        'COMP102.1x-2T2015',
-        'COMP102.1x-2T2016',
-        'COMP102.1x-3T2016',
-        'COMP102.1x-4T2015',
-        'COMP102.2x-1T2016',
-        'COMP102.2x-2T2016',
-        'COMP102.2x-3T2016',
-        'COMP102.2x-4T2015',
+        #'COMP102.1x-2T2015',
+        #'COMP102.1x-2T2016',
+        #'COMP102.1x-3T2016',
+        #'COMP102.1x-4T2015',
+        #'COMP102.2x-1T2016',
+        #'COMP102.2x-2T2016',
+        #'COMP102.2x-3T2016',
+        #'COMP102.2x-4T2015',
         'COMP102x-2T2014'
     ]
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
