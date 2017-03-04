@@ -51,7 +51,7 @@ if __name__ == '__main__':
     dir = sys.argv[1]
     if not dir.endswith('/'):
         dir += '/'
-    terms = [
+    java_terms = [
         #'COMP102.1x-2T2015',
         #'COMP102.1x-2T2016',
         #'COMP102.1x-3T2016',
@@ -62,6 +62,11 @@ if __name__ == '__main__':
         #'COMP102.2x-4T2015',
         'COMP102x-2T2014'
     ]
+
+    android_terms = ['COMP107x-3T2016', 'COMP107x-2016_T1', 'COMP107x-1T2016']
+    speaking_terms = ['EBA101x-3T2016', 'EBA101x-3T2014', 'EBA101x-1T2016']
+    writing_terms = ['EBA102x-4Q2015', 'EBA102x-3T2016', 'EBA102x-1T2016']
+    terms = android_terms
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
     for term in terms:
         table_name = ('HKUSTx-' + term + '-clickstream').replace('-', '_').replace('.', '_')
