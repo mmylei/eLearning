@@ -19,9 +19,7 @@ def insert_table(conn, fields, p, table):
 
 
 if __name__ == '__main__':
-    dir = sys.argv[1]
-    if not dir.endswith('/'):
-        dir += '/'
+   
     terms = [
         # java
         'COMP102.1x-2T2015',
