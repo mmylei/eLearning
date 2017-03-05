@@ -7,7 +7,7 @@ def create_table(conn, table):
     c.execute("DROP TABLE IF EXISTS `" + table + "`;")
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
-              "(user_id int, video_id varchar(64), is_finished tinyint(1) default 0"
+              "(user_id int, video_id varchar(64), is_finished tinyint(1) default 0,"
               "last_progress decimal(15, 5));")
     conn.commit()
 
