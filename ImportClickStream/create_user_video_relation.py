@@ -50,7 +50,7 @@ if __name__ == '__main__':
         table_name1 = ('HKUSTx-' + term + '-clickstream').replace('-', '_').replace('.', '_')
         # check if the table exists
         cursor = conn.cursor()
-        cursor.execute('SHOW TABLES LIKE ' + table_name1 + ';')
+        cursor.execute('SHOW TABLES LIKE \'' + table_name1 + '\';')
         tables = cursor.fetchall()
         if len(tables) == 0:
             continue
