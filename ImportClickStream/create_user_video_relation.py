@@ -59,6 +59,8 @@ if __name__ == '__main__':
         cursor.execute('SELECT distinct(user_id) FROM ' + table_name1 + ';')
         result = cursor.fetchall()
         for row in result:
+            if row[0] is None:
+                continue
             user_id = int(row[0])
             cursor.execute('SELECT video_id, event_type, `current_time`, old_time, new_time, saved_video_position'
                            ' FROM ' + table_name1 +
