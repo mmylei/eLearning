@@ -20,15 +20,19 @@ def process(file_name, conn):
     obj = json_wrapper.loads(content)
     for name in obj:
         if obj[name]['category'] == "problem" and 'display_name' in obj[name]['metadata']:
-            course_id = name.split('+')[1]
-            term_id = name.split('+')[2]
-            xml_id = name.split('+')[-1].split('@')[-1]
-            display_name = obj[name]['metadata']['display_name']
-            problem_type =' '.join(display_name.split(' ')[0:2])
-            c = conn.cursor()
-            c.execute("INSERT INTO all_courses_problems VALUES(%s, %s, %s, %s, %s);",
-                      [course_id, term_id, xml_id, display_name, problem_type])
-            conn.commit()
+            try:
+                course_id = name.split('+')[1]
+                term_id = name.split('+')[2]
+                xml_id = name.split('+')[-1].split('@')[-1]
+                display_name = obj[name]['metadata']['display_name']
+                problem_type =' '.join(display_name.split(' ')[0:2])
+                c = conn.cursor()
+                c.execute("INSERT INTO all_courses_problems VALUES(%s, %s, %s, %s, %s);",
+                          [course_id, term_id, xml_id, display_name, problem_type])
+                conn.commit()
+            except Exception:
+                print('name = ' + name)
+                raise
 
 
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
