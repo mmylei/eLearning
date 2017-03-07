@@ -20,9 +20,9 @@ def process(file_name, conn):
     obj = json_wrapper.loads(content)
     for name in obj:
         if obj[name]['category'] == "problem" and 'display_name' in obj[name]['metadata']:
-            course_id = name.split('\+')[1]
-            term_id = name.split('\+')[2]
-            xml_id = name.split('\+')[-1].split('@')[-1]
+            course_id = name.split('+')[1]
+            term_id = name.split('+')[2]
+            xml_id = name.split('+')[-1].split('@')[-1]
             display_name = obj[name]['metadata']['display_name']
             problem_type =' '.join(display_name.split(' ')[0:2])
             c = conn.cursor()
