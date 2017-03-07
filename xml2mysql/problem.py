@@ -9,7 +9,7 @@ def create_problem_table(conn, table):
     c.execute("DROP TABLE IF EXISTS " + table + ";")
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
-              "(`course_id` varchar(20), term_id varchar(20) xml_id varchar(50), "
+              "(`course_id` varchar(20), term_id varchar(20), xml_id varchar(50), "
                 "display_name varchar(100), problem_type varchar(50);")
     conn.commit()
 
