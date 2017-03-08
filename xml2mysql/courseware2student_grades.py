@@ -6,7 +6,7 @@ def create_grades_table(conn, table):
     c.execute("DROP TABLE IF EXISTS " + table + ";")
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
-              "(`student_id` int, `course_id` varchar(20), term_id varchar(20), xml_id varchar(50), "
+              "(`student_id` int, `course_id` varchar(20), `term_id` varchar(20), `xml_id` varchar(50), "
                 "grade decimal(10,5), max_grade decimal(10,5));")
     conn.commit()
 
@@ -47,4 +47,16 @@ for term in terms:
         grade = row[2]
         max_grade = row[3]
         if '+' in row[4]:
-            course_id = row[4].
+            course_id = row[4].split('+')[1]
+            term_id = row[4].split('+')[-1]
+        else:
+            course_id = row[4].split('/')[1]
+            term_id = row[4].split('/')[-1]
+        if '+' in row[0]:
+            xml_id = row[0].split('+')[-1]
+        else:
+            xml_id = row[0].split('/')[-1]
+        cursor.execute("INSERT INTO all_students_grades VALUES(%s, %s, %s, %s, %s, %s)", [student_id, course_id, term_id, xml_id, grade, max_grade])
+        conn.commit()
+
+conn.close()
