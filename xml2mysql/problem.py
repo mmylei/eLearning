@@ -14,7 +14,7 @@ def create_problem_table(conn, table):
     conn.commit()
 
 
-def process(file_name, conn):
+def process(file_name, conn, term):
     f = open(file_name)
     content = f.read()
     obj = json_wrapper.loads(content)
@@ -22,13 +22,15 @@ def process(file_name, conn):
         if obj[name]['category'] == "problem" and 'display_name' in obj[name]['metadata']:
             try:
                 if '+' in name:
-                    course_id = name.split('+')[1]
-                    term_id = name.split('+')[2]
+                    #course_id = name.split('+')[1]
+                    #term_id = name.split('+')[2]
                     xml_id = name.split('+')[-1].split('@')[-1]
                 else:
-                    course_id = "COMP102x"
-                    term_id = "2T2014"
+                    #course_id = "COMP102x"
+                    #term_id = "2T2014"
                     xml_id = name.split('/')[-1]
+                course_id = term.split('-')[0]
+                term_id = term.split('-')[1]
                 display_name = obj[name]['metadata']['display_name']
                 problem_type = ' '.join(display_name.split(' ')[0:2])
                 c = conn.cursor()
@@ -94,7 +96,7 @@ terms = [
 
 for term in terms:
     file_name = dir + "HKUSTx-" + term + "-course_structure-prod-analytics.json"
-    process(file_name, conn)
+    process(file_name, conn, term)
 
 # file_name = dir + "HKUSTx-COMP102x-2T2014-course_structure-prod-analytics.json"
 # process2(file_name, conn)
