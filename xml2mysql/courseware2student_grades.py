@@ -53,7 +53,7 @@ for term in terms:
             course_id = row[4].split('/')[1]
             term_id = row[4].split('/')[-1]
         if '+' in row[0]:
-            xml_id = row[0].split('+')[-1]
+            xml_id = row[0].split('+')[-1].split('@')[-1]
         else:
             xml_id = row[0].split('/')[-1]
         cursor.execute("INSERT INTO all_students_grades VALUES(%s, %s, %s, %s, %s, %s)", [student_id, course_id, term_id, xml_id, grade, max_grade])
