@@ -92,7 +92,7 @@ if __name__ == '__main__':
                 if row_user[2] is not None:
                     current_time = float(row_user[2])
                 else:
-                    current_session = None
+                    current_time = None
                 if event_type == 'play_video' and current_time is not None:
                     if video_id not in playing:
                         playing[video_id] = current_time
@@ -102,7 +102,7 @@ if __name__ == '__main__':
                         temporary_time[video_id] = event_time
                 elif event_type in ['stop_video', 'pause_video']:
                     if video_id in playing:
-                        cursor.execute('INSERT INTO ' + table_name2 + 'VALUES(%s, %s, %s, %s, %s, %s, %s);',
+                        cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s);',
                                        [session, user_id, video_id, playing[video_id], current_time, event_start[video_id], event_time])
                         del playing[video_id]
                         del event_start[video_id]
@@ -112,7 +112,7 @@ if __name__ == '__main__':
                     old_time = float(row_user[3])
                     new_time = float(row_user[4])
                     if video_id in playing:
-                        cursor.execute('INSERT INTO ' + table_name2 + 'VALUES(%s, %s, %s, %s, %s, %s, %s);',
+                        cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s);',
                                        [session, user_id, video_id, playing[video_id], old_time, event_start[video_id], event_time])
                         if video_id in temporary:
                             del temporary[video_id]
@@ -128,7 +128,7 @@ if __name__ == '__main__':
 
             # make up plays without `stop` or `pause` event
             for video_id in temporary:
-                cursor.execute('INSERT INTO ' + table_name2 + 'VALUES(%s, %s, %s, %s, %s, %s, %s);',
+                cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s);',
                                [current_session, user_id, video_id, playing[video_id], temporary[video_id], event_start[video_id],
                                 temporary_time[video_id]])
 
