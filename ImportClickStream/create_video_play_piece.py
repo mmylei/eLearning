@@ -108,7 +108,7 @@ if __name__ == '__main__':
                         del event_start[video_id]
                         if video_id in temporary:
                             del temporary[video_id]
-                elif event_type == 'seek_video':
+                elif event_type == 'seek_video' and row_user[4] is not None:
                     old_time = float(row_user[3])
                     new_time = float(row_user[4])
                     if video_id in playing:
