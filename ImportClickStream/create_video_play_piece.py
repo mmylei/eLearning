@@ -108,16 +108,27 @@ if __name__ == '__main__':
                         del event_start[video_id]
                         if video_id in temporary:
                             del temporary[video_id]
-                elif event_type == 'seek_video' and row_user[4] is not None:
-                    old_time = float(row_user[3])
-                    new_time = float(row_user[4])
-                    if video_id in playing:
+                elif event_type == 'seek_video':
+                    if video_id in playing and row_user[3] is not None:
+                        old_time = float(row_user[3])
                         cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s);',
                                        [session, user_id, video_id, playing[video_id], old_time, event_start[video_id], event_time])
                         if video_id in temporary:
                             del temporary[video_id]
-                    playing[video_id] = new_time
-                    event_start[video_id] = event_time
+                            del playing[video_id]
+                    elif video_id in playing and video_id in temporary:
+                        cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s);',
+                                       [current_session, user_id, video_id, playing[video_id], temporary[video_id], event_start[video_id],
+                                        temporary_time[video_id]])
+                        del temporary[video_id]
+                        del playing[video_id]
+                    elif video_id in playing:
+                        del playing[video_id]
+
+                    if row_user[4] is not None:
+                        new_time = float(row_user[4])
+                        playing[video_id] = new_time
+                        event_start[video_id] = event_time
                 elif event_type == 'save_user_state' and row_user[5] is not None:
                     if video_id not in playing:
                         playing[video_id] = float(row_user[5])
