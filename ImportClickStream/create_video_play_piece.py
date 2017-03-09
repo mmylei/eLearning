@@ -89,7 +89,10 @@ if __name__ == '__main__':
                     temporary_time = {}
                     current_session = session
                 event_time = row_user[7]
-                current_time = float(row_user[2])
+                if row_user[2] is not None:
+                    current_time = float(row_user[2])
+                else:
+                    current_session = None
                 if event_type == 'play_video' and current_time is not None:
                     if video_id not in playing:
                         playing[video_id] = current_time
