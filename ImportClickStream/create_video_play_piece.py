@@ -100,7 +100,7 @@ if __name__ == '__main__':
                     else:
                         temporary[video_id] = current_time
                         temporary_time[video_id] = event_time
-                elif event_type in ['stop_video', 'pause_video']:
+                elif event_type in ['stop_video', 'pause_video'] and current_time is not None:
                     if video_id in playing:
                         cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s);',
                                        [session, user_id, video_id, playing[video_id], current_time, event_start[video_id], event_time])
