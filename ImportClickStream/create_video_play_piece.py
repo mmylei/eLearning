@@ -89,7 +89,7 @@ if __name__ == '__main__':
                     temporary_time = {}
                     current_session = session
                 event_time = row_user[7]
-                current_time = row_user[2]
+                current_time = float(row_user[2])
                 if event_type == 'play_video' and current_time is not None:
                     if video_id not in playing:
                         playing[video_id] = current_time
@@ -106,8 +106,8 @@ if __name__ == '__main__':
                         if video_id in temporary:
                             del temporary[video_id]
                 elif event_type == 'seek_video':
-                    old_time = row_user[3]
-                    new_time = row_user[4]
+                    old_time = float(row_user[3])
+                    new_time = float(row_user[4])
                     if video_id in playing:
                         cursor.execute('INSERT INTO ' + table_name2 + 'VALUES(%s, %s, %s, %s, %s, %s, %s);',
                                        [session, user_id, video_id, playing[video_id], old_time, event_start[video_id], event_time])
@@ -117,10 +117,10 @@ if __name__ == '__main__':
                     event_start[video_id] = event_time
                 elif event_type == 'save_user_state' and row_user[5] is not None:
                     if video_id not in playing:
-                        playing[video_id] = row_user[5]
+                        playing[video_id] = float(row_user[5])
                         event_start[video_id] = event_time
                     elif playing[video_id] != row_user[5]:
-                        temporary[video_id] = row_user[5]
+                        temporary[video_id] = float(row_user[5])
                         temporary_time[video_id] = event_time
 
             # make up plays without `stop` or `pause` event
