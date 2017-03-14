@@ -8,7 +8,7 @@ text1 = open("/disk02/data/eLearning/xylei/102_1x_4T2015_video_play_time.txt", "
 cursor.execute(sql1)
 result1 = cursor.fetchall()
 for row in result1:
-    print>> text1,row[0],'\t',row[1],'\t',row[2]
+    print>>text1,row[0],'\t',row[1],'\t',row[2]
 text1.close()
 
 conn.close()
