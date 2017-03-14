@@ -42,7 +42,7 @@ def video_position_to_decimal(position):
         return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
     except:
         print(position)
-        raise
+        return -1
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
@@ -148,6 +148,8 @@ if __name__ == '__main__':
                 if 'saved_video_position' not in event['POST']:
                     continue
                 video_position = video_position_to_decimal(event['POST']['saved_video_position'][0])
+                if video_position == -1:
+                    continue
                 try:
                     insert_table(conn,
                                  ['user_name', 'user_id', 'event_source', 'event_type',
