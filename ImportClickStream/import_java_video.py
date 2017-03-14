@@ -87,10 +87,10 @@ if __name__ == '__main__':
                                  [row['username'], row['context']['user_id'], row['event_source'], row['event_type'],
                                   row['time'], row['context']['course_id'], row['session'], event['id']],
                                  table_name)
-                except Exception:
+                except KeyError:
                     print("exception found in term " + term)
                     print(row['time'])
-                    raise
+                    
             elif row['event_type'] in ['play_video', 'pause_video', 'stop_video']:
                 event = row['event']
                 if isinstance(event, str):
