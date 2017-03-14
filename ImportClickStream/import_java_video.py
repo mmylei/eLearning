@@ -41,7 +41,7 @@ def video_position_to_decimal(position):
     try:
         return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
     except:
-        print(position)
+        #print(position)
         return -1
 
 if __name__ == '__main__':
@@ -90,7 +90,7 @@ if __name__ == '__main__':
                 except KeyError:
                     print("exception found in term " + term)
                     print(row['time'])
-                    
+
             elif row['event_type'] in ['play_video', 'pause_video', 'stop_video']:
                 event = row['event']
                 if isinstance(event, str):
