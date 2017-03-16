@@ -100,12 +100,12 @@ if __name__ == '__main__':
                 else:
                     current_time = None
                 if event_type == 'play_video' and current_time is not None:
-                    if video_id not in playing:
-                        playing[video_id] = current_time
-                        event_start[video_id] = event_time
-                    else:
-                        temporary[video_id] = current_time
-                        temporary_time[video_id] = event_time
+                    # if video_id not in playing:
+                    playing[video_id] = current_time
+                    event_start[video_id] = event_time
+                    # else:
+                    #     temporary[video_id] = current_time
+                    #     temporary_time[video_id] = event_time
                 elif event_type in ['stop_video', 'pause_video'] and current_time is not None:
                     if video_id in playing:
                         finished = 1 if event_type == 'stop_video' else 0
