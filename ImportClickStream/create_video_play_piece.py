@@ -82,7 +82,13 @@ if __name__ == '__main__':
                 #     last_progress[video_id] = 0
                 event_type = row_user[1]
                 session = row_user[6]
-                if session != current_session:
+                if session is not None and session != current_session:
+                    # make up plays without `stop` or `pause` event
+                    for video_id in temporary:
+                        cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s);',
+                                       [current_session, user_id, video_id, playing[video_id], temporary[video_id],
+                                        event_start[video_id],
+                                        temporary_time[video_id]])
                     playing = {}
                     event_start = {}
                     temporary = {}
