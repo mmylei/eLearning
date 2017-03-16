@@ -27,9 +27,9 @@ if __name__ == '__main__':
 
     terms = [
         # java
-        # 'COMP102.1x-2T2015',
-        # 'COMP102.1x-2T2016',
-        # 'COMP102.1x-3T2016',
+        'COMP102.1x-2T2015',
+        'COMP102.1x-2T2016',
+        'COMP102.1x-3T2016',
         'COMP102.1x-4T2015',
         'COMP102.2x-1T2016',
         'COMP102.2x-2T2016',
