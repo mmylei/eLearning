@@ -8,7 +8,7 @@ def create_table(conn, table):
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
               "(user_id int, video_id varchar(64), is_finished tinyint(1) default 0,"
-              "last_progress decimal(15, 5));")
+              "last_progress decimal(15, 5), finished_times int default 0);")
     conn.commit()
 
 
@@ -68,13 +68,17 @@ if __name__ == '__main__':
             result_user = cursor.fetchall()
             finished = {}
             last_progress = {}
+            finished_times = {}
             for row_user in result_user:
                 video_id = row_user[0]
                 if video_id not in last_progress:
                     last_progress[video_id] = 0
+                if video_id not in finished_times:
+                    finished_times[video_id] = 0
                 event_type = row_user[1]
                 if event_type == 'stop_video':
                     finished[video_id] = 1
+                    finished_times[video_id] += 1
                 elif event_type == 'seek_video':
                     if row_user[4] is not None:
                         last_progress[video_id] = max(last_progress[video_id], float(row_user[4]))
@@ -87,8 +91,8 @@ if __name__ == '__main__':
 
             for video_id in last_progress:
                 if video_id in finished:
-                    cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s);', [user_id, video_id, 1, None])
+                    cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s);', [user_id, video_id, 1, -1, finished_times[video_id]])
                 else:
-                    cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s);', [user_id, video_id, 0, last_progress[video_id]])
+                    cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s);', [user_id, video_id, 0, last_progress[video_id], 0])
 
             conn.commit()
