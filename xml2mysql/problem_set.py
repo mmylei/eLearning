@@ -41,8 +41,12 @@ for term in terms:
                 category = data[id]['category']
                 if category in ['problem', 'library_content']:
                     xml_id = id.split('@')[-1]
-                    cursor.execute('INSERT INTO ' + table_name + ' values(%s, %s, %s, %s, %s);',
+                    try:
+                        cursor.execute('INSERT INTO ' + table_name + ' values(%s, %s, %s, %s, %s);',
                                    [course_id, term_id, set_name, set_category, xml_id, category])
+                    except Exception:
+                        print course_id, term_id, set_name, set_category, xml_id, category
+                        raise
                 else:
                     for child in data[id]['children']:
                         queue.put_nowait(child)
