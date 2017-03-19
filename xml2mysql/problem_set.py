@@ -39,7 +39,7 @@ for term in terms:
             while not queue.empty():
                 id = queue.get_nowait()
                 category = data[id]['category']
-                if category in ['problem', 'library_content']:
+                if category in ['problem']:
                     xml_id = id.split('@')[-1]
                     try:
                         cursor.execute('INSERT INTO ' + table_name + ' values(%s, %s, %s, %s, %s, %s);',
