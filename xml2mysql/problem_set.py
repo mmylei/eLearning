@@ -42,7 +42,7 @@ for term in terms:
                 if category in ['problem', 'library_content']:
                     xml_id = id.split('@')[-1]
                     try:
-                        cursor.execute('INSERT INTO ' + table_name + ' values(%s, %s, %s, %s, %s);',
+                        cursor.execute('INSERT INTO ' + table_name + ' values(%s, %s, %s, %s, %s, %s);',
                                    [course_id, term_id, set_name, set_category, xml_id, category])
                     except Exception:
                         print course_id, term_id, set_name, set_category, xml_id, category
