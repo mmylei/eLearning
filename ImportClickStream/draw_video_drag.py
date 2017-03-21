@@ -69,7 +69,7 @@ for term in terms:
             if time[0] is not None and time[1] is not None:
                 drags.append((float(time[0]), float(time[1])))
         cursor.execute('SELECT duration'
-                       ' FROM eLearning.Video_Info'
+                       ' FROM eLearning.Video_Basic_Info'
                        ' WHERE video_id=\'' + video_id + '\';')
         d_result = cursor.fetchall()
         if len(d_result) == 0:
