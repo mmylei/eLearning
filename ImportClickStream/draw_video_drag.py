@@ -38,7 +38,8 @@ def draw(video_id, duration, drags):
     im_backward.save(dir + video_id + '_backward.png', 'PNG')
 
 terms = [
-        'COMP102.1x-4T2015', 'COMP107x-2016_T1'
+        # 'COMP102.1x-4T2015',
+        'COMP107x-2016_T1'
     ]
 
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
@@ -74,5 +75,6 @@ for term in terms:
         d_result = cursor.fetchall()
         if len(d_result) == 0:
             print 'cannot find video info:', video_id
+            continue
         duration = float(d_result[0][0])
         draw(video_id, duration, drags)
