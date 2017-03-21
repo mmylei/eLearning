@@ -22,27 +22,27 @@ if __name__ == '__main__':
 
     terms = [
         # java
-        'COMP102.1x-2T2015',
-        'COMP102.1x-2T2016',
-        'COMP102.1x-3T2016',
-        'COMP102.1x-4T2015',
-        'COMP102.2x-1T2016',
-        'COMP102.2x-2T2016',
-        'COMP102.2x-3T2016',
-        'COMP102.2x-4T2015',
-        'COMP102x-2T2014',
+        # 'COMP102.1x-2T2015',
+        # 'COMP102.1x-2T2016',
+        # 'COMP102.1x-3T2016',
+        # 'COMP102.1x-4T2015',
+        # 'COMP102.2x-1T2016',
+        # 'COMP102.2x-2T2016',
+        # 'COMP102.2x-3T2016',
+        # 'COMP102.2x-4T2015',
+        # 'COMP102x-2T2014',
         # android
         'COMP107x-3T2016',
         'COMP107x-2016_T1',
         'COMP107x-1T2016',
         # speaking
-        'EBA101x-3T2016',
-        'EBA101x-3T2014',
-        'EBA101x-1T2016',
+        # 'EBA101x-3T2016',
+        # 'EBA101x-3T2014',
+        # 'EBA101x-1T2016',
         # writing
-        'EBA102x-4Q2015',
-        'EBA102x-3T2016',
-        'EBA102x-1T2016'
+        # 'EBA102x-4Q2015',
+        # 'EBA102x-3T2016',
+        # 'EBA102x-1T2016'
     ]
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
     for term in terms:
