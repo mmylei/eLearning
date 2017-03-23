@@ -4,7 +4,7 @@ import os
 
 size = (512, 64)
 backgroud = (255, 255, 255, 255)
-color = (65, 105, 225, 1)
+color = (65, 105, 225, 5)
 linewidth = 1
 dir = "./"
 
