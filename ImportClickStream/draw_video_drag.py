@@ -4,7 +4,7 @@ import os
 
 size = (512, 64)
 backgroud = (255, 255, 255, 255)
-color = (51, 153, 255, 1)
+color = (65, 105, 225, 1)
 linewidth = 1
 dir = "./"
 
@@ -38,8 +38,8 @@ def draw(video_id, duration, drags):
     im_backward.save(dir + video_id + '_backward.png', 'PNG')
 
 terms = [
-        # 'COMP102.1x-4T2015',
-        'COMP107x-2016_T1'
+        'COMP102.1x-4T2015',
+        # 'COMP107x-2016_T1'
     ]
 
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
