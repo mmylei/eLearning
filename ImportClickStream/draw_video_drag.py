@@ -50,10 +50,6 @@ for term in terms:
         os.mkdir(dir)
     table_name = ('HKUSTx-' + term + '-clickstream').replace('-', '_').replace('.', '_')
     cursor = conn.cursor()
-    cursor.execute('SELECT distinct(user_id) FROM ' + table_name + ';')
-    tables = cursor.fetchall()
-    if len(tables) == 0:
-        continue
     cursor.execute('SELECT distinct(video_id) FROM ' + table_name + ';')
     result = cursor.fetchall()
     for row in result:
