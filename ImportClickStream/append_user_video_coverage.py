@@ -1,3 +1,4 @@
+from warnings import filterwarnings
 import MySQLdb
 
 
@@ -28,7 +29,7 @@ if __name__ == '__main__':
             'COMP102.1x-4T2015',
             'COMP107x-2016_T1'
         ]
-
+    filterwarnings('ignore', category=MySQLdb.Warning)
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
     for term in terms:
         print('start calc term ' + term)
