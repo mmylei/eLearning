@@ -47,7 +47,6 @@ if __name__ == '__main__':
             if row[0] is None:
                 continue
             video_id = row[0]
-            print('start draw video ' + video_id)
             cursor.execute('SELECT video_time_start, video_time_end'
                            ' FROM ' + table_name +
                            ' WHERE video_id=\'' + video_id + '\';')
