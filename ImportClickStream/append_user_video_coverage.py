@@ -61,5 +61,5 @@ if __name__ == '__main__':
             if cov > 0.8:
                 covered = 1
             cursor.execute('UPDATE ' + table_name1 +
-                           ' SET coverage=' + str(cov) + ', covered=' + str(covered) +
+                           ' SET coverage=' + str(cov) + ', is_covered=' + str(covered) +
                            ' WHERE video_id=\'' + video_id + '\' AND user_id=' + user_id + ';')
