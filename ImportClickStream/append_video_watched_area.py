@@ -71,3 +71,5 @@ if __name__ == '__main__':
             cursor.execute('UPDATE Video_Stats_Info' +
                            ' SET watched_area=\'' + str(areas) + '\', num_watched_all=' + watched_num +
                            ' WHERE video_id=\'' + video_id + '\';')
+    conn.commit()
+    conn.close()

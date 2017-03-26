@@ -66,3 +66,5 @@ if __name__ == '__main__':
             cursor.execute('UPDATE ' + table_name1 +
                            ' SET coverage=' + str(cov) + ', is_covered=' + str(covered) +
                            ' WHERE video_id=\'' + video_id + '\' AND user_id=' + user_id + ';')
+    conn.commit()
+    conn.close()
