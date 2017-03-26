@@ -2,6 +2,8 @@ import MySQLdb
 
 
 def coverage(duration, watchs):
+    if len(watchs) == 0:
+        return 0.0
     for watch in watchs:
         if watch[0] < 0:
             watch[0] = 0
