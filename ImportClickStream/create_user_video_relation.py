@@ -8,7 +8,8 @@ def create_table(conn, table):
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
               "(user_id int, video_id varchar(64), is_finished tinyint(1) default 0,"
-              "last_progress decimal(15, 5), finished_times int default 0);")
+              "last_progress decimal(15, 5), finished_times int default 0, coverage decimal(10, 5),"
+              "is_covered tinyint(1) default 0);")
     conn.commit()
 
 
@@ -25,7 +26,7 @@ if __name__ == '__main__':
         # 'COMP102.1x-2T2015',
         # 'COMP102.1x-2T2016',
         # 'COMP102.1x-3T2016',
-        # 'COMP102.1x-4T2015',
+        'COMP102.1x-4T2015',
         # 'COMP102.2x-1T2016',
         # 'COMP102.2x-2T2016',
         # 'COMP102.2x-3T2016',
