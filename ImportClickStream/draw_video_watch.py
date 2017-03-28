@@ -10,7 +10,7 @@ import os
 width = 1024
 height = 256
 my_dpi = 256
-max_watching = 26665.0
+# max_watching = 26665.0
 dir = "./"
 
 
@@ -29,12 +29,14 @@ def draw(video_id, duration, watchs):
             except Exception:
                 print watch[0], watch[1], duration, x2
                 raise
-    global max_watching
+    max_watching = max(data[0])
+    min_watching = np.percentile(data[0], 3)
+    print min(data[0]), min_watching, np.percentile(data[0], 20), np.percentile(data[0], 30), max_watching
     for i in range(width):
-        if max_watching < data[0][i]:
-            max_watching = data[0][i]
-    for i in range(width):
-        data[0][i] /= max_watching
+        data[0][i] = (data[0][i] - min_watching) / (max_watching - min_watching)
+        if data[0][i] < 0:
+            data[0][i] = 0
+
     plt.figure(figsize=(width / my_dpi, height / my_dpi), dpi=my_dpi)
     fig = plt.imshow(data, extent=(0, width / my_dpi, 0, height / my_dpi), cmap=cm.plasma)
     plt.axis('off')
@@ -46,7 +48,7 @@ def draw(video_id, duration, watchs):
 if __name__ == '__main__':
     terms = [
             'COMP102.1x-4T2015',
-            # 'COMP107x-2016_T1'
+            'COMP107x-2016_T1'
         ]
 
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
@@ -71,7 +73,8 @@ if __name__ == '__main__':
             watch_times = []
             for time in result_video:
                 if time[0] is not None and time[1] is not None:
-                    watch_times.append((float(time[0]), float(time[1])))
+                    if float(time[0]) < float(time[1]):
+                        watch_times.append((float(time[0]), float(time[1])))
             cursor.execute('SELECT duration'
                            ' FROM eLearning.Video_Basic_Info'
                            ' WHERE video_id=\'' + video_id + '\';')
@@ -82,4 +85,4 @@ if __name__ == '__main__':
             duration = float(d_result[0][0])
             draw(video_id, duration, watch_times)
 
-    print(max_watching)
+    # print(max_watching)

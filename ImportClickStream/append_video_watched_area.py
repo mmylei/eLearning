@@ -1,14 +1,13 @@
 import MySQLdb
 
-max_watching = 26665.0
-threshold = 0.8
+threshold = 1.2
 
 
-def watch_area(duration, watchs):
+def watch_area(duration, watchs, watched_num):
     result = []
     start = None
     count = 0
-    count_threshold = threshold * max_watching
+    count_threshold = threshold * watched_num
     entries = []
     for watch in watchs:
         if watch[0] < 0:
@@ -54,7 +53,8 @@ if __name__ == '__main__':
             watch_times = []
             for time in result_video:
                 if time[0] is not None and time[1] is not None:
-                    watch_times.append([float(time[0]), float(time[1])])
+                    if float(time[0]) < float(time[1]):
+                        watch_times.append([float(time[0]), float(time[1])])
             cursor.execute('SELECT duration'
                            ' FROM eLearning.Video_Basic_Info'
                            ' WHERE video_id=\'' + video_id + '\';')
@@ -63,11 +63,11 @@ if __name__ == '__main__':
                 print 'cannot find video info:', video_id
                 continue
             duration = float(d_result[0][0])
-            areas = watch_area(duration, watch_times)
             cursor.execute('SELECT count(*)'
                            ' FROM ' + table_name2 +
                            ' WHERE video_id=\'' + video_id + '\' AND is_covered=1;')
             watched_num = str(cursor.fetchall()[0][0])
+            areas = watch_area(duration, watch_times, watched_num)
             cursor.execute('UPDATE Video_Stats_Info' +
                            ' SET watched_area=\'' + str(areas) + '\', num_watched_all=' + watched_num +
                            ' WHERE video_id=\'' + video_id + '\';')
