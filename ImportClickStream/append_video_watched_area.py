@@ -67,7 +67,7 @@ if __name__ == '__main__':
                            ' FROM ' + table_name2 +
                            ' WHERE video_id=\'' + video_id + '\' AND is_covered=1;')
             watched_num = str(cursor.fetchall()[0][0])
-            areas = watch_area(duration, watch_times, watched_num)
+            areas = watch_area(duration, watch_times, float(watched_num))
             cursor.execute('UPDATE Video_Stats_Info' +
                            ' SET watched_area=\'' + str(areas) + '\', num_watched_all=' + watched_num +
                            ' WHERE video_id=\'' + video_id + '\';')
