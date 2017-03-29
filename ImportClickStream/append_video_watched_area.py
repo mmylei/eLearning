@@ -1,6 +1,6 @@
 import MySQLdb
 
-threshold = 1.2
+threshold = 2.0
 
 
 def watch_area(duration, watchs, watched_num):
@@ -69,7 +69,7 @@ if __name__ == '__main__':
             watched_num = str(cursor.fetchall()[0][0])
             areas = watch_area(duration, watch_times, float(watched_num))
             cursor.execute('UPDATE Video_Stats_Info' +
-                           ' SET watched_area=\'' + str(areas) + '\', num_watched_all=' + watched_num +
+                           ' SET watched_area2=\'' + str(areas) + '\', num_watched_all=' + watched_num +
                            ' WHERE video_id=\'' + video_id + '\';')
     conn.commit()
     conn.close()
