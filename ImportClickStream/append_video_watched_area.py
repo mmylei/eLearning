@@ -1,6 +1,6 @@
 import MySQLdb
 
-threshold = 1.8
+threshold = 1.5
 
 
 def watch_area(duration, watchs, watched_num):
