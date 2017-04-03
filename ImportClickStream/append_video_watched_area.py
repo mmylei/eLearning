@@ -39,6 +39,7 @@ if __name__ == '__main__':
             if row[0] is None:
                 continue
             video_id = row[0]
+            print('start draw video ' + video_id)
             cursor.execute('SELECT video_time_start, video_time_end, user_id'
                            ' FROM ' + table_name +
                            ' WHERE video_id=\'' + video_id + '\';')
@@ -61,9 +62,9 @@ if __name__ == '__main__':
             total_repeat_ratio += sum(repeat_table[video_id])
             total_time_slots += len(repeat_table[video_id])
         threshold = total_repeat_ratio / total_time_slots
-        print('threshold of term ' + term + 'is ' + str(threshold))
+        print('threshold of term ' + term + ' is ' + str(threshold))
         for row in result:
-            if row[0] is None:
+            if row[0] is None or row[0] not in repeat_table:
                 continue
             video_id = row[0]
             cursor.execute('SELECT count(*)'
