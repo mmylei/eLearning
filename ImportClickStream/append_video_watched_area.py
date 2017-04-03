@@ -12,7 +12,8 @@ def watch_area(repeat_array):
             start = i
         if repeat_array[i] < threshold and start is not None:
             end = i
-            result.append((start, end))
+            if end - start > 3:
+                result.append((start, end))
             start = None
     return result
 
