@@ -43,7 +43,7 @@ def draw(video_id, duration, watchs):
     # plt.axis('off')
     # fig.axes.get_xaxis().set_visible(False)
     fig.axes.get_yaxis().set_visible(False)
-    plt.xticks(range(seconds, 50), fontsize=9)
+    plt.xticks(range(0, seconds, 50), fontsize=9)
     plt.xlabel('video time', fontsize=9)
     plt.savefig(dir + video_id + '.png', format='png', bbox_inches='tight', pad_inches=0)
 
