@@ -8,7 +8,7 @@ import numpy as np
 import os
 
 width = 1024
-height = 512
+height = 256
 my_dpi = 256
 # max_watching = 26665.0
 dir = "./"
@@ -39,7 +39,7 @@ def draw(video_id, duration, watchs):
             data[0][i] = 0
 
     plt.figure(figsize=(width / my_dpi, height / my_dpi), dpi=my_dpi)
-    fig = plt.imshow(data, extent=(0, width, 0, height), cmap=cm.plasma)
+    fig = plt.imshow(data, extent=(0, seconds, 0, height), cmap=cm.plasma)
     # plt.axis('off')
     # fig.axes.get_xaxis().set_visible(False)
     fig.axes.get_yaxis().set_visible(False)
