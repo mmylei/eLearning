@@ -2,21 +2,20 @@ import MySQLdb
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-
 import numpy as np
 import os
 
 width = 1024
 height = 256
 my_dpi = 256
-# max_watching = 26665.0
 dir = "./"
 
 
-def draw(video_id, duration, watchs):
+def repeat_ratio(duration, watchs):
     seconds = int(duration)
-    data = np.zeros((1, seconds), dtype=float)
+    count_repeat = np.zeros(seconds, dtype=float)
+    count_distinct = np.zeros(seconds, dtype=float)
+    entries = []
     for watch in watchs:
         x1 = int(watch[0] / duration * seconds)
         x2 = int(watch[1] / duration * seconds)
@@ -24,25 +23,45 @@ def draw(video_id, duration, watchs):
             x1 = 0
         if x2 >= seconds:
             x2 = seconds - 1
-        for i in range(x1, x2):
-            try:
-                data[0][i] += 1.0
-            except Exception:
-                print watch[0], watch[1], duration, x2
-                raise
-    max_watching = max(data[0])
-    min_watching = np.percentile(data[0], 3)
-    # print min(data[0]), min_watching, np.percentile(data[0], 20), np.percentile(data[0], 30), max_watching
-    for i in range(seconds):
-        data[0][i] = (data[0][i] - min_watching) / (max_watching - min_watching)
-        if data[0][i] < 0:
-            data[0][i] = 0
+        # 1 means start, -1 means end
+        if x1 < x2:
+            entries.append((x1, watch[2], 1))
+            entries.append((x2, watch[2], -1))
+
+    entries.sort(key=lambda x: x[0])
+    l = len(entries)
+    # count for each user
+    count = {}
+    entry_ptr = 0
+    for point in range(seconds):
+        while entry_ptr < l and entries[entry_ptr][0] <= point:
+            if entries[entry_ptr][2] == 1:
+                if entries[entry_ptr][1] not in count:
+                    count[entries[entry_ptr][1]] = 1
+                else:
+                    count[entries[entry_ptr][1]] += 1
+            else:
+                if count[entries[entry_ptr][1]] > 1:
+                    count[entries[entry_ptr][1]] -= 1
+                else:
+                    del count[entries[entry_ptr][1]]
+            entry_ptr += 1
+        count_distinct[point] = len(count)
+        count_repeat[point] = float(sum(count.itervalues()))
+
+    return [count_repeat[i] / count_distinct[i] - 1 if count_distinct[i] > 0 else 0 for i in range(seconds)]
+
+
+def draw(video_id, duration, watchs):
+    data = repeat_ratio(duration, watchs)
 
     plt.figure(figsize=(width / my_dpi, height / my_dpi), dpi=my_dpi)
-    fig = plt.imshow(data, extent=(0, width / my_dpi, 0, height / my_dpi), cmap=cm.plasma)
-    plt.axis('off')
-    fig.axes.get_xaxis().set_visible(False)
-    fig.axes.get_yaxis().set_visible(False)
+    # plt.plot(range(width), count_repeat)
+    # plt.plot(range(width), count_distinct)
+    plt.plot(range(width), data)
+    plt.xlabel('video time (second)')
+    plt.ylabel('repeat ratio')
+    plt.yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5], ['1', '1.1', '1.2', '1.3', '1.4', '1.5'])
     plt.savefig(dir + video_id + '.png', format='png', bbox_inches='tight', pad_inches=0)
 
 
@@ -55,9 +74,9 @@ if __name__ == '__main__':
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
     for term in terms:
         print('start draw term ' + term)
-        if not os.path.exists('./area/'):
-            os.mkdir('./area/')
-        dir = './area/' + term + '/'
+        if not os.path.exists('./repeat/'):
+            os.mkdir('./repeat/')
+        dir = './repeat/' + term + '/'
         if not os.path.exists(dir):
             os.mkdir(dir)
         table_name = ('HKUSTx-' + term + '-video_play_piece').replace('-', '_').replace('.', '_')
@@ -69,7 +88,7 @@ if __name__ == '__main__':
                 continue
             video_id = row[0]
             print('start draw video ' + video_id)
-            cursor.execute('SELECT video_time_start, video_time_end'
+            cursor.execute('SELECT video_time_start, video_time_end, user_id'
                            ' FROM ' + table_name +
                            ' WHERE video_id=\'' + video_id + '\';')
             result_video = cursor.fetchall()
@@ -77,7 +96,7 @@ if __name__ == '__main__':
             for time in result_video:
                 if time[0] is not None and time[1] is not None:
                     if float(time[0]) < float(time[1]):
-                        watch_times.append((float(time[0]), float(time[1])))
+                        watch_times.append((float(time[0]), float(time[1]), str(time[2])))
             cursor.execute('SELECT duration'
                            ' FROM eLearning.Video_Basic_Info'
                            ' WHERE video_id=\'' + video_id + '\';')
@@ -88,4 +107,3 @@ if __name__ == '__main__':
             duration = float(d_result[0][0])
             draw(video_id, duration, watch_times)
 
-    # print(max_watching)
