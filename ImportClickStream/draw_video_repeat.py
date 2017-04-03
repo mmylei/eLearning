@@ -54,14 +54,15 @@ def repeat_ratio(duration, watchs):
 
 def draw(video_id, duration, watchs):
     data = repeat_ratio(duration, watchs)
-
+    seconds = int(duration)
     plt.figure(figsize=(width / my_dpi, height / my_dpi), dpi=my_dpi)
     # plt.plot(range(width), count_repeat)
     # plt.plot(range(width), count_distinct)
-    plt.plot(range(width), data)
-    plt.xlabel('video time (second)')
-    plt.ylabel('repeat ratio')
-    plt.yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5], ['1', '1.1', '1.2', '1.3', '1.4', '1.5'])
+    plt.plot(range(seconds), data)
+    plt.xlabel('Video Time (second)', fontsize=5)
+    plt.xticks(range(0, seconds, 50), fontsize=5)
+    plt.ylabel('Repeat Ratio', fontsize=5)
+    plt.yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5], ['1', '1.1', '1.2', '1.3', '1.4', '1.5'], fontsize=5)
     plt.savefig(dir + video_id + '.png', format='png', bbox_inches='tight', pad_inches=0)
 
 
