@@ -8,7 +8,7 @@ import numpy as np
 import os
 
 width = 1024
-height = 256
+height = 512
 my_dpi = 256
 # max_watching = 26665.0
 dir = "./"
@@ -43,8 +43,8 @@ def draw(video_id, duration, watchs):
     # plt.axis('off')
     # fig.axes.get_xaxis().set_visible(False)
     fig.axes.get_yaxis().set_visible(False)
-    plt.xticks(range(0, seconds, 50), fontsize=3)
-    plt.xlabel('video time', fontsize=3)
+    plt.xticks(range(0, seconds, 50), fontsize=5)
+    plt.xlabel('video time', fontsize=5)
     plt.savefig(dir + video_id + '.png', format='png', bbox_inches='tight', pad_inches=0)
 
 
