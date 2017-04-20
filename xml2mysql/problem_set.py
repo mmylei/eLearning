@@ -10,7 +10,7 @@ def create_table(conn, table):
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
               "(course_id varchar(16), term_id varchar(16), set_name varchar(64), set_category varchar(16),"
-              "xml_id varchar(64), category varchar(16));")
+              "aggregated_category varchar(16), xml_id varchar(64), category varchar(16));")
     conn.commit()
 
 dir = sys.argv[1]
@@ -41,9 +41,17 @@ for term in terms:
                 category = data[id]['category']
                 if category in ['problem']:
                     xml_id = id.split('@')[-1]
+                    aggregated_category = 'Exam'
+                    if set_category.startswith('Module'):
+                        aggregated_category = 'M' + set_category.split(' ')[1]
+                    elif set_category == 'Labs':
+                        aggregated_category = 'L' + set_name.split(' ')[1]
+                    else:
+                        print 'unhandled category:'
+                        print course_id, term_id, set_name, set_category, xml_id, category
                     try:
-                        cursor.execute('INSERT INTO ' + table_name + ' values(%s, %s, %s, %s, %s, %s);',
-                                   [course_id, term_id, set_name, set_category, xml_id, category])
+                        cursor.execute('INSERT INTO ' + table_name + ' values(%s, %s, %s, %s, %s, %s, %s);',
+                                   [course_id, term_id, set_name, set_category, aggregated_category, xml_id, category])
                     except Exception:
                         print course_id, term_id, set_name, set_category, xml_id, category
                         raise
