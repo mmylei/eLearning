@@ -38,6 +38,10 @@ def draw(video_id, duration, watchs):
         if data[0][i] < 0:
             data[0][i] = 0
 
+    data[0].append(1)
+    data[0].append(1.6)
+    seconds += 2
+
     plt.figure(figsize=(width / my_dpi, height / my_dpi), dpi=my_dpi)
     fig = plt.imshow(data, extent=(0, seconds, 0, seconds * height / width), cmap=cm.plasma)
     # plt.axis('off')
