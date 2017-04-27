@@ -38,7 +38,7 @@ def draw(video_id, duration, watchs):
         if data[0][i] < 0:
             data[0][i] = 0
 
-    data = np.hstack((data, np.array([[1, 1.6]])))
+    data = np.hstack((data, np.array([[0, 0.6]])))
     seconds += 2
 
     plt.figure(figsize=(width / my_dpi, height / my_dpi), dpi=my_dpi)
