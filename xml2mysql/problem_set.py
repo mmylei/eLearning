@@ -46,7 +46,7 @@ for term in terms:
                         aggregated_category = 'M' + set_category.split(' ')[1]
                     elif set_category == 'Labs':
                         aggregated_category = 'L' + set_name.split(' ')[1]
-                    else:
+                    elif set_category != 'Exam':
                         print 'unhandled category:'
                         print course_id, term_id, set_name, set_category, xml_id, category
                     try:
