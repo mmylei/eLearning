@@ -17,6 +17,9 @@ def insert_table(conn, file, table):
         # p = p[0:11]
         # p[0] = int(p[0])
         # p[1] = int(p[1])
-        c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s);", p)
+        try:
+            c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s);", p)
+        except Exception:
+            print(p) 
         line = f.readline()
     conn.commit()
