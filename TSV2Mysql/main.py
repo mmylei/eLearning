@@ -53,6 +53,6 @@ for i in range(len(terms)):
 
     student_courseaccessrole.create_table(conn, table_prefix[i] + '_student_courseacessrole')
     student_courseaccessrole.insert_table(conn, dir + "HKUSTx-COMP" + terms[i] + "-student_courseaccessrole-prod-analytics.sql",
-                           table_prefix[i] + '_auth_user')
+                           table_prefix[i] + '_student_courseaccessrole')
 
 conn.close()
