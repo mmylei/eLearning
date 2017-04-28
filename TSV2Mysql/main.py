@@ -51,7 +51,7 @@ for i in range(len(terms)):
     # django_comment_client_role_users.create_table(conn, table_prefix[i] + '_django_comment_client_role_users')
     # django_comment_client_role_users.insert_table(conn, dir + "HKUSTx-EBA" + terms[i] + "-django_comment_client_role_users-prod-analytics.sql", table_prefix[i] + '_django_comment_client_role_users')
 
-    student_courseaccessrole.create_table(conn, table_prefix[i] + '_student_courseacessrole')
+    student_courseaccessrole.create_table(conn, table_prefix[i] + '_student_courseaccessrole')
     student_courseaccessrole.insert_table(conn, dir + "HKUSTx-COMP" + terms[i] + "-student_courseaccessrole-prod-analytics.sql",
                            table_prefix[i] + '_student_courseaccessrole')
 
