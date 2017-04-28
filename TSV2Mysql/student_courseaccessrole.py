@@ -20,6 +20,7 @@ def insert_table(conn, file, table):
         try:
             c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s);", p)
         except Exception:
-            print(p) 
+            print(p)
+            raise
         line = f.readline()
     conn.commit()
