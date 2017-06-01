@@ -7,7 +7,7 @@ def create_course_info_table(conn, table):
     c.execute("DROP TABLE IF EXISTS " + table + ";")
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
-              "(`course_id` varchar(50), course_name varchar(50), instructor varchar(30), rating float(3,2), level varchar(20));")
+              "(`course_id` varchar(50), course_name varchar(128), instructor varchar(30), rating float(3,2), level varchar(20));")
     conn.commit()
 
 
