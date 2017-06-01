@@ -14,10 +14,10 @@ for course in course_id:
     id = course_id[course]
     url = 'https://www.coursera.org/api/feedback.v1/?q=course&courseId=' + id + '&feedbackSystem=STAR&ratingValues=1%2C2%2C3%2C4%2C5&categories=generic&start=0&limit=1000000'
     r = json_wrapper.dumps(requests.get(url).json())
-    with open('./cousera_comment_info_' + course + '_all.json', 'w') as fo:
+    with open('./coursera_comment_info_' + course + '_all.json', 'w') as fo:
         fo.write(r)
     f_completed = json_wrapper.dumps(requests.get(url + '&courseCompleted=true').json())
-    with open('./cousera_comment_info_' + course + '_completed.json', 'w') as fo:
+    with open('./coursera_comment_info_' + course + '_completed.json', 'w') as fo:
         fo.write(f_completed)
 #
 # r = requests.get("https://www.coursera.org/api/feedback.v1/?q=course&courseId=LgWwihnoEeWDtQoum3sFeQ&feedbackSystem=STAR&ratingValues=1%2C2%2C3%2C4%2C5&categories=generic&start=0&limit=1000000&courseCompleted=true").json()
