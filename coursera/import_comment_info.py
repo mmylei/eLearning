@@ -16,7 +16,7 @@ def create_comment_info_table(conn, table):
     c.execute("DROP TABLE IF EXISTS " + table + ";")
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
-              "(`course_id` varchar(50), user_id varchar(16), `comment` text, rating float(3,2), `timestamp` timestamp, completed tinyint(1));")
+              "(`course_id` varchar(50), user_id varchar(16), `comment` text, rating float(3,2), `timestamp` varchar(16), completed tinyint(1));")
     conn.commit()
 
 
