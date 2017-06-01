@@ -42,7 +42,7 @@ def insert_comment_info_table(conn, file):
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 create_comment_info_table(conn, "coursera_comment_info")
 for course in courses:
-    insert_comment_info_table(conn, "coursera_comment_info_' + course + '_all.json")
-    insert_comment_info_table(conn, "coursera_comment_info_' + course + '_completed.json")
+    insert_comment_info_table(conn, 'coursera_comment_info_' + course + '_all.json')
+    insert_comment_info_table(conn, 'coursera_comment_info_' + course + '_completed.json')
 
 conn.close()
