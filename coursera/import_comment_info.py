@@ -1,4 +1,5 @@
 import MySQLdb
+import re
 import json_wrapper
 
 courses = {
@@ -9,6 +10,7 @@ courses = {
     'mobile': '-gcU5xn4EeWwrBKfKrqlSQ',
     'web': 'DzdXURoCEeWg_RJGAuFGjw'
 }
+tag_rgx = re.compile(r'<[^><]+>')
 
 
 def create_comment_info_table(conn, table):
@@ -20,6 +22,11 @@ def create_comment_info_table(conn, table):
     conn.commit()
 
 
+def clean_comment(comment):
+    result = tag_rgx.split(comment)
+    return ''.join(result)
+
+
 def insert_comment_info_table(conn, file):
     f = open(file)
     content = f.read()
@@ -28,6 +35,7 @@ def insert_comment_info_table(conn, file):
         course_id = element['context']['definition']['courseId']
         user_id = element['userId']
         comment = element['comments']['generic']['definition']['value']
+        comment = clean_comment(comment)
         rating = float(element['rating']['value'].split(' ')[0])
         timestamp = element['timestamp']
         if 'completed' in file:
