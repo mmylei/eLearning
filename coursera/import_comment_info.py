@@ -36,7 +36,7 @@ def insert_comment_info_table(conn, file):
         user_id = element['userId']
         comment = element['comments']['generic']['definition']['value']
         comment = clean_comment(comment)
-        rating = float(element['rating']['value'].split(' ')[0])
+        rating = element['rating']['value']
         timestamp = element['timestamp']
         if 'completed' in file:
             completed = 1

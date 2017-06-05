@@ -20,6 +20,8 @@ def insert_course_info_table(conn, file, table):
         for column in ['course_id', 'course_name', 'instructor', 'rating', 'level']:
             if column not in item:
                 p.append(None)
+            elif column == 'rating':
+                p.append(float(item[column].split(' ')[0]))
             else:
                 p.append(item[column])
         try:
