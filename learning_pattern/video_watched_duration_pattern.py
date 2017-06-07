@@ -1,7 +1,8 @@
 import MySQLdb
 
 user_id = [524811, 2135908, 2314026, 2454324, 2546039]
-for uid in user_id:
+poor_uid = [386558, 696595, 1102783, 3240464, 3821755]
+for uid in poor_uid:
 
     sql1 = 'select user_id, video_id, sum(video_time_end - video_time_start) as watched_duration from clickstream.HKUSTx_COMP102_1x_4T2015_video_play_piece where user_id ='+ str(uid) + ' group by user_id, video_id;'
     sql2 = 'select video_id, sequence, duration from Video_Basic_Info where module_number < 6 order by sequence;'
