@@ -20,7 +20,7 @@ for uid in poor_uid:
         sequence.append(row[1])
         found = False
         for row1 in result1:
-            if row1[1] == row[0]:
+            if row1[0] == row[0]:
                 result.append(float(row1[1]))
                 found = True
         if not found:
