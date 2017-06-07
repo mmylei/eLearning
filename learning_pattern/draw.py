@@ -122,7 +122,7 @@ def draw_bar(data, suffix):
     label_text_size = 30
     tick_text_size = 24
     total_width = 0.8
-    patterns = ["+", "\\", ".", "x", "//", " ", "o", "O", "*", "-"]
+    patterns = ["\\", ".", "x", "//", " ", "o", "O", "*", "-"]
 
     center = data['x_tick']
     start = [x - total_width / 2 for x in center]
@@ -148,7 +148,7 @@ def draw_bar(data, suffix):
     #     hdler._sizes = [1]
     # print data
     plt.grid(which='major', axis='y', linestyle='dashed', linewidth=1)
-    plt.yscale('log')
+    # plt.yscale('log')
     plt.tight_layout()
     # plt.show()
     # save picture into 'pics' directory
