@@ -32,5 +32,5 @@ for uid in poor_uid:
     content += 'ytick\t' + '\t'.join(['0', '0.2', '0.4', '0.6', '0.8', '1.0']) + '\n'
     content += 'data\tdata\t' + '\t'.join([str(x) for x in result]) + '\n'
 
-    with open('./figure_data/' + str(uid) + '.ld', 'w') as f:
+    with open('./figure_data/' + str(uid) + '_coverage.bd', 'w') as f:
         f.write(content)
