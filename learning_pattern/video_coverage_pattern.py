@@ -3,7 +3,7 @@ import MySQLdb
 user_id = [524811, 2135908, 2314026, 2454324, 2546039]
 very_poor_uid = [386558, 696595, 1102783, 3240464, 3821755]
 poor_uid = [4026932, 2639832, 7768096, 8730616, 7186222]
-for uid in poor_uid:
+for uid in user_id:
 
     sql1 = 'select video_id, coverage from clickstream.HKUSTx_COMP102_1x_4T2015_user_video where user_id = ' + str(uid) + ';'
     sql2 = 'select video_id, sequence from Video_Basic_Info where module_number < 6 order by sequence;'
