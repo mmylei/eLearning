@@ -13,13 +13,13 @@ result = []
 sequence = []
 for row in result2:
     sequence.append(row[1])
+    found = False
     for row1 in result1:
-        found = False
         if row1[1] == row[0]:
             result.append(float(row1[2])/row[2])
             found = True
-        if not found:
-            result.append(0)
+    if not found:
+        result.append(0)
 
 content = 'x\tvideo_id\t' + '\t'.join([str(x) for x in sequence]) + '\n'
 content += 'y\tratio\t' + '\t'.join(['0', '0.5', '1', '1.5', '2', '2.5']) + '\n'
