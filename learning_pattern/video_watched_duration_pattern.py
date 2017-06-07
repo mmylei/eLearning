@@ -16,7 +16,7 @@ for row in result2:
     for row1 in result1:
         found = False
         if row1[1] == row[0]:
-            result.append(row1[2]/row[2])
+            result.append(float(row1[2])/row[2])
             found = True
         if not found:
             result.append(0)
