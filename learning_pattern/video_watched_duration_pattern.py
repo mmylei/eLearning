@@ -21,7 +21,7 @@ for row in result2:
         if not found:
             result.append(0)
 
-content = 'x\tvideo_id\t' + '\t'.join(sequence) + '\n'
+content = 'x\tvideo_id\t' + '\t'.join([str(x) for x in sequence]) + '\n'
 content += 'y\tratio\t' + '\t'.join(['0', '0.5', '1', '1.5', '2', '2.5']) + '\n'
 content += 'xtick\t' + '\t'.join([str(x) for x in range(len(sequence))]) + '\n'
 content += 'ytick\t' + '\t'.join(['0', '0.5', '1', '1.5', '2', '2.5']) + '\n'
