@@ -1,6 +1,6 @@
 import MySQLdb
 
-sql1 = 'select user_id, video_id, sum(video_time_end - video_time_start) as watched_duration from HKUSTx_COMP102_1x_4T2015_video_play_piece where user_id = 524811 group by user_id, video_id;'
+sql1 = 'select user_id, video_id, sum(video_time_end - video_time_start) as watched_duration from clickstream.HKUSTx_COMP102_1x_4T2015_video_play_piece where user_id = 524811 group by user_id, video_id;'
 sql2 = 'select video_id, sequence, duration from Video_Basic_Info where module_number < 6 order by sequence;'
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 
