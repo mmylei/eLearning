@@ -32,6 +32,8 @@ cursor.execute(sql2)
 result2 = cursor.fetchall()
 features = []
 labels = []
+test_index = [1, 6, 11]
+train_index = filter(lambda x: x not in test_index, range(len(all_uid)))
 for uid in all_uid:
     result_user = []
     for row in result2:
@@ -69,4 +71,4 @@ for uid in all_uid:
         labels.append(-1)
 
 with open('data.json', 'w') as f:
-    f.write(json_wrapper.dumps({'features': features, 'labels': labels}))
+    f.write(json_wrapper.dumps({'features': features, 'labels': labels, 'test_index': test_index, 'train_index': train_index}))
