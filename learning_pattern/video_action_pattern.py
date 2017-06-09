@@ -62,11 +62,11 @@ for uid in all_uid:
         result_user.extend(partial_array)
     features.append(result_user)
     if uid in good_uid:
-        features.append(1)
+        labels.append(1)
     elif uid in poor_uid:
-        features.append(0)
+        labels.append(0)
     else:
-        features.append(-1)
+        labels.append(-1)
 
 with open('data.json', 'w') as f:
     f.write(json_wrapper.dumps({'features': features, 'labels': labels}))
