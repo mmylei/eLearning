@@ -46,16 +46,17 @@ for uid in all_uid:
         for row1 in result1:
             if row1[0] in ['play_video', 'pause_video'] and row1[2] is not None:
                 index = get_index(row1[2], row1[0])
+                print row1[0], row1[2], duration
                 partial_array[index] += 1
             elif row1[0] == 'seek_video' and row1[4] is not None and row1[5] is not None:
                 index = get_index(row1[4], row1[0], row1[5] - row1[4])
                 partial_array[index] += 1
                 index = get_index(row1[5], row1[0], row1[4] - row1[5])
                 partial_array[index] += 1
-            elif row1[0] == 'speed_change_video' and row1[6] is not None and row1[7] is not None:
-                index = get_index(row1[6], row1[0], row1[7] - row1[6])
+            elif row1[0] == 'speed_change_video' and row1[2] is not None and row1[6] is not None and row1[7] is not None:
+                index = get_index(row1[2], row1[0], row1[7] - row1[6])
                 partial_array[index] += 1
-                index = get_index(row1[7], row1[0], row1[6] - row1[7])
+                index = get_index(row1[2], row1[0], row1[6] - row1[7])
                 partial_array[index] += 1
         result_user.extend(partial_array)
     features.append(result_user)
