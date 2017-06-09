@@ -67,6 +67,8 @@ for uid in all_uid:
             if row1[0] in ['play_video', 'pause_video'] and row1[2] is not None:
                 index = get_index(row1[2], row1[0])
                 # print row1[0], row1[2], duration
+                if index >= len(partial_array):
+                    index = len(partial_array) - 1
                 partial_array[index] += 1
             elif row1[0] == 'seek_video' and row1[4] is not None and row1[5] is not None:
                 index = get_index(row1[4], row1[0], row1[5] - row1[4])
