@@ -6,7 +6,7 @@ total_type = 6
 
 
 def make_array(duration):
-    return [0] * (int(duration / 5) * total_type)
+    return [0] * (int(duration / 5) * total_type + 1)
 
 
 def get_index(time, event_type, direction=1):
