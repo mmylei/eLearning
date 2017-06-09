@@ -1,3 +1,4 @@
+import math
 import MySQLdb
 import json_wrapper
 
@@ -35,7 +36,7 @@ for uid in all_uid:
     result_user = []
     for row in result2:
         video_id = row[0]
-        duration = float(row[2])
+        duration = math.ceil(float(row[2]))
         partial_array = make_array(duration)
         sql1 = 'select event_type, event_time, `current_time`, slide_type, old_time, new_time, old_speed, new_speed' \
                ' from clickstream.HKUSTx_COMP102_1x_4T2015_clickstream' \
