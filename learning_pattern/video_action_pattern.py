@@ -15,10 +15,26 @@ def get_index(time, event_type, direction=1):
     if event_type in ['seek_video', 'speed_change_video'] and direction < 0:
         index += 1
     return index
-
-good_uid = [524811, 2135908, 2314026, 2454324, 2546039]
-very_poor_uid = [386558, 696595, 1102783, 3240464, 3821755]
-poor_uid = [4026932, 2639832, 7768096, 8730616, 7186222]
+sql_good = 'select user_id from 102_1x_4T2015_certificates_generatedcertificate where grade >= 0.80;'
+sql_medium = 'select user_id from 102_1x_4T2015_certificates_generatedcertificate where grade >= 0.60 and grade <0.80;'
+sql_poor = 'select user_id from 102_1x_4T2015_certificates_generatedcertificate where grade < 0.60;'
+conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
+cursor = conn.cursor()
+cursor.execute(sql_good)
+good_uid = []
+very_poor_uid = []
+poor_uid = []
+good_result = cursor.fetchall()
+for i in good_result:
+    good_uid.append(i[0])
+cursor.execute(sql_poor)
+very_poor_result = cursor.fetchall()
+for i in very_poor_result:
+    very_poor_uid.append(i[0])
+cursor.execute(sql_medium)
+poor_result = cursor.fetchall()
+for i in poor_result:
+    poor_uid.append(i[0])
 
 all_uid = []
 all_uid.extend(good_uid)
@@ -26,13 +42,14 @@ all_uid.extend(poor_uid)
 all_uid.extend(very_poor_uid)
 
 sql2 = 'select video_id, sequence, duration from Video_Basic_Info where module_number < 6 order by sequence;'
-conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
-cursor = conn.cursor()
 cursor.execute(sql2)
 result2 = cursor.fetchall()
 features = []
 labels = []
-test_index = [1, 6, 11]
+test_index = []
+test_index.extend(range(1, 201))
+test_index.extend(range(900, 1001))
+test_index.extend(range(1300, 1305))
 train_index = filter(lambda x: x not in test_index, range(len(all_uid)))
 for uid in all_uid:
     result_user = []
