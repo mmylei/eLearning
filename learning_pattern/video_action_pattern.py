@@ -6,7 +6,7 @@ total_type = 6
 
 
 def make_array(duration):
-    return [0] * (int(duration / 5) * total_type + 1)
+    return [0] * ((int(duration / 5) + 1) * total_type)
 
 
 def get_index(time, event_type, direction=1):
@@ -46,7 +46,7 @@ for uid in all_uid:
         for row1 in result1:
             if row1[0] in ['play_video', 'pause_video'] and row1[2] is not None:
                 index = get_index(row1[2], row1[0])
-                print row1[0], row1[2], duration
+                # print row1[0], row1[2], duration
                 partial_array[index] += 1
             elif row1[0] == 'seek_video' and row1[4] is not None and row1[5] is not None:
                 index = get_index(row1[4], row1[0], row1[5] - row1[4])
