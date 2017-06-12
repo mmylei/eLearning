@@ -47,9 +47,9 @@ result2 = cursor.fetchall()
 features = []
 labels = []
 test_index = []
-test_index.extend(range(1, 201))
-test_index.extend(range(900, 1001))
-test_index.extend(range(1300, 1305))
+test_index.extend(range(1, 601))
+test_index.extend(range(900, 1201))
+test_index.extend(range(1240, 1300))
 train_index = filter(lambda x: x not in test_index, range(len(all_uid)))
 for uid in all_uid:
     result_user = []
