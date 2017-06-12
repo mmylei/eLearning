@@ -16,7 +16,7 @@ train_y = labels[data['train_index']]
 test_x = features[data['test_index'], :]
 test_y = labels[data['test_index']]
 
- model = SGDClassifier()
+model = SGDClassifier()
 #model = tree.DecisionTreeClassifier()
 model.fit(train_x, train_y)
 predict_y = model.predict(test_x)
