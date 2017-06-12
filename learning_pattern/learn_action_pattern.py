@@ -16,8 +16,8 @@ train_y = labels[data['train_index']]
 test_x = features[data['test_index'], :]
 test_y = labels[data['test_index']]
 
-# model = SGDClassifier()
-model = tree.DecisionTreeClassifier()
+ model = SGDClassifier()
+#model = tree.DecisionTreeClassifier()
 model.fit(train_x, train_y)
 predict_y = model.predict(test_x)
 error = mean_squared_error(test_y, predict_y)
