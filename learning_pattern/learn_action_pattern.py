@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.model_selection import KFold
 from sklearn.linear_model import SGDClassifier
+from sklearn import tree
 from sklearn.metrics import mean_squared_error
 import json_wrapper
 
@@ -15,7 +16,8 @@ train_y = labels[data['train_index']]
 test_x = features[data['test_index'], :]
 test_y = labels[data['test_index']]
 
-model = SGDClassifier()
+# model = SGDClassifier()
+model = tree.DecisionTreeClassifier()
 model.fit(train_x, train_y)
 predict_y = model.predict(test_x)
 error = mean_squared_error(test_y, predict_y)
