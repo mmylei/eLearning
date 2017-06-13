@@ -25,7 +25,7 @@ for train_index, test_index in KFold(n_splits=5).split(X):
 # test_x = features[data['test_index'], :]
 # test_y = labels[data['test_index']]
 
-    model = SGDClassifier(penalty='l1', l1_ratio=0.5)
+    model = SGDClassifier(penalty='l1', alpha=0.1)
     #model = tree.DecisionTreeClassifier()
     model.fit(X_train, Y_train)
     Y_predict = model.predict(X_test)
