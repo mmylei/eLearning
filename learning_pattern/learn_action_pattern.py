@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.model_selection import KFold
+from sklearn.model_selection import ShuffleSplit
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
 from sklearn.linear_model import SGDClassifier
 from sklearn import tree
@@ -21,7 +21,7 @@ def feature_selection(X, Y):
 def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
     test_error = 0
     train_error = 0
-    for train_index, test_index in KFold(n_splits=5).split(X):
+    for train_index, test_index in ShuffleSplit(n_splits=5, test_size=0.2, train_size=0.8).split(X):
         logger.info('train index: ' + str(train_index))
         logger.info('test index: ' + str(test_index))
         X_train, X_test = X[train_index], X[test_index]
