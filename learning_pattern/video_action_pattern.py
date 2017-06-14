@@ -99,7 +99,10 @@ for uid in all_uid:
                ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + ';\''
         cursor.execute(sql4)
         result4 = cursor.fetchall()
-        result_user.append(result4[0][0]/duration)
+        if result4[0][0] is not None:
+            result_user.append(result4[0][0]/duration)
+        else:
+            result_user.append(0)
     features.append(result_user)
     if uid in good_uid:
         labels.append(1)
