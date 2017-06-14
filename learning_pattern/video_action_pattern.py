@@ -61,6 +61,8 @@ for uid in all_uid:
                ' from clickstream.HKUSTx_COMP102_1x_4T2015_clickstream' \
                ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\'' \
                ' order by event_time;'
+        sql3 = 'select coverage from HKUSTx_COMP102_1x_4T2015_user_video ' \
+               'where  user_id = ' + str(uid) + ' and video_id=\'' + video_id'
         cursor.execute(sql1)
         result1 = cursor.fetchall()
         for row1 in result1:

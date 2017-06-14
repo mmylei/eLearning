@@ -11,6 +11,7 @@ import json_wrapper
 FORMAT = '%(asctime)-15s [%(levelname)s] %(filename)s:%(lineno)d %(message)s'
 logging.basicConfig(format=FORMAT)
 logger = logging.getLogger('root')
+logger.setLevel(logging.INFO)
 
 
 def feature_selection(X, Y):
@@ -41,6 +42,7 @@ def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
     return model
 
 if __name__ == '__main__':
+    logger.info('reading file')
     f = open('data.json', 'r')
     data = json_wrapper.loads(f.read())
     f.close()
