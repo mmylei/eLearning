@@ -86,7 +86,7 @@ for uid in all_uid:
                 index = get_index(row1[2], row1[0], row1[6] - row1[7])
                 partial_array[index] += 1
         result_user.extend(partial_array)
-        sql3 = 'select coverage from HKUSTx_COMP102_1x_4T2015_user_video ' \
+        sql3 = 'select coverage from clickstream.HKUSTx_COMP102_1x_4T2015_user_video ' \
                ' where  user_id = ' + str(uid) + ' and video_id=\'' + video_id + ';\''
         cursor.execute(sql3)
         result3 = cursor.fetchall()
