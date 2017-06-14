@@ -90,7 +90,10 @@ for uid in all_uid:
                ' where  user_id = ' + str(uid) + ' and video_id=\'' + video_id + ';\''
         cursor.execute(sql3)
         result3 = cursor.fetchall()
-        result_user.append(result3[0][0])
+        if len(result3) > 0:
+            result_user.append(result3[0][0])
+        else:
+            result_user.append(0)
         sql4 = 'select sum(video_time_end - video_time_start) as watched_duration ' \
                'from clickstream.HKUSTx_COMP102_1x_4T2015_video_play_piece ' \
                ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + ';\''
