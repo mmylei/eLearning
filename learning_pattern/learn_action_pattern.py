@@ -50,10 +50,12 @@ if __name__ == '__main__':
     scaler = StandardScaler().fit(X)
     X = scaler.transform(X)
     Y = np.array(data['labels'], np.intp)
+    # X = np.array([range(0, 40), range(1, 41), range(2, 42), range(3, 43), range(4, 44)])
+    # Y = np.array([0, 1, 2, 3, 4])
     models = []
     for label in [-1, 0, 1]:
         logger.info('train for label ' + str(label))
-        Y_one = map(lambda x: 1 if x == label else 0, Y)
+        Y_one = np.array(map(lambda x: 1 if x == label else 0, Y))
         logger.info('feature selection')
         X_one = feature_selection(X, Y_one)
         logger.info('training')

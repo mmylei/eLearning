@@ -61,8 +61,6 @@ for uid in all_uid:
                ' from clickstream.HKUSTx_COMP102_1x_4T2015_clickstream' \
                ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\'' \
                ' order by event_time;'
-        sql3 = 'select coverage from HKUSTx_COMP102_1x_4T2015_user_video ' \
-               'where  user_id = ' + str(uid) + ' and video_id=\'' + video_id'
         cursor.execute(sql1)
         result1 = cursor.fetchall()
         for row1 in result1:
@@ -88,6 +86,17 @@ for uid in all_uid:
                 index = get_index(row1[2], row1[0], row1[6] - row1[7])
                 partial_array[index] += 1
         result_user.extend(partial_array)
+        sql3 = 'select coverage from HKUSTx_COMP102_1x_4T2015_user_video ' \
+               ' where  user_id = ' + str(uid) + ' and video_id=\'' + video_id + ';\''
+        cursor.execute(sql3)
+        result3 = cursor.fetchall()
+        result_user.append(result3[0][0])
+        sql4 = 'select sum(video_time_end - video_time_start) as watched_duration ' \
+               'from clickstream.HKUSTx_COMP102_1x_4T2015_video_play_piece ' \
+               ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + ';\''
+        cursor.execute(sql4)
+        result4 = cursor.fetchall()
+        result_user.append(result4[0][0]/duration)
     features.append(result_user)
     if uid in good_uid:
         labels.append(1)
