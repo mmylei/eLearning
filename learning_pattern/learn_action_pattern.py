@@ -82,7 +82,7 @@ if __name__ == '__main__':
     total_correct = 0.0
     total = len(Y_predict[0])
     for label in [-1, 0, 1]:
-        Y_predict[label + 1] = models[label + 1].predict(data['X_' + str(label)])
+        Y_predict.append(models[label + 1].predict(data['X_' + str(label)]))
     for i in range(len(Y_predict[0])):
         final_label = 0
         if Y_predict[1][i] > Y_predict[0][i]:
