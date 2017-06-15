@@ -35,7 +35,7 @@ def load_data():
             X_one = feature_selection(X, Y_one)
             result['X_' + str(label)] = X_one
             result['Y_' + str(label)] = Y_one
-        np.save('data', **result)
+        np.savez('data', **result)
         return result
 
 
