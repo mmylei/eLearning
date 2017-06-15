@@ -78,11 +78,11 @@ if __name__ == '__main__':
 
     logger.info('test combined classifier')
     Y_predict = []
+    for label in [-1, 0, 1]:
+        Y_predict.append(models[label + 1].predict(data['X_' + str(label)]))
     correct = [0.0, 0.0, 0.0]
     total_correct = 0.0
     total = len(Y_predict[0])
-    for label in [-1, 0, 1]:
-        Y_predict.append(models[label + 1].predict(data['X_' + str(label)]))
     for i in range(len(Y_predict[0])):
         final_label = 0
         if Y_predict[1][i] > Y_predict[0][i]:
