@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from sklearn.model_selection import ShuffleSplit
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
@@ -12,6 +13,35 @@ FORMAT = '%(asctime)-15s [%(levelname)s] %(filename)s:%(lineno)d %(message)s'
 logging.basicConfig(format=FORMAT)
 logger = logging.getLogger('root')
 logger.setLevel(logging.INFO)
+
+
+def load_data():
+    result = {}
+    if 'X_1' in os.listdir('.'):
+        logger.info('loading saved features')
+        for label in [-1, 0, 1]:
+            result['X_' + str(label)] = np.load('X_' + str(label))
+            result['Y_' + str(label)] = np.load('Y_' + str(label))
+        return result
+    else:
+        logger.info('building from original json')
+        f = open('data.json', 'r')
+        data = json_wrapper.loads(f.read())
+        f.close()
+        X = np.array(data['features'], np.intp)
+        scaler = StandardScaler().fit(X)
+        X = scaler.transform(X)
+        Y = np.array(data['labels'], np.intp)
+        for label in [-1, 0, 1]:
+            logger.info('train for label ' + str(label))
+            Y_one = np.array(map(lambda x: 1 if x == label else 0, Y))
+            logger.info('feature selection')
+            X_one = feature_selection(X, Y_one)
+            result['X_' + str(label)] = X_one
+            result['Y_' + str(label)] = Y_one
+            np.save('X_' + str(label), X_one)
+            np.save('Y_' + str(label), Y_one)
+        return result
 
 
 def feature_selection(X, Y):
@@ -42,21 +72,27 @@ def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
     return model
 
 if __name__ == '__main__':
-    logger.info('reading file')
-    f = open('data.json', 'r')
-    data = json_wrapper.loads(f.read())
-    f.close()
-    X = np.array(data['features'], np.intp)
-    scaler = StandardScaler().fit(X)
-    X = scaler.transform(X)
-    Y = np.array(data['labels'], np.intp)
-    # X = np.array([range(0, 40), range(1, 41), range(2, 42), range(3, 43), range(4, 44)])
-    # Y = np.array([0, 1, 2, 3, 4])
+    data = load_data()
     models = []
     for label in [-1, 0, 1]:
         logger.info('train for label ' + str(label))
-        Y_one = np.array(map(lambda x: 1 if x == label else 0, Y))
-        logger.info('feature selection')
-        X_one = feature_selection(X, Y_one)
+        Y_one = data['Y_' + str(label)]
+        X_one = data['X_' + str(label)]
         logger.info('training')
         models.append(train(X_one, Y_one))
+
+    logger.info('test combined classifier')
+    Y_predict = []
+    correct = 0.0
+    total = len(Y_predict[0])
+    for label in [-1, 0, 1]:
+        Y_predict[label + 1] = models[label + 1].predict(data['X_' + str(label)])
+    for i in range(len(Y_predict[0])):
+        final_label = 0
+        if Y_predict[1][i] > Y_predict[0][i]:
+            final_label = 1
+        if Y_predict[2][i] > Y_predict[final_label][i]:
+            final_label = 2
+        if data['Y_' + str(final_label - 1)][i] == 1:
+            correct += 1.0
+    logger.info("final precision: " + str(correct / total))
