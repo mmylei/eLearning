@@ -83,7 +83,8 @@ if __name__ == '__main__':
 
     logger.info('test combined classifier')
     Y_predict = []
-    correct = 0.0
+    correct = [0.0, 0.0, 0.0]
+    total_correct = 0.0
     total = len(Y_predict[0])
     for label in [-1, 0, 1]:
         Y_predict[label + 1] = models[label + 1].predict(data['X_' + str(label)])
@@ -94,5 +95,9 @@ if __name__ == '__main__':
         if Y_predict[2][i] > Y_predict[final_label][i]:
             final_label = 2
         if data['Y_' + str(final_label - 1)][i] == 1:
-            correct += 1.0
-    logger.info("final precision: " + str(correct / total))
+            total_correct += 1.0
+            correct[final_label] += 1.0
+    logger.info("final precision: " + str(total_correct / total))
+    logger.info("-1 precision: " + str(correct[0] / sum(data['Y_-1'])))
+    logger.info("0 precision: " + str(correct[1] / sum(data['Y_0'])))
+    logger.info("1 precision: " + str(correct[2] / sum(data['Y_1'])))
