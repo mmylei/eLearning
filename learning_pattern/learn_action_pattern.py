@@ -16,14 +16,11 @@ logger.setLevel(logging.INFO)
 
 
 def load_data():
-    result = {}
-    if 'X_1' in os.listdir('.'):
+    if 'data.npz' in os.listdir('.'):
         logger.info('loading saved features')
-        for label in [-1, 0, 1]:
-            result['X_' + str(label)] = np.load('X_' + str(label))
-            result['Y_' + str(label)] = np.load('Y_' + str(label))
-        return result
+        return np.load('data.npz')
     else:
+        result = {}
         logger.info('building from original json')
         f = open('data.json', 'r')
         data = json_wrapper.loads(f.read())
@@ -33,14 +30,12 @@ def load_data():
         X = scaler.transform(X)
         Y = np.array(data['labels'], np.intp)
         for label in [-1, 0, 1]:
-            logger.info('train for label ' + str(label))
             Y_one = np.array(map(lambda x: 1 if x == label else 0, Y))
             logger.info('feature selection')
             X_one = feature_selection(X, Y_one)
             result['X_' + str(label)] = X_one
             result['Y_' + str(label)] = Y_one
-            np.save('X_' + str(label), X_one)
-            np.save('Y_' + str(label), Y_one)
+        np.save('data', **result)
         return result
 
 
