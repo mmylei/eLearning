@@ -92,9 +92,9 @@ if __name__ == '__main__':
         if data['Y_' + str(final_label - 1)][i] == 1:
             total_correct += 1.0
             correct[final_label] += 1.0
-    logger.info("-1 output sum: " + str(Y_predict[0]))
-    logger.info("0 output sum: " + str(Y_predict[1]))
-    logger.info("1 output sum: " + str(Y_predict[2]))
+    logger.info("-1 output sum: " + str(sum(Y_predict[0])))
+    logger.info("0 output sum: " + str(sum(Y_predict[1])))
+    logger.info("1 output sum: " + str(sum(Y_predict[2])))
     logger.info("-1 precision: " + str(correct[0]) + ' / ' + str(sum(data['Y_-1'])))
     logger.info("0 precision: " + str(correct[1]) + ' / ' + str(sum(data['Y_0'])))
     logger.info("1 precision: " + str(correct[2]) + ' / ' + str(sum(data['Y_1'])))
