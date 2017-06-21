@@ -2,7 +2,7 @@ import os
 import numpy as np
 from sklearn.model_selection import ShuffleSplit
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
-from sklearn.decomposition import PCA
+from sklearn.decomposition import PCA, KernelPCA
 from sklearn.linear_model import SGDClassifier
 from sklearn import tree
 from sklearn import linear_model
@@ -44,7 +44,8 @@ def load_data():
 
 def feature_selection(X, Y):
     # return SelectKBest(mutual_info_classif, 50).fit_transform(X, Y)
-    return PCA(n_components=50).fit_transform(X)
+    # return PCA(n_components=50).fit_transform(X)
+    return KernelPCA(n_components=50, kernel='linear').fit_transform(X)
 
 
 def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
