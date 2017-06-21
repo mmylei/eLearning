@@ -2,8 +2,11 @@ import os
 import numpy as np
 from sklearn.model_selection import ShuffleSplit
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
+from sklearn.decomposition import PCA
 from sklearn.linear_model import SGDClassifier
 from sklearn import tree
+from sklearn import linear_model
+from sklearn import svm
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import StandardScaler
 import logging
@@ -40,7 +43,8 @@ def load_data():
 
 
 def feature_selection(X, Y):
-    return SelectKBest(mutual_info_classif, 20).fit_transform(X, Y)
+    # return SelectKBest(mutual_info_classif, 50).fit_transform(X, Y)
+    return PCA(n_components=50).fit_transform(X)
 
 
 def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
@@ -74,13 +78,14 @@ if __name__ == '__main__':
         Y_one = data['Y_' + str(label)]
         X_one = data['X_' + str(label)]
         logger.info('training')
-        models.append(train(X_one, Y_one))
+        models.append(train(X_one, Y_one, tree.DecisionTreeRegressor()))
 
     logger.info('test combined classifier')
     Y_predict = []
     for label in [-1, 0, 1]:
         Y_predict.append(models[label + 1].predict(data['X_' + str(label)]))
     correct = [0.0, 0.0, 0.0]
+    combined_predict = [0.0, 0.0, 0.0]
     total_correct = 0.0
     total = len(Y_predict[0])
     for i in range(len(Y_predict[0])):
@@ -92,14 +97,15 @@ if __name__ == '__main__':
         if data['Y_' + str(final_label - 1)][i] == 1:
             total_correct += 1.0
             correct[final_label] += 1.0
-    logger.info("-1 output sum: " + str(sum(Y_predict[0])))
-    logger.info("0 output sum: " + str(sum(Y_predict[1])))
-    logger.info("1 output sum: " + str(sum(Y_predict[2])))
-    logger.info("-1 precision: " + str(correct[0]) + ' / ' + str(sum(Y_predict[0])))
+        combined_predict[final_label] += 1.0
+    logger.info("-1 output sum: " + str(combined_predict[0]))
+    logger.info("0 output sum: " + str(combined_predict[1]))
+    logger.info("1 output sum: " + str(combined_predict[2]))
+    logger.info("-1 precision: " + str(correct[0]) + ' / ' + str(combined_predict[0]))
     logger.info("-1 recall: " + str(correct[0]) + ' / ' + str(sum(data['Y_-1'])))
-    logger.info("0 precision: " + str(correct[1]) + ' / ' + str(sum(Y_predict[1])))
+    logger.info("0 precision: " + str(correct[1]) + ' / ' + str(combined_predict[1]))
     logger.info("0 recall: " + str(correct[1]) + ' / ' + str(sum(data['Y_0'])))
-    logger.info("1 precision: " + str(correct[2]) + ' / ' + str(sum(Y_predict[2])))
+    logger.info("1 precision: " + str(correct[2]) + ' / ' + str(combined_predict[2]))
     logger.info("1 recall: " + str(correct[2]) + ' / ' + str(sum(data['Y_1'])))
-    logger.info("final precision: " + str(total_correct / (sum(Y_predict[0]) + sum(Y_predict[1]) + sum(Y_predict[2]))))
+    logger.info("final precision: " + str(total_correct / (combined_predict[0] + combined_predict[1] + combined_predict[2])))
     logger.info("final recall: " + str(total_correct / total))
