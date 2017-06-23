@@ -45,15 +45,15 @@ def load_data():
 def feature_selection(X, Y):
     # return SelectKBest(mutual_info_classif, 50).fit_transform(X, Y)
     # return PCA(n_components=50).fit_transform(X)
-    return KernelPCA(n_components=50, kernel='rbf').fit_transform(X)
+    return KernelPCA(n_components=50, kernel='sigmoid').fit_transform(X)
 
 
 def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
     test_error = 0
     train_error = 0
     for train_index, test_index in ShuffleSplit(n_splits=5, test_size=0.1, train_size=0.9).split(X):
-        logger.info('train index: ' + str(train_index))
-        logger.info('test index: ' + str(test_index))
+        # logger.info('train index: ' + str(train_index))
+        # logger.info('test index: ' + str(test_index))
         X_train, X_test = X[train_index], X[test_index]
         Y_train, Y_test = Y[train_index], Y[test_index]
         # model = tree.DecisionTreeClassifier()
@@ -109,4 +109,4 @@ if __name__ == '__main__':
     logger.info("1 precision: " + str(correct[2]) + ' / ' + str(combined_predict[2]))
     logger.info("1 recall: " + str(correct[2]) + ' / ' + str(sum(data['Y_1'])))
     logger.info("final precision: " + str(total_correct / (combined_predict[0] + combined_predict[1] + combined_predict[2])))
-    logger.info("final recall: " + str(total_correct / total))
+    # logger.info("final recall: " + str(total_correct / total))
