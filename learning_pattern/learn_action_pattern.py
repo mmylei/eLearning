@@ -79,7 +79,7 @@ if __name__ == '__main__':
         Y_one = data['Y_' + str(label)]
         X_one = data['X_' + str(label)]
         logger.info('training')
-        models.append(train(X_one, Y_one, tree.DecisionTreeRegressor()))
+        models.append(train(X_one, Y_one, linear_model.BayesianRidge()))
 
     logger.info('test combined classifier')
     Y_predict = []
