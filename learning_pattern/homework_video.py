@@ -5,7 +5,7 @@ sql = "select student_id, created, modified" \
       " from 102_2x_4T2015_courseware_studentmodule" \
       " where module_type='problem' and grade is not NULL"
 sql2 = "select count(*)" \
-       " from HKUSTx_COMP102_1x_4T2015_clickstream" \
+       " from clickstream.HKUSTx_COMP102_1x_4T2015_clickstream" \
        " where user_id = %s and event_type = 'play_video' and event_time >= %s and event_time <= %s;"
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 c = conn.cursor()
