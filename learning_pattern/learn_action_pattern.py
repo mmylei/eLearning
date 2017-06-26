@@ -53,9 +53,9 @@ def split_train_test(data):
     test_index = np.array([])
     for label in [-1, 0, 1]:
         indices = np.where(data['Y_' + str(label)] == 1)[0]
-        train_part, test_part = ShuffleSplit(n_splits=1, test_size=0.2, train_size=0.8).split(indices)[0]
-        train_index = np.concatenate(train_index, indices[train_part])
-        test_index = np.concatenate(test_index, indices[test_part])
+        for train_part, test_part in ShuffleSplit(n_splits=1, test_size=0.2, train_size=0.8).split(indices):
+            train_index = np.concatenate(train_index, indices[train_part])
+            test_index = np.concatenate(test_index, indices[test_part])
     return train_index, test_index
 
 
