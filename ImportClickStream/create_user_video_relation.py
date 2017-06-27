@@ -92,8 +92,8 @@ if __name__ == '__main__':
 
             for video_id in last_progress:
                 if video_id in finished:
-                    cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s);', [user_id, video_id, 1, -1, finished_times[video_id]])
+                    cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, 0.0, 0);', [user_id, video_id, 1, -1, finished_times[video_id]])
                 else:
-                    cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s);', [user_id, video_id, 0, last_progress[video_id], 0])
+                    cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, 0.0, 0);', [user_id, video_id, 0, last_progress[video_id], 0])
 
             conn.commit()
