@@ -26,8 +26,14 @@ def coverage(duration, watchs):
 
 if __name__ == '__main__':
     terms = [
+            'COMP102.1x-2T2015',
+            'COMP102.1x-2T2016',
+            'COMP102.1x-3T2016',
             'COMP102.1x-4T2015',
-            'COMP107x-2016_T1'
+            'COMP102.2x-1T2016',
+            'COMP102.2x-2T2016',
+            'COMP102.2x-3T2016',
+            'COMP102.2x-4T2015',
         ]
     filterwarnings('ignore', category=MySQLdb.Warning)
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
