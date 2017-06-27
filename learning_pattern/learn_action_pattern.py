@@ -33,7 +33,7 @@ def load_data():
         X = scaler.transform(X)
         Y = np.array(data['labels'], np.intp)
         for label in [-1, 0, 1]:
-            Y_one = np.array(map(lambda x: 1 if x == label else 0, Y))
+            Y_one = np.array(map(lambda x: 1 if x == label else 0, Y), dtype=np.int32)
             logger.info('feature selection')
             X_one = feature_selection(X, Y_one)
             result['X_' + str(label)] = X_one
@@ -49,20 +49,24 @@ def feature_selection(X, Y):
 
 
 def split_train_test(data):
-    train_index = np.array([])
-    test_index = np.array([])
+    train_index = np.array([], dtype=np.int32)
+    test_index = np.array([], dtype=np.int32)
     for label in [-1, 0, 1]:
         indices = np.where(data['Y_' + str(label)] == 1)[0]
+        # print indices
         for train_part, test_part in ShuffleSplit(n_splits=1, test_size=0.2, train_size=0.8).split(indices):
-            train_index = np.concatenate(train_index, indices[train_part])
-            test_index = np.concatenate(test_index, indices[test_part])
+            # print train_part
+            # print test_part
+            # print indices[train_part]
+            train_index = np.concatenate((train_index, indices[train_part]))
+            test_index = np.concatenate((test_index, indices[test_part]))
     return train_index, test_index
 
 
 def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
     test_error = 0
     train_error = 0
-    for train_index, test_index in ShuffleSplit(n_splits=5, test_size=0.1, train_size=0.9).split(X):
+    for train_index, test_index in ShuffleSplit(n_splits=5, test_size=0.2, train_size=0.8).split(X):
         # logger.info('train index: ' + str(train_index))
         # logger.info('test index: ' + str(test_index))
         X_train, X_test = X[train_index], X[test_index]
@@ -90,6 +94,8 @@ if __name__ == '__main__':
     models = []
     for label in [-1, 0, 1]:
         logger.info('train for label ' + str(label))
+        # print train_index
+        # print data['Y_' + str(label)]
         Y_one = data['Y_' + str(label)][train_index]
         X_one = data['X_' + str(label)][train_index]
         logger.info('training')
