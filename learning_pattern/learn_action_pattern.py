@@ -45,7 +45,8 @@ def load_data():
 def feature_selection(X, Y):
     # return SelectKBest(mutual_info_classif, 50).fit_transform(X, Y)
     # return PCA(n_components=50).fit_transform(X)
-    return KernelPCA(n_components=50, kernel='rbf').fit_transform(X)
+    # return KernelPCA(n_components=50, kernel='rbf').fit_transform(X)
+    return X
 
 
 def split_train_test(data):
@@ -99,7 +100,7 @@ if __name__ == '__main__':
         Y_one = data['Y_' + str(label)][train_index]
         X_one = data['X_' + str(label)][train_index]
         logger.info('training')
-        models.append(train(X_one, Y_one, tree.DecisionTreeRegressor()))
+        models.append(train(X_one, Y_one, svm.SVR()))
 
     logger.info('test combined classifier')
     Y_predict = []
