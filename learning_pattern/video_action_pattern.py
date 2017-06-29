@@ -82,8 +82,7 @@ def get_features(conn, term, users):
                     if index >= len(partial_array):
                         index = len(partial_array) - 1
                     partial_array[index] += 1
-                elif row1[0] == 'speed_change_video' and row1[2] is not None and row1[6] is not None and row1[
-                    7] is not None:
+                elif row1[0] == 'speed_change_video' and row1[2] is not None and row1[6] is not None and row1[7] is not None:
                     index = get_index(row1[2], row1[0], row1[7] - row1[6])
                     partial_array[index] += 1
                     index = get_index(row1[2], row1[0], row1[6] - row1[7])
@@ -94,7 +93,7 @@ def get_features(conn, term, users):
             cursor.execute(sql3)
             result3 = cursor.fetchall()
             if len(result3) > 0:
-                result_user.append(result3[0][0])
+                result_user.append(float(result3[0][0]))
             else:
                 result_user.append(0)
             sql4 = 'select sum(video_time_end - video_time_start) as watched_duration ' \
