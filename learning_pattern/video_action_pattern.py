@@ -98,12 +98,12 @@ def get_features(conn, term, users):
             else:
                 result_user.append(0)
             sql4 = 'select sum(video_time_end - video_time_start) as watched_duration ' \
-                   'from clickstream.' + table_name4 + \
+                   ' from clickstream.' + table_name4 + \
                    ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\';'
             cursor.execute(sql4)
             result4 = cursor.fetchall()
             if result4[0][0] is not None:
-                result_user.append(result4[0][0] / duration)
+                result_user.append(float(result4[0][0]) / duration)
             else:
                 result_user.append(0)
         features.append(result_user)
