@@ -37,7 +37,7 @@ def get_users(conn, term):
     cursor = conn.cursor()
     cursor.execute(sql)
     result = cursor.fetchall()
-    grades = map(lambda x: x[1], result)
+    grades = map(lambda x: float(x[1]), result)
     # good_normal = np.percentile(grades, 75)
     # normal_poor = np.percentile(grades, 25)
     # labels = map(lambda x: 1 if x >= good_normal else (-1 if x < normal_poor else 0), grades)
