@@ -1,11 +1,11 @@
 import os
 import numpy as np
-from sklearn.model_selection import ShuffleSplit
-from sklearn.feature_selection import SelectKBest, mutual_info_classif
+from sklearn.model_selection import ShuffleSplit, StratifiedShuffleSplit
+from sklearn.feature_selection import RFECV
 from sklearn.decomposition import PCA, KernelPCA
+from sklearn.multiclass import OneVsRestClassifier
 from sklearn.linear_model import SGDClassifier
 from sklearn import tree
-from sklearn import linear_model
 from sklearn import svm
 from sklearn.metrics import mean_squared_error, zero_one_loss
 from sklearn.preprocessing import StandardScaler
@@ -16,6 +16,12 @@ FORMAT = '%(asctime)-15s [%(levelname)s] %(filename)s:%(lineno)d %(message)s'
 logging.basicConfig(format=FORMAT)
 logger = logging.getLogger('root')
 logger.setLevel(logging.INFO)
+
+
+def grades_to_labels(grades):
+    good_normal = np.percentile(grades, 75)
+    normal_poor = np.percentile(grades, 25)
+    return np.array(map(lambda x: 1 if x >= good_normal else (-1 if x < normal_poor else 0), grades), dtype=np.intp)
 
 
 def load_data():
@@ -31,13 +37,11 @@ def load_data():
         X = np.array(data['features'], np.intp)
         scaler = StandardScaler().fit(X)
         X = scaler.transform(X)
-        Y = np.array(data['labels'], np.intp)
-        for label in [-1, 0, 1]:
-            Y_one = np.array(map(lambda x: 1 if x == label else 0, Y), dtype=np.int32)
-            logger.info('feature selection')
-            X_one = feature_selection(X, Y_one)
-            result['X_' + str(label)] = X_one
-            result['Y_' + str(label)] = Y_one
+        Y = grades_to_labels(np.array(data['grades'], np.float16))
+        logger.info('feature selection')
+        X = feature_selection(X, Y)
+        result['X'] = X
+        result['Y'] = Y
         np.savez('data', **result)
         return result
 
@@ -46,7 +50,7 @@ def feature_selection(X, Y):
     # return SelectKBest(mutual_info_classif, 50).fit_transform(X, Y)
     # return PCA(n_components=50).fit_transform(X)
     # return KernelPCA(n_components=50, kernel='rbf').fit_transform(X)
-    return X
+    return RFECV.fit_transform(X)
 
 
 def split_train_test(data):
@@ -67,7 +71,7 @@ def split_train_test(data):
 def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
     test_error = 0
     train_error = 0
-    for train_index, test_index in ShuffleSplit(n_splits=5, test_size=0.2, train_size=0.8).split(X):
+    for train_index, test_index in StratifiedShuffleSplit(n_splits=5, test_size=0.2).split(X, Y):
         # logger.info('train index: ' + str(train_index))
         # logger.info('test index: ' + str(test_index))
         X_train, X_test = X[train_index], X[test_index]
@@ -75,10 +79,10 @@ def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
         # model = tree.DecisionTreeClassifier()
         model.fit(X_train, Y_train)
         Y_predict = model.predict(X_test)
-        error = mean_squared_error(Y_test, Y_predict)
+        error = zero_one_loss(Y_test, Y_predict)
         test_error += error
         Y_predict = model.predict(X_train)
-        error = mean_squared_error(Y_train, Y_predict)
+        error = zero_one_loss(Y_train, Y_predict)
         train_error += error
     real_test_error = test_error / 5
     real_train_error = train_error / 5
@@ -90,39 +94,39 @@ def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
 
 if __name__ == '__main__':
     data = load_data()
-    train_index, test_index = split_train_test(data)
-    combined_Y = data['Y_1'] - data['Y_-1']
-    models = []
-    for label in [-1, 0, 1]:
-        logger.info('train for label ' + str(label))
+    # train_index, test_index = split_train_test(data)
+    # combined_Y = data['Y_1'] - data['Y_-1']
+    # models = []
+    # for label in [-1, 0, 1]:
+    #     logger.info('train for label ' + str(label))
         # print train_index
         # print data['Y_' + str(label)]
-        Y_one = data['Y_' + str(label)][train_index]
-        X_one = data['X_' + str(label)][train_index]
-        logger.info('training')
-        models.append(train(X_one, Y_one, svm.SVR()))
+        # Y_one = data['Y_' + str(label)][train_index]
+        # X_one = data['X_' + str(label)][train_index]
+    logger.info('cross validation')
+    train(data['X'], data['Y'], OneVsRestClassifier(svm.SVC(kernel='linear')))
 
-    logger.info('test combined classifier')
-    Y_predict = []
-    for label in [-1, 0, 1]:
-        Y_predict.append(models[label + 1].predict(data['X_' + str(label)]))
-    correct = [0.0, 0.0, 0.0]
-    combined_predict = []
-    total_correct = 0.0
-    total = len(Y_predict[0])
-    for i in range(len(Y_predict[0])):
-        final_label = -1
-        if Y_predict[1][i] > Y_predict[0][i]:
-            final_label = 0
-        if Y_predict[2][i] > Y_predict[final_label + 1][i]:
-            final_label = 1
-        if data['Y_' + str(final_label)][i] == 1:
-            total_correct += 1.0
-            correct[final_label + 1] += 1.0
-        combined_predict.append(final_label)
-    combined_predict = np.array(combined_predict)
-    logger.info("total train error: " + str(zero_one_loss(combined_Y[train_index], combined_predict[train_index])))
-    logger.info("total test error: " + str(zero_one_loss(combined_Y[test_index], combined_predict[test_index])))
+    # logger.info('test combined classifier')
+    # Y_predict = []
+    # for label in [-1, 0, 1]:
+    #     Y_predict.append(models[label + 1].predict(data['X_' + str(label)]))
+    # correct = [0.0, 0.0, 0.0]
+    # combined_predict = []
+    # total_correct = 0.0
+    # total = len(Y_predict[0])
+    # for i in range(len(Y_predict[0])):
+    #     final_label = -1
+    #     if Y_predict[1][i] > Y_predict[0][i]:
+    #         final_label = 0
+    #     if Y_predict[2][i] > Y_predict[final_label + 1][i]:
+    #         final_label = 1
+    #     if data['Y_' + str(final_label)][i] == 1:
+    #         total_correct += 1.0
+    #         correct[final_label + 1] += 1.0
+    #     combined_predict.append(final_label)
+    # combined_predict = np.array(combined_predict)
+    # logger.info("total train error: " + str(zero_one_loss(combined_Y[train_index], combined_predict[train_index])))
+    # logger.info("total test error: " + str(zero_one_loss(combined_Y[test_index], combined_predict[test_index])))
     # logger.info("-1 output sum: " + str(combined_predict[0]))
     # logger.info("0 output sum: " + str(combined_predict[1]))
     # logger.info("1 output sum: " + str(combined_predict[2]))
@@ -132,5 +136,5 @@ if __name__ == '__main__':
     # logger.info("0 recall: " + str(correct[1]) + ' / ' + str(sum(data['Y_0'])))
     # logger.info("1 precision: " + str(correct[2]) + ' / ' + str(combined_predict[2]))
     # logger.info("1 recall: " + str(correct[2]) + ' / ' + str(sum(data['Y_1'])))
-    logger.info("final precision: " + str(total_correct / total))
+    # logger.info("final precision: " + str(total_correct / total))
     # logger.info("final recall: " + str(total_correct / total))

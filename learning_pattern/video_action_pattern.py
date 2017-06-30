@@ -38,10 +38,10 @@ def get_users(conn, term):
     cursor.execute(sql)
     result = cursor.fetchall()
     grades = np.array(map(lambda x: x[1], result), dtype=np.float32)
-    good_normal = np.percentile(grades, 75)
-    normal_poor = np.percentile(grades, 25)
-    labels = map(lambda x: 1 if x >= good_normal else (-1 if x < normal_poor else 0), grades)
-    return map(lambda x: x[0], result), labels
+    # good_normal = np.percentile(grades, 75)
+    # normal_poor = np.percentile(grades, 25)
+    # labels = map(lambda x: 1 if x >= good_normal else (-1 if x < normal_poor else 0), grades)
+    return map(lambda x: x[0], result), grades  # labels
 
 
 def get_features(conn, term, users):
@@ -111,13 +111,13 @@ def get_features(conn, term, users):
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 all_users = []
 all_features = []
-all_labels = []
+all_grades = []
 for term in terms:
-    users, labels = get_users(conn, term)
+    users, grades = get_users(conn, term)
     features = get_features(conn, term, users)
     all_users.extend(users)
-    all_labels.extend(labels)
+    all_grades.extend(grades)
     all_features.extend(features)
 
 with open('data.json', 'w') as f:
-    f.write(json_wrapper.dumps({'features': all_features, 'labels': all_labels}))
+    f.write(json_wrapper.dumps({'features': all_features, 'grades': all_grades}))
