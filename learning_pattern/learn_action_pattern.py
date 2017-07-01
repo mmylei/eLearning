@@ -21,6 +21,8 @@ logger.setLevel(logging.INFO)
 def grades_to_labels(grades):
     good_normal = np.percentile(grades, 75)
     normal_poor = np.percentile(grades, 25)
+    logger.info('good threshold: ' + str(good_normal))
+    logger.info('poor threshold: ' + str(normal_poor))
     return np.array(map(lambda x: 1 if x >= good_normal else (-1 if x < normal_poor else 0), grades), dtype=np.intp)
 
 
@@ -37,6 +39,9 @@ def load_data():
         logger.info('json loaded')
         X = np.array(data['features'], np.float16)
         Y = grades_to_labels(np.array(data['grades'], np.float16))
+        logger.info('num of good students: ' + str(sum(map(lambda x: 1 if x == 1 else 0, Y))))
+        logger.info('num of normal students: ' + str(sum(map(lambda x: 1 if x == 0 else 0, Y))))
+        logger.info('num of poor students: ' + str(sum(map(lambda x: 1 if x == -1 else 0, Y))))
         logger.info('feature selection')
         X = feature_selection(X, Y)
         logger.info('writing npz data')
@@ -74,25 +79,33 @@ def split_train_test(data):
 def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
     test_error = 0
     train_error = 0
-    epoch = 0
+    fold = 0
     for train_index, test_index in StratifiedShuffleSplit(n_splits=5, test_size=0.2).split(X, Y):
-        epoch += 1
-        logger.info('training epoch ' + str(epoch))
+        fold += 1
         # logger.info('train index: ' + str(train_index))
         # logger.info('test index: ' + str(test_index))
         X_train, X_test = X[train_index], X[test_index]
         Y_train, Y_test = Y[train_index], Y[test_index]
         # model = tree.DecisionTreeClassifier()
+        logger.info('fold: ' + str(fold) + ', good students in training: ' + str(sum(map(lambda x: 1 if x == 1 else 0, Y_train))))
+        logger.info('fold: ' + str(fold) + ', normal students in training: ' + str(sum(map(lambda x: 1 if x == 0 else 0, Y_train))))
+        logger.info('fold: ' + str(fold) + ', poor students in training: ' + str(sum(map(lambda x: 1 if x == -1 else 0, Y_train))))
+        logger.info('fold: ' + str(fold) + ', good students in test: ' + str(
+            sum(map(lambda x: 1 if x == 1 else 0, Y_test))))
+        logger.info('fold: ' + str(fold) + ', normal students in test: ' + str(
+            sum(map(lambda x: 1 if x == 0 else 0, Y_test))))
+        logger.info('fold: ' + str(fold) + ', poor students in test: ' + str(
+            sum(map(lambda x: 1 if x == -1 else 0, Y_test))))
         model.fit(X_train, Y_train)
 
         Y_predict = model.predict(X_train)
         error = zero_one_loss(Y_train, Y_predict)
-        logger.info('epoch: ' + str(epoch) + ', training error: ' + str(error))
+        logger.info('fold: ' + str(fold) + ', training error: ' + str(error))
         train_error += error
 
         Y_predict = model.predict(X_test)
         error = zero_one_loss(Y_test, Y_predict)
-        logger.info('epoch: ' + str(epoch) + ', test error: ' + str(error))
+        logger.info('fold: ' + str(fold) + ', test error: ' + str(error))
 
         test_error += error
 
