@@ -74,21 +74,30 @@ def split_train_test(data):
 def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
     test_error = 0
     train_error = 0
+    epoch = 0
     for train_index, test_index in StratifiedShuffleSplit(n_splits=5, test_size=0.2).split(X, Y):
+        epoch += 1
+        logger.info('training epoch ' + str(epoch))
         # logger.info('train index: ' + str(train_index))
         # logger.info('test index: ' + str(test_index))
         X_train, X_test = X[train_index], X[test_index]
         Y_train, Y_test = Y[train_index], Y[test_index]
         # model = tree.DecisionTreeClassifier()
         model.fit(X_train, Y_train)
-        Y_predict = model.predict(X_test)
-        error = zero_one_loss(Y_test, Y_predict)
-        test_error += error
+
         Y_predict = model.predict(X_train)
         error = zero_one_loss(Y_train, Y_predict)
+        logger.info('epoch: ' + str(epoch) + ', training error: ' + str(error))
         train_error += error
-    real_test_error = test_error / 5
-    real_train_error = train_error / 5
+
+        Y_predict = model.predict(X_test)
+        error = zero_one_loss(Y_test, Y_predict)
+        logger.info('epoch: ' + str(epoch) + ', test error: ' + str(error))
+
+        test_error += error
+
+    real_test_error = test_error / 5.0
+    real_train_error = train_error / 5.0
 
     logger.info('train_error: ' + str(real_train_error))
     logger.info('test_error: ' + str(real_test_error))
