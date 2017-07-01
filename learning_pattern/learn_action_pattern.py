@@ -31,8 +31,12 @@ def load_data():
     if 'data.npz' in os.listdir('.'):
         logger.info('loading saved features')
         return np.load('data.npz')
+    elif 'cleared.npz' in os.listdir('.'):
+        logger.info('use cleared features')
+        data = np.load('cleared.npz')
+        X = data['X']
+        Y = data['Y']
     else:
-        result = {}
         logger.info('loading json')
         f = open('data.json', 'r')
         data = json_wrapper.loads(f.read())
@@ -42,22 +46,19 @@ def load_data():
         # clear features
         logger.info('clear features')
         X = VarianceThreshold().fit_transform(X)
-        data['features'] = map(lambda x: list(x), X)
-        f = open('data.json', 'w')
-        f.write(json_wrapper.dumps(data))
-        f.close()
+        Y = np.array(data['grades'], np.float16)
+        np.savez('cleared', **{'X': X, 'Y': Y})
         logger.info('clear features done')
-        Y = grades_to_labels(np.array(data['grades'], np.float16))
-        logger.info('num of good students: ' + str(sum(map(lambda x: 1 if x == 1 else 0, Y))))
-        logger.info('num of normal students: ' + str(sum(map(lambda x: 1 if x == 0 else 0, Y))))
-        logger.info('num of poor students: ' + str(sum(map(lambda x: 1 if x == -1 else 0, Y))))
-        logger.info('feature selection')
-        X = feature_selection(X, Y)
-        logger.info('writing npz data')
-        result['X'] = X
-        result['Y'] = Y
-        np.savez('data', **result)
-        return result
+    Y = grades_to_labels(Y)
+    logger.info('num of good students: ' + str(sum(map(lambda x: 1 if x == 1 else 0, Y))))
+    logger.info('num of normal students: ' + str(sum(map(lambda x: 1 if x == 0 else 0, Y))))
+    logger.info('num of poor students: ' + str(sum(map(lambda x: 1 if x == -1 else 0, Y))))
+    logger.info('feature selection')
+    X = feature_selection(X, Y)
+    logger.info('writing npz data')
+    result = {'X': X, 'Y': Y}
+    np.savez('data', **result)
+    return result
 
 
 def feature_selection(X, Y):
