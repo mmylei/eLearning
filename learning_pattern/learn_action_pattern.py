@@ -19,7 +19,7 @@ logger.setLevel(logging.INFO)
 
 
 def grades_to_labels(grades):
-    logger.info('grades, mean: ' + str(np.mean(grades)) + ', max: ' + str(np.max(grades)) + ', min: ' + np.min(grades))
+    logger.info('grades, mean: ' + str(np.mean(grades)) + ', max: ' + str(np.max(grades)) + ', min: ' + str(np.min(grades)))
     good_normal = np.percentile(grades, 75)
     normal_poor = np.percentile(grades, 25)
     logger.info('good threshold: ' + str(good_normal))
@@ -39,6 +39,14 @@ def load_data():
         f.close()
         logger.info('json loaded')
         X = np.array(data['features'], np.float16)
+        # clear features
+        logger.info('clear features')
+        X = VarianceThreshold().fit_transform(X)
+        data['features'] = map(lambda x: list(x), X)
+        f = open('data.json', 'w')
+        f.write(json_wrapper.dumps(data))
+        f.close()
+        logger.info('clear features done')
         Y = grades_to_labels(np.array(data['grades'], np.float16))
         logger.info('num of good students: ' + str(sum(map(lambda x: 1 if x == 1 else 0, Y))))
         logger.info('num of normal students: ' + str(sum(map(lambda x: 1 if x == 0 else 0, Y))))
@@ -56,7 +64,6 @@ def feature_selection(X, Y):
     # return SelectKBest(mutual_info_classif, 50).fit_transform(X, Y)
     # return PCA(n_components=50).fit_transform(X)
     # return KernelPCA(n_components=50, kernel='rbf').fit_transform(X)
-    X = VarianceThreshold().fit_transform(X)
     scaler = StandardScaler().fit(X)
     X = scaler.transform(X)
     return RFECV(svm.SVR(kernel="linear"), cv=5, step=0.05).fit_transform(X, Y)
