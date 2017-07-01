@@ -53,7 +53,7 @@ def feature_selection(X, Y):
     X = VarianceThreshold().fit_transform(X)
     scaler = StandardScaler().fit(X)
     X = scaler.transform(X)
-    return RFECV(svm.SVR(kernel="linear"), cv=5, step=0.05).fit_transform(X)
+    return RFECV(svm.SVR(kernel="linear"), cv=5, step=0.05).fit_transform(X, Y)
 
 
 def split_train_test(data):
