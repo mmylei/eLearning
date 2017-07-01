@@ -42,7 +42,7 @@ def load_data():
         data = json_wrapper.loads(f.read())
         f.close()
         logger.info('json loaded')
-        X = np.array(data['features'], np.float16)
+        X = np.array(data['features'], np.int8)
         # clear features
         logger.info('clear features')
         X = VarianceThreshold().fit_transform(X)
