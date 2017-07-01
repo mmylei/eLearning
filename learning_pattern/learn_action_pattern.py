@@ -1,10 +1,10 @@
 import os
 import numpy as np
 from sklearn.model_selection import ShuffleSplit, StratifiedShuffleSplit
-from sklearn.feature_selection import RFECV
+from sklearn.feature_selection import RFECV, VarianceThreshold
 from sklearn.decomposition import PCA, KernelPCA
 from sklearn.multiclass import OneVsRestClassifier
-from sklearn.linear_model import SGDClassifier
+from sklearn.linear_model import SGDClassifier, Lasso
 from sklearn import tree
 from sklearn import svm
 from sklearn.metrics import mean_squared_error, zero_one_loss
@@ -30,16 +30,16 @@ def load_data():
         return np.load('data.npz')
     else:
         result = {}
-        logger.info('building from original json')
+        logger.info('loading json')
         f = open('data.json', 'r')
         data = json_wrapper.loads(f.read())
         f.close()
-        X = np.array(data['features'], np.intp)
-        scaler = StandardScaler().fit(X)
-        X = scaler.transform(X)
+        logger.info('json loaded')
+        X = np.array(data['features'], np.float16)
         Y = grades_to_labels(np.array(data['grades'], np.float16))
         logger.info('feature selection')
         X = feature_selection(X, Y)
+        logger.info('writing npz data')
         result['X'] = X
         result['Y'] = Y
         np.savez('data', **result)
@@ -50,7 +50,10 @@ def feature_selection(X, Y):
     # return SelectKBest(mutual_info_classif, 50).fit_transform(X, Y)
     # return PCA(n_components=50).fit_transform(X)
     # return KernelPCA(n_components=50, kernel='rbf').fit_transform(X)
-    return RFECV.fit_transform(X)
+    X = VarianceThreshold(threshold=(.9 * (1 - .9))).fit_transform(X)
+    scaler = StandardScaler().fit(X)
+    X = scaler.transform(X)
+    return RFECV(svm.SVR(kernel="linear"), cv=5, step=0.05).fit_transform(X)
 
 
 def split_train_test(data):
