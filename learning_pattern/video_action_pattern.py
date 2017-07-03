@@ -33,7 +33,7 @@ def get_index(time, event_type, direction=1):
 
 def get_users(conn, term):
     table_name1 = (term + '_certificates_generatedcertificate').replace('-', '_').replace('.', '_')
-    sql = 'select user_id, grade from ' + table_name1 + ';'
+    sql = 'select user_id, grade from ' + table_name1 + 'where grade >= 0.6;'
     cursor = conn.cursor()
     cursor.execute(sql)
     result = cursor.fetchall()
