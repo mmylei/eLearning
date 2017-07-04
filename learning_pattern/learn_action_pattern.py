@@ -138,7 +138,7 @@ if __name__ == '__main__':
         # Y_one = data['Y_' + str(label)][train_index]
         # X_one = data['X_' + str(label)][train_index]
     logger.info('cross validation')
-    train(data['X'], data['Y'], OneVsRestClassifier(svm.SVC(kernel='linear')))
+    train(data['X'], data['Y'], OneVsRestClassifier(svm.SVC(kernel='rbf')))
 
     # logger.info('test combined classifier')
     # Y_predict = []
