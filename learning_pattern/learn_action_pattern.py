@@ -21,7 +21,7 @@ logger.setLevel(logging.INFO)
 def grades_to_labels(grades):
     logger.info('grades, mean: ' + str(np.mean(grades)) + ', max: ' + str(np.max(grades)) + ', min: ' + str(np.min(grades)))
     good_normal = np.percentile(grades, 85)
-    normal_poor = np.percentile(grades, 25)
+    normal_poor = np.percentile(grades, 35)
     logger.info('good threshold: ' + str(good_normal))
     logger.info('poor threshold: ' + str(normal_poor))
     return np.array(map(lambda x: 1 if x >= good_normal else (-1 if x < normal_poor else 0), grades), dtype=np.intp)
