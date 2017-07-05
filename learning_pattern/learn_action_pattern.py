@@ -144,7 +144,7 @@ if __name__ == '__main__':
         # Y_one = data['Y_' + str(label)][train_index]
         # X_one = data['X_' + str(label)][train_index]
     logger.info('cross validation')
-    train(data['X'], data['Y'], OneVsRestClassifier(neighbors.KNeighborsClassifier(15, weights='distance')))
+    train(data['X'], data['Y'], OneVsRestClassifier(neighbors.KNeighborsClassifier(15, weights='uniform')))
 
     # logger.info('test combined classifier')
     # Y_predict = []
