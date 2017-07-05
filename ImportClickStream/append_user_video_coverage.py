@@ -49,15 +49,7 @@ if __name__ == '__main__':
                 continue
             user_id = str(row[0])
             video_id = row[1]
-            cursor.execute('SELECT video_time_start, video_time_end'
-                           ' FROM ' + table_name2 +
-                           ' WHERE video_id=\'' + video_id + '\' AND user_id=' + user_id + ';')
-            result_video = cursor.fetchall()
-            watch_times = []
-            for time in result_video:
-                if time[0] is not None and time[1] is not None:
-                    if float(time[0]) < float(time[1]):
-                        watch_times.append([float(time[0]), float(time[1])])
+
             cursor.execute('SELECT duration'
                            ' FROM eLearning.Video_Basic_Info'
                            ' WHERE video_id=\'' + video_id + '\';')
@@ -66,6 +58,17 @@ if __name__ == '__main__':
                 print 'cannot find video info:', video_id
                 continue
             duration = float(d_result[0][0])
+
+            cursor.execute('SELECT video_time_start, video_time_end'
+                           ' FROM ' + table_name2 +
+                           ' WHERE video_id=\'' + video_id + '\' AND user_id=' + user_id + ';')
+            result_video = cursor.fetchall()
+            watch_times = []
+            for time in result_video:
+                if time[0] is not None and time[1] is not None:
+                    if 0 <= float(time[0]) < float(time[1]) <= duration:
+                        watch_times.append([float(time[0]), float(time[1])])
+
             cov = coverage(duration, watch_times)
             covered = 0
             if cov > 0.8:

@@ -47,15 +47,7 @@ if __name__ == '__main__':
                 continue
             video_id = row[0]
             print('start calc video ' + video_id)
-            cursor.execute('SELECT video_time_start, video_time_end, user_id'
-                           ' FROM ' + table_name +
-                           ' WHERE video_id=\'' + video_id + '\';')
-            result_video = cursor.fetchall()
-            watch_times = []
-            for time in result_video:
-                if time[0] is not None and time[1] is not None:
-                    if float(time[0]) < float(time[1]):
-                        watch_times.append([float(time[0]), float(time[1]), str(time[2])])
+
             cursor.execute('SELECT duration'
                            ' FROM eLearning.Video_Basic_Info'
                            ' WHERE video_id=\'' + video_id + '\';')
@@ -65,6 +57,17 @@ if __name__ == '__main__':
                 continue
             duration = float(d_result[0][0])
             durations[video_id] = duration
+
+            cursor.execute('SELECT video_time_start, video_time_end, user_id'
+                           ' FROM ' + table_name +
+                           ' WHERE video_id=\'' + video_id + '\';')
+            result_video = cursor.fetchall()
+            watch_times = []
+            for time in result_video:
+                if time[0] is not None and time[1] is not None:
+                    if 0 <= float(time[0]) < float(time[1]) <= duration:
+                        watch_times.append([float(time[0]), float(time[1]), str(time[2])])
+
             repeat_table[video_id] = repeat_ratio(duration, watch_times)
             total_repeat_ratio += sum(repeat_table[video_id])
             total_time_slots += len(repeat_table[video_id])

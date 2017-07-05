@@ -89,7 +89,7 @@ def get_features(conn, term, users):
                     partial_array[index] += 1
             result_user.extend(partial_array)
             sql3 = 'select coverage from clickstream.' + table_name3 + \
-                   ' where  user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\';'
+                   ' where  user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\' and coverage > 0;'
             cursor.execute(sql3)
             result3 = cursor.fetchall()
             if len(result3) > 0:
@@ -98,7 +98,8 @@ def get_features(conn, term, users):
                 result_user.append(0)
             sql4 = 'select sum(video_time_end - video_time_start) as watched_duration ' \
                    ' from clickstream.' + table_name4 + \
-                   ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\';'
+                   ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\'' \
+                   ' and video_time_start >= 0 and video_time_end > video_time_start and video_time_end <= ' + str(duration) + ';'
             cursor.execute(sql4)
             result4 = cursor.fetchall()
             if result4[0][0] is not None:
