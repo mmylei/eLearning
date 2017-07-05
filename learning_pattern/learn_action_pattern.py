@@ -43,11 +43,11 @@ def load_data():
         data = json_wrapper.loads(f.read())
         f.close()
         logger.info('json loaded')
-        X = np.array(data['features'], np.float16)
+        X = np.array(data['features'], np.float32)
         # clear features
         logger.info('clear features')
         X = VarianceThreshold().fit_transform(X)
-        Y = np.array(data['grades'], np.float16)
+        Y = np.array(data['grades'], np.float32)
         np.savez('cleared', **{'X': X, 'Y': Y})
         logger.info('clear features done')
     Y = grades_to_labels(Y)
