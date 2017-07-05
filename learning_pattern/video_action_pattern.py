@@ -94,6 +94,8 @@ def get_features(conn, term, users):
             result3 = cursor.fetchall()
             if len(result3) > 0:
                 result_user.append(float(result3[0][0]))
+                if result_user[-1] < 0:
+                    print uid
             else:
                 result_user.append(0)
             sql4 = 'select sum(video_time_end - video_time_start) as watched_duration ' \
@@ -104,6 +106,8 @@ def get_features(conn, term, users):
             result4 = cursor.fetchall()
             if result4[0][0] is not None:
                 result_user.append(float(result4[0][0]) / duration)
+                if result_user[-1] < 0:
+                    print uid
             else:
                 result_user.append(0)
         features.append(result_user)
