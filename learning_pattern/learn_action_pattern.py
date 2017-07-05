@@ -72,7 +72,7 @@ def feature_selection(X, Y):
     if sum(sum(X < 0)) > 0:
         print 'negative after scale'
     # return RFECV(Lasso(), cv=5, step=0.05, n_features_=1000).fit_transform(X, Y)
-    return SelectKBest(chi2, 200).fit_transform(X, Y)
+    return SelectKBest(chi2, 300).fit_transform(X, Y)
 
 
 def split_train_test(data):
