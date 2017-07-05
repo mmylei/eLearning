@@ -67,6 +67,10 @@ def feature_selection(X, Y):
     # return KernelPCA(n_components=50, kernel='rbf').fit_transform(X)
     scaler = StandardScaler().fit(X)
     X = scaler.transform(X)
+    for row in X:
+        for x in row:
+            if x < 0:
+                print x
     # return RFECV(Lasso(), cv=5, step=0.05, n_features_=1000).fit_transform(X, Y)
     return SelectKBest(chi2, 1000).fit_transform(X, Y)
 
