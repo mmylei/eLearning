@@ -67,7 +67,7 @@ def feature_selection(X, Y):
     # return KernelPCA(n_components=50, kernel='rbf').fit_transform(X)
     if sum(sum(X < 0)) > 0:
         print 'negative before scale'
-    scaler = StandardScaler().fit(X)
+    scaler = StandardScaler(with_mean=False).fit(X)
     X = scaler.transform(X)
     if sum(sum(X < 0)) > 0:
         print 'negative after scale'
