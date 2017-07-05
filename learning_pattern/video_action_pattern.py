@@ -110,6 +110,10 @@ def get_features(conn, term, users):
                     print uid
             else:
                 result_user.append(0)
+        for x in result_user:
+            if x < 0:
+                print uid
+                break
         features.append(result_user)
     return features
 
