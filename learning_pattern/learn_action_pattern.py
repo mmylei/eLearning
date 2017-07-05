@@ -7,6 +7,7 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.linear_model import SGDClassifier, Lasso
 from sklearn import tree
 from sklearn import svm
+from sklearn import neighbors
 from sklearn.metrics import mean_squared_error, zero_one_loss
 from sklearn.preprocessing import StandardScaler
 import logging
@@ -138,7 +139,7 @@ if __name__ == '__main__':
         # Y_one = data['Y_' + str(label)][train_index]
         # X_one = data['X_' + str(label)][train_index]
     logger.info('cross validation')
-    train(data['X'], data['Y'], OneVsRestClassifier(svm.SVC(kernel='rbf', C=7.0)))
+    train(data['X'], data['Y'], OneVsRestClassifier(neighbors.KNeighborsClassifier(15, weights='distance')))
 
     # logger.info('test combined classifier')
     # Y_predict = []
