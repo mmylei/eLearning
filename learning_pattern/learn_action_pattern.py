@@ -50,7 +50,6 @@ def load_data():
         Y = np.array(data['grades'], np.float16)
         np.savez('cleared', **{'X': X, 'Y': Y})
         logger.info('clear features done')
-    logger.info('feature num: ' + str(len(X[0])))
     Y = grades_to_labels(Y)
     logger.info('num of good students: ' + str(sum(map(lambda x: 1 if x == 1 else 0, Y))))
     logger.info('num of normal students: ' + str(sum(map(lambda x: 1 if x == 0 else 0, Y))))
@@ -130,6 +129,7 @@ def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
 
 if __name__ == '__main__':
     data = load_data()
+    logger.info('feature num: ' + str(len(data['X'][0])))
     # train_index, test_index = split_train_test(data)
     # combined_Y = data['Y_1'] - data['Y_-1']
     # models = []
