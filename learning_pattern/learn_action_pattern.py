@@ -50,6 +50,7 @@ def load_data():
         Y = np.array(data['grades'], np.float16)
         np.savez('cleared', **{'X': X, 'Y': Y})
         logger.info('clear features done')
+    logger.info('feature num: ' + str(len(X[0])))
     Y = grades_to_labels(Y)
     logger.info('num of good students: ' + str(sum(map(lambda x: 1 if x == 1 else 0, Y))))
     logger.info('num of normal students: ' + str(sum(map(lambda x: 1 if x == 0 else 0, Y))))
