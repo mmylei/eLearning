@@ -72,7 +72,7 @@ def feature_selection(X, Y):
     if sum(sum(X < 0)) > 0:
         print 'negative after scale'
     # return RFECV(Lasso(), cv=5, step=0.05, n_features_=1000).fit_transform(X, Y)
-    return SelectKBest(chi2, 300).fit_transform(X, Y)
+    return SelectKBest(chi2, 200).fit_transform(X, Y)
 
 
 def split_train_test(data):
@@ -144,7 +144,7 @@ if __name__ == '__main__':
         # Y_one = data['Y_' + str(label)][train_index]
         # X_one = data['X_' + str(label)][train_index]
     logger.info('cross validation')
-    train(data['X'], data['Y'], OneVsRestClassifier(svm.SVC(kernel='rbf', C=7.0)))
+    train(data['X'], data['Y'], OneVsRestClassifier(neighbors.KNeighborsClassifier(15, weights='distance')))
 
     # logger.info('test combined classifier')
     # Y_predict = []
