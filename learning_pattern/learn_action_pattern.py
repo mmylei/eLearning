@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from sklearn.model_selection import ShuffleSplit, StratifiedShuffleSplit
-from sklearn.feature_selection import RFECV, VarianceThreshold
+from sklearn.feature_selection import RFECV, VarianceThreshold, SelectKBest, chi2
 from sklearn.decomposition import PCA, KernelPCA
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.linear_model import SGDClassifier, Lasso
@@ -63,12 +63,12 @@ def load_data():
 
 
 def feature_selection(X, Y):
-    # return SelectKBest(mutual_info_classif, 50).fit_transform(X, Y)
     # return PCA(n_components=50).fit_transform(X)
     # return KernelPCA(n_components=50, kernel='rbf').fit_transform(X)
     scaler = StandardScaler().fit(X)
     X = scaler.transform(X)
-    return RFECV(Lasso(), cv=5, step=0.05, n_features_=1000).fit_transform(X, Y)
+    # return RFECV(Lasso(), cv=5, step=0.05, n_features_=1000).fit_transform(X, Y)
+    return SelectKBest(chi2, 1000).fit_transform(X, Y)
 
 
 def split_train_test(data):
