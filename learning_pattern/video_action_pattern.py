@@ -21,11 +21,11 @@ terms = [
 
 
 def make_array(duration):
-    return [0] * ((int(duration / 5) + 1) * total_type)
+    return [0] * total_type
 
 
 def get_index(time, event_type, direction=1):
-    index = (int(time / 5) * total_type) + event_types.index(event_type)
+    index = event_types.index(event_type)
     if event_type in ['seek_video', 'speed_change_video'] and direction < 0:
         index += 1
     return index
