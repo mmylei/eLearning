@@ -24,8 +24,8 @@ import matplotlib.patheffects as PathEffects
 # sns.set_context("notebook", font_scale=1.5,
 #                 rc={"lines.linewidth": 2.5})
 # We'll generate an animation with matplotlib and moviepy.
-from moviepy.video.io.bindings import mplfig_to_npimage
-import moviepy.editor as mpy
+# from moviepy.video.io.bindings import mplfig_to_npimage
+# import moviepy.editor as mpy
 import json_wrapper
 
 
