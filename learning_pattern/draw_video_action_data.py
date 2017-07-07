@@ -18,11 +18,11 @@ RS = 20150101
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as PathEffects
 # We import seaborn to make nice plots.
-# import seaborn as sns
-# sns.set_style('darkgrid')
-# sns.set_palette('muted')
-# sns.set_context("notebook", font_scale=1.5,
-#                 rc={"lines.linewidth": 2.5})
+import seaborn as sns
+sns.set_style('darkgrid')
+sns.set_palette('muted')
+sns.set_context("notebook", font_scale=1.5,
+                rc={"lines.linewidth": 2.5})
 # We'll generate an animation with matplotlib and moviepy.
 # from moviepy.video.io.bindings import mplfig_to_npimage
 # import moviepy.editor as mpy
@@ -30,11 +30,11 @@ import json_wrapper
 
 
 def grades_to_labels(grades):
-    logger.info('grades, mean: ' + str(np.mean(grades)) + ', max: ' + str(np.max(grades)) + ', min: ' + str(np.min(grades)))
+    # logger.info('grades, mean: ' + str(np.mean(grades)) + ', max: ' + str(np.max(grades)) + ', min: ' + str(np.min(grades)))
     good_normal = np.percentile(grades, 85)
     normal_poor = np.percentile(grades, 35)
-    logger.info('good threshold: ' + str(good_normal))
-    logger.info('poor threshold: ' + str(normal_poor))
+    # logger.info('good threshold: ' + str(good_normal))
+    # logger.info('poor threshold: ' + str(normal_poor))
     return np.array(map(lambda x: 1 if x >= good_normal else (-1 if x < normal_poor else 0), grades), dtype=np.intp)
 
 
