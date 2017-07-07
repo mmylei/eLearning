@@ -35,7 +35,7 @@ def grades_to_labels(grades):
     normal_poor = np.percentile(grades, 35)
     # logger.info('good threshold: ' + str(good_normal))
     # logger.info('poor threshold: ' + str(normal_poor))
-    return np.array(map(lambda x: 1 if x >= good_normal else (-1 if x < normal_poor else 0), grades), dtype=np.intp)
+    return np.array(map(lambda x: 1 if x >= good_normal else (2 if x < normal_poor else 0), grades), dtype=np.intp)
 
 
 def scatter(x, colors):
@@ -69,6 +69,8 @@ f.close()
 X = np.array(data['features'], np.float32)
 Y = np.array(data['grades'], np.float32)
 Y = grades_to_labels(Y)
-data_proj = TSNE(random_state=RS).fit_transform(X)
-scatter(data_proj, Y)
-plt.savefig('tsne-generated.png', dpi=120)
+for i in range(0, X.shape[1]/8):
+    X_video = X[:, np.arange(i*8, i*8+8)]
+    data_proj = TSNE(random_state=RS).fit_transform(X_video)
+    scatter(data_proj, Y)
+    plt.savefig('images/tsne-generated_' + str(i) + '.png', dpi=120)

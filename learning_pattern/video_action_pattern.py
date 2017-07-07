@@ -45,7 +45,7 @@ def get_users(conn, term):
 
 
 def get_features(conn, term, users):
-    sql2 = 'select B.video_id, B.sequence, B.duration from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and S.flag = 1 and B.module_number < 6 order by B.sequence;'
+    sql2 = 'select B.video_id, B.sequence, B.duration from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and S.flag = 1 and B.term_id = \'COMP102_1x\' and B.module_number < 6 order by B.sequence;'
     cursor = conn.cursor()
     cursor.execute(sql2)
     result2 = cursor.fetchall()
