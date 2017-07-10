@@ -3,14 +3,14 @@ import numpy as np
 import MySQLdb
 import json_wrapper
 
-event_types = ['pause_video', 'play_video', 'seek_video', 'speed_change_video']
+event_types = ['pause_video', 'play_video', 'seek_video', '', 'speed_change_video']
 total_type = 6
 
 terms = [
     # java
-    '102.1x-2T2015',
-    '102.1x-2T2016',
-    '102.1x-3T2016',
+    # '102.1x-2T2015',
+    # '102.1x-2T2016',
+    # '102.1x-3T2016',
     '102.1x-4T2015',
     # '102.2x-1T2016',
     # '102.2x-2T2016',
