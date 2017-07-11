@@ -117,11 +117,14 @@ def get_features(conn, term, users):
             result5 = cursor.fetchall()
             row = result5[0]
             if row[0] == 'm':
-                result_user.append(1).append(0)
+                result_user.append(1)
+                result_user.append(0)
             elif row[0] == 'f':
-                result_user.append(0).append(1)
+                result_user.append(0)
+                result_user.append(1)
             else:
-                result_user.append(0).append(0)
+                result_user.append(0)
+                result_user.append(0)
             for i in level_of_education:
                 if row[1] == i:
                     result_user.append(1)
