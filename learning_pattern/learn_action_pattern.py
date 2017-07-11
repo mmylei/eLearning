@@ -8,6 +8,7 @@ from sklearn.linear_model import SGDClassifier, Lasso
 from sklearn import tree
 from sklearn import svm
 from sklearn import neighbors
+from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import mean_squared_error, zero_one_loss
 from sklearn.preprocessing import StandardScaler
 import logging
@@ -63,16 +64,17 @@ def load_data():
 
 
 def feature_selection(X, Y):
-    # return PCA(n_components=50).fit_transform(X)
-    # return KernelPCA(n_components=50, kernel='rbf').fit_transform(X)
     if sum(sum(X < 0)) > 0:
         print 'negative before scale'
     scaler = StandardScaler(with_mean=False).fit(X)
     X = scaler.transform(X)
     if sum(sum(X < 0)) > 0:
         print 'negative after scale'
+    # return PCA(n_components=50).fit_transform(X)
+    # return KernelPCA(n_components=50, kernel='rbf').fit_transform(X)
     # return RFECV(Lasso(), cv=5, step=0.05, n_features_=1000).fit_transform(X, Y)
-    return SelectKBest(chi2, 500).fit_transform(X, Y)
+    # return SelectKBest(chi2, 500).fit_transform(X, Y)
+    return X
 
 
 def split_train_test(data):
@@ -144,7 +146,8 @@ if __name__ == '__main__':
         # Y_one = data['Y_' + str(label)][train_index]
         # X_one = data['X_' + str(label)][train_index]
     logger.info('cross validation')
-    train(data['X'], data['Y'], OneVsRestClassifier(neighbors.KNeighborsClassifier(15, weights='distance')))
+    model = MLPClassifier(alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1)
+    train(data['X'], data['Y'], OneVsRestClassifier(model))
 
     # logger.info('test combined classifier')
     # Y_predict = []
