@@ -5,6 +5,7 @@ import json_wrapper
 
 event_types = ['pause_video', 'play_video', 'seek_video', '', 'speed_change_video']
 total_type = 6
+level_of_education = ['p', 'm', 'b', 'a', 'hs', 'jhs', 'el', 'none', 'other', 'p_se', 'p_oth', '']
 
 terms = [
     # java
@@ -53,6 +54,7 @@ def get_features(conn, term, users):
     table_name2 = ('HKUSTx-COMP' + term + '_clickstream').replace('-', '_').replace('.', '_')
     table_name3 = ('HKUSTx-COMP' + term + '-user_video').replace('-', '_').replace('.', '_')
     table_name4 = ('HKUSTx-COMP' + term + '_video_play_piece').replace('-', '_').replace('.', '_')
+    table_name5 = (term + '_auth_userprofile').replace('-', '_').replace('.', '_')
     for uid in users:
         result_user = []
         for row in result2:
@@ -110,6 +112,21 @@ def get_features(conn, term, users):
                     print uid
             else:
                 result_user.append(0)
+            sql5 = 'select gender, level_of_education from ' + table_name5 + ' where user_id = ' + str(uid) + ';'
+            cursor.execute(sql5)
+            result5 = cursor.fetchall()
+            row = result5[0]
+            if row[0] == 'm':
+                result_user.append(1).append(0)
+            elif row[0] == 'f':
+                result_user.append(0).append(1)
+            else:
+                result_user.append(0).append(0)
+            for i in level_of_education:
+                if row[1] == i:
+                    result_user.append(1)
+                else:
+                    result_user.append(0)
         for x in result_user:
             if x < 0:
                 print uid

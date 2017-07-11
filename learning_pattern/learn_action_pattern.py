@@ -146,7 +146,7 @@ if __name__ == '__main__':
         # Y_one = data['Y_' + str(label)][train_index]
         # X_one = data['X_' + str(label)][train_index]
     logger.info('cross validation')
-    model = MLPClassifier(alpha=1e-4, hidden_layer_sizes=(20, 5), random_state=1)
+    model = MLPClassifier(alpha=1e-4, hidden_layer_sizes=(5, 2), random_state=1)
     train(data['X'], data['Y'], OneVsRestClassifier(model))
 
     # logger.info('test combined classifier')
