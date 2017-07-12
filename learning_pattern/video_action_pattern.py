@@ -80,15 +80,15 @@ def get_features(conn, term, users):
                         # print row1[0], row1[4], row1[5], duration
                         index = len(partial_array) - 1
                     partial_array[index] += 1
-                    index = get_index(row1[5], row1[0], row1[4] - row1[5])
-                    if index >= len(partial_array):
-                        index = len(partial_array) - 1
-                    partial_array[index] += 1
+                    # index = get_index(row1[5], row1[0], row1[4] - row1[5])
+                    # if index >= len(partial_array):
+                    #     index = len(partial_array) - 1
+                    # partial_array[index] += 1
                 elif row1[0] == 'speed_change_video' and row1[2] is not None and row1[6] is not None and row1[7] is not None:
                     index = get_index(row1[2], row1[0], row1[7] - row1[6])
                     partial_array[index] += 1
-                    index = get_index(row1[2], row1[0], row1[6] - row1[7])
-                    partial_array[index] += 1
+                    # index = get_index(row1[2], row1[0], row1[6] - row1[7])
+                    # partial_array[index] += 1
             result_user.extend(partial_array)
             sql3 = 'select coverage from clickstream.' + table_name3 + \
                    ' where  user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\' and coverage > 0;'
