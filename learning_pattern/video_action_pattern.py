@@ -112,24 +112,24 @@ def get_features(conn, term, users):
                     print uid
             else:
                 result_user.append(0)
-            sql5 = 'select gender, level_of_education from ' + table_name5 + ' where user_id = ' + str(uid) + ';'
-            cursor.execute(sql5)
-            result5 = cursor.fetchall()
-            row = result5[0]
-            if row[0] == 'm':
-                result_user.append(1)
-                result_user.append(0)
-            elif row[0] == 'f':
-                result_user.append(0)
+        sql5 = 'select gender, level_of_education from ' + table_name5 + ' where user_id = ' + str(uid) + ';'
+        cursor.execute(sql5)
+        result5 = cursor.fetchall()
+        row = result5[0]
+        if row[0] == 'm':
+            result_user.append(1)
+            result_user.append(0)
+        elif row[0] == 'f':
+            result_user.append(0)
+            result_user.append(1)
+        else:
+            result_user.append(0)
+            result_user.append(0)
+        for i in level_of_education:
+            if row[1] == i:
                 result_user.append(1)
             else:
                 result_user.append(0)
-                result_user.append(0)
-            for i in level_of_education:
-                if row[1] == i:
-                    result_user.append(1)
-                else:
-                    result_user.append(0)
         for x in result_user:
             if x < 0:
                 print uid
