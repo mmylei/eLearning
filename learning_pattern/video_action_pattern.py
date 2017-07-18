@@ -151,7 +151,11 @@ def get_features(conn, term, users):
         sql8 = 'select state from ' + table_name8 + ' where student_id = ' + str(uid) + ' and module_type = \'problem\';'
         cursor.execute(sql8)
         result8 = cursor.fetchall()
-        attempts = sum(map(lambda x: x['attempts'] if 'attempts' in x else 0, map(lambda x: json_wrapper.loads(x[0]), result8)))
+        try:
+            attempts = sum(map(lambda x: x['attempts'] if 'attempts' in x else 0, map(lambda x: json_wrapper.loads(x[0]), result8)))
+        except Exception:
+            print result8
+            raise 
         result_user.append(attempts)
         for x in result_user:
             if x < 0:
