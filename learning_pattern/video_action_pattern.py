@@ -21,6 +21,15 @@ terms = [
     ]
 
 
+def get_attempts(json):
+    json = json.replace('\\\\\\\\', '\\')
+    temp = json_wrapper.loads(json)
+    if 'attempts' in temp:
+        return temp['attempts']
+    else:
+        return 0
+
+
 def get_education_feature(level):
     return [1, 0, 0] if level in ['p', 'm', 'b', 'a', 'p_se', 'p_oth'] else [0, 1, 0] if level in ['hs', 'jhs', 'el', 'none', 'other'] else [0, 0, 1]
 
@@ -151,11 +160,7 @@ def get_features(conn, term, users):
         sql8 = 'select state from ' + table_name8 + ' where student_id = ' + str(uid) + ' and module_type = \'problem\';'
         cursor.execute(sql8)
         result8 = cursor.fetchall()
-        try:
-            attempts = sum(map(lambda x: x['attempts'] if 'attempts' in x else 0, map(lambda x: json_wrapper.loads(x[0]), result8)))
-        except Exception:
-            print result8
-            raise 
+        attempts = sum(map(lambda x: get_attempts(x[0]), result8))
         result_user.append(attempts)
         for x in result_user:
             if x < 0:
