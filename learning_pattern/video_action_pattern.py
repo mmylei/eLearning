@@ -22,7 +22,7 @@ terms = [
 
 
 def get_attempts(json):
-    json = json.replace('\\\\\\\\', '\\')
+    json = json.replace('\\\\\\\\\\\\\\\\', '\\')
     try:
         temp = json_wrapper.loads(json)
     except Exception:
