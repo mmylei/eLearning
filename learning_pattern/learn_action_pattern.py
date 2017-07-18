@@ -5,6 +5,7 @@ from sklearn.feature_selection import RFECV, VarianceThreshold, SelectKBest, chi
 from sklearn.decomposition import PCA, KernelPCA
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.linear_model import SGDClassifier, Lasso
+from sklearn.ensemble import RandomForestClassifier
 from sklearn import tree
 from sklearn import svm
 from sklearn import neighbors
@@ -26,7 +27,7 @@ def grades_to_labels(grades):
     normal_poor = np.percentile(grades, 35)
     logger.info('good threshold: ' + str(good_normal))
     logger.info('poor threshold: ' + str(normal_poor))
-    return np.array(map(lambda x: 1 if x >= good_normal else (-1 if x < normal_poor else 0), grades), dtype=np.intp)
+    return np.array(map(lambda x: 1 if x >= good_normal else (0 if x < normal_poor else -1), grades), dtype=np.intp)
 
 
 def load_data():
@@ -57,10 +58,16 @@ def load_data():
     logger.info('num of poor students: ' + str(sum(map(lambda x: 1 if x == -1 else 0, Y))))
     logger.info('feature selection')
     X = feature_selection(X, Y)
+    X, Y = filtering(X, Y)
     logger.info('writing npz data')
     result = {'X': X, 'Y': Y}
     np.savez('data', **result)
     return result
+
+
+def filtering(X, Y):
+    indices = np.where(Y > -1)[0]
+    return X[indices], Y[indices]
 
 
 def feature_selection(X, Y):
@@ -104,12 +111,12 @@ def train(X, Y, model=SGDClassifier(penalty='l1', alpha=0.01)):
         Y_train, Y_test = Y[train_index], Y[test_index]
         # model = tree.DecisionTreeClassifier()
         logger.info('fold: ' + str(fold) + ', good students in training: ' + str(sum(map(lambda x: 1 if x == 1 else 0, Y_train))))
-        logger.info('fold: ' + str(fold) + ', normal students in training: ' + str(sum(map(lambda x: 1 if x == 0 else 0, Y_train))))
+        # logger.info('fold: ' + str(fold) + ', normal students in training: ' + str(sum(map(lambda x: 1 if x == 0 else 0, Y_train))))
         logger.info('fold: ' + str(fold) + ', poor students in training: ' + str(sum(map(lambda x: 1 if x == -1 else 0, Y_train))))
         logger.info('fold: ' + str(fold) + ', good students in test: ' + str(
             sum(map(lambda x: 1 if x == 1 else 0, Y_test))))
-        logger.info('fold: ' + str(fold) + ', normal students in test: ' + str(
-            sum(map(lambda x: 1 if x == 0 else 0, Y_test))))
+        # logger.info('fold: ' + str(fold) + ', normal students in test: ' + str(
+        #     sum(map(lambda x: 1 if x == 0 else 0, Y_test))))
         logger.info('fold: ' + str(fold) + ', poor students in test: ' + str(
             sum(map(lambda x: 1 if x == -1 else 0, Y_test))))
         model.fit(X_train, Y_train)
@@ -146,9 +153,15 @@ if __name__ == '__main__':
         # Y_one = data['Y_' + str(label)][train_index]
         # X_one = data['X_' + str(label)][train_index]
     logger.info('cross validation')
-    model = MLPClassifier(alpha=1e-4, hidden_layer_sizes=(5, 2), random_state=1)
-    train(data['X'], data['Y'], OneVsRestClassifier(model))
-
+    # model = MLPClassifier(alpha=1e-4, hidden_layer_sizes=(5, 2), random_state=1)
+    model = RandomForestClassifier()
+    # train(data['X'], data['Y'], OneVsRestClassifier(model))
+    train(data['X'], data['Y'], model)
+    feature_importance = []
+    for i in range(len(data['X'][0])):
+        feature_importance.append((i, model.feature_importances_[i]))
+    sorted(feature_importance, key=lambda x: x[1], reverse=True)
+    print feature_importance
     # logger.info('test combined classifier')
     # Y_predict = []
     # for label in [-1, 0, 1]:

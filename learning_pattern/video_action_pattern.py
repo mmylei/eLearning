@@ -21,6 +21,10 @@ terms = [
     ]
 
 
+def get_education_feature(level):
+    return [1, 0, 0] if level in ['p', 'm', 'b', 'a', 'p_se', 'p_oth'] else [0, 1, 0] if level in ['hs', 'jhs', 'el', 'none', 'other'] else [0, 0, 1]
+
+
 def make_array(duration):
     return [0] * total_type
 
@@ -55,6 +59,9 @@ def get_features(conn, term, users):
     table_name3 = ('HKUSTx-COMP' + term + '-user_video').replace('-', '_').replace('.', '_')
     table_name4 = ('HKUSTx-COMP' + term + '_video_play_piece').replace('-', '_').replace('.', '_')
     table_name5 = (term + '_auth_userprofile').replace('-', '_').replace('.', '_')
+    table_name6 = (term + '_comment').replace('-', '_').replace('.', '_')
+    table_name7 = (term + '_commentthread').replace('-', '_').replace('.', '_')
+    table_name8 = (term + '_courseware_studentmodule').replace('-', '_').replace('.', '_')
     for uid in users:
         result_user = []
         for row in result2:
@@ -125,11 +132,27 @@ def get_features(conn, term, users):
         else:
             result_user.append(0)
             result_user.append(0)
-        for i in level_of_education:
-            if row[1] == i:
-                result_user.append(1)
-            else:
-                result_user.append(0)
+        result_user.extend(get_education_feature(row[1]))
+        # for i in level_of_education:
+        #     if row[1] == i:
+        #         result_user.append(1)
+        #     else:
+        #         result_user.append(0)
+        sql6 = 'select count(body) as comment_num from ' + table_name6 + ' where author_id = ' + str(uid) + ';'
+        cursor.execute(sql6)
+        result6 = cursor.fetchall()
+        row = result6[0]
+        result_user.append(row[0])
+        sql7 = 'select count(body) from ' + table_name7 + ' where author_id = ' + str(uid) + ';'
+        cursor.execute(sql7)
+        result7 = cursor.fetchall()
+        row = result7[0]
+        result_user.append(row[0])
+        sql8 = 'select state from ' + table_name8 + ' where student_id = ' + str(uid) + ' and module_type = \'problem\';'
+        cursor.execute(sql8)
+        result8 = cursor.fetchall()
+        attempts = sum(map(lambda x: x['attempts'] if 'attempts' in x else 0, map(lambda x: json_wrapper.loads(x[0]), result8)))
+        result_user.append(attempts)
         for x in result_user:
             if x < 0:
                 print uid
