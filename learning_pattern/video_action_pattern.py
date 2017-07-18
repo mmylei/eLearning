@@ -23,7 +23,11 @@ terms = [
 
 def get_attempts(json):
     json = json.replace('\\\\\\\\', '\\')
-    temp = json_wrapper.loads(json)
+    try:
+        temp = json_wrapper.loads(json)
+    except Exception:
+        print json
+        raise
     if 'attempts' in temp:
         return temp['attempts']
     else:
