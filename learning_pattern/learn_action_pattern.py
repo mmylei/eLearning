@@ -160,7 +160,7 @@ if __name__ == '__main__':
     feature_importance = []
     for i in range(len(data['X'][0])):
         feature_importance.append((i, model.feature_importances_[i]))
-    sorted(feature_importance, key=lambda x: x[1], reverse=True)
+    feature_importance.sort(key=lambda x: x[1], reverse=True)
     print feature_importance
     # logger.info('test combined classifier')
     # Y_predict = []
