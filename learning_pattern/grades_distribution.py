@@ -1,6 +1,8 @@
 import numpy as np
 import MySQLdb
 import random
+import matplotlib
+matplotlib.use('agg')
 from matplotlib import pyplot as plt
 
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
@@ -11,5 +13,5 @@ data = cursor.fetchall()
 grade = map(lambda x: x[1], data)
 plt.hist(grade, bins=[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
 plt.title("grades distribution")
-plt.show()
+# plt.show()
 plt.savefig('grades_distribution.png', dpi=120)
