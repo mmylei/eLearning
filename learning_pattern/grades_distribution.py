@@ -10,7 +10,7 @@ sql = 'select user_id, grade from 102_1x_4T2015_certificates_generatedcertificat
 cursor = conn.cursor()
 cursor.execute(sql)
 data = cursor.fetchall()
-grade = map(lambda x: x[1]*100, data)
+grade = map(lambda x: float(x[1]*100), data)
 plt.hist(grade, bins=[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
 plt.title("grades distribution")
 # plt.show()
