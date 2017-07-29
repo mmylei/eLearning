@@ -37,14 +37,19 @@ def get_users(conn, term):
     result = cursor.fetchall()
     return map(lambda x: x[0], result)
 
+
 def mean(play_piece):
     total = sum(map(lambda x: x[0] * x[1], play_piece))
     length = sum(map(lambda x: x[0], play_piece))
+    if total == 0:
+        return 0
     return length / total
 
 
 def std(play_piece):
     m = mean(play_piece)
+    if m == 0:
+        return 0
     length = sum(map(lambda x: x[0], play_piece))
     return math.sqrt(sum(map(lambda x: (x[1] - m) * (x[1] - m) * x[0], play_piece)) / length)
 
@@ -62,12 +67,7 @@ def get_weekly_grades(cursor, term, uid):
         cursor.execute('select aggregated_category from ' + table_name2 + ' where xml_id=\'' + xml_id + '\';')
         temp1 = cursor.fetchall()
         if len(temp1) > 0:
-            try:
-                result.append([row[0], row[1], row[2], row[3], temp1[0][0]])
-            except Exception:
-                print row
-                print temp1
-                raise
+            result.append([row[0], row[1], row[2], row[3], temp1[0][0]])
     return result
 
 
