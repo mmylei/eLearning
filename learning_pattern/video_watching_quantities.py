@@ -55,11 +55,12 @@ def get_weekly_grades(cursor, term, uid):
     sql = 'select state, grade, max_grade, module_id from ' + table_name1 + ' where student_id = ' + str(
         uid) + ' and module_type = \'problem\';'
     cursor.execute(sql)
-    result = cursor.fetchall()
-    for row in result:
+    temp = cursor.fetchall()
+    result = []
+    for row in temp:
         xml_id = row[3].split('@')[-1]
         cursor.execute('select aggregated_category from ' + table_name2 + ' where xml_id=\'' + xml_id + '\';')
-        row.append(cursor.fetchall()[0][0])
+        result.append([row[0], row[1], row[2], row[3], cursor.fetchall()[0][0]])
     return result
 
 
