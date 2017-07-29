@@ -58,7 +58,7 @@ def get_weekly_grades(cursor, term, uid):
     table_name1 = (term + '_courseware_studentmodule').replace('-', '_').replace('.', '_')
     table_name2 = ('HKUSTx-COMP' + term + '_problem_set').replace('-', '_').replace('.', '_')
     sql = 'select state, grade, max_grade, module_id from ' + table_name1 + ' where student_id = ' + str(
-        uid) + ' and module_type = \'problem\';'
+        uid) + ' and module_type = \'problem\' and grade is not NULL;'
     cursor.execute(sql)
     temp = cursor.fetchall()
     result = []
