@@ -60,7 +60,9 @@ def get_weekly_grades(cursor, term, uid):
     for row in temp:
         xml_id = row[3].split('@')[-1]
         cursor.execute('select aggregated_category from ' + table_name2 + ' where xml_id=\'' + xml_id + '\';')
-        result.append([row[0], row[1], row[2], row[3], cursor.fetchall()[0][0]])
+        temp1 = cursor.fetchall()
+        if len(temp1) > 0:
+            result.append([row[0], row[1], row[2], row[3], cursor.fetchall()[0][0]])
     return result
 
 
