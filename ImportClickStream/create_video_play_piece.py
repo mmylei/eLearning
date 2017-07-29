@@ -72,9 +72,9 @@ if __name__ == '__main__':
                            ' WHERE user_id=' + str(user_id) + ' order by event_time;')
             result_user = cursor.fetchall()
             playing = {}
-            event_start = {}
-            temporary = {}
-            temporary_time = {}
+            event_start_time = {}
+            temporary_playing = {}
+            temporary_event_stop_time = {}
             current_session = None
             for row_user in result_user:
                 video_id = row_user[0]
@@ -84,15 +84,15 @@ if __name__ == '__main__':
                 session = row_user[6]
                 if session is not None and session != current_session:
                     # make up plays without `stop` or `pause` event
-                    for video_id in temporary:
+                    for video_id in temporary_playing:
                         cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s, 0);',
-                                       [current_session, user_id, video_id, playing[video_id], temporary[video_id],
-                                        event_start[video_id],
-                                        temporary_time[video_id]])
+                                       [current_session, user_id, video_id, playing[video_id], temporary_playing[video_id],
+                                        event_start_time[video_id],
+                                        temporary_event_stop_time[video_id]])
                     playing = {}
-                    event_start = {}
-                    temporary = {}
-                    temporary_time = {}
+                    event_start_time = {}
+                    temporary_playing = {}
+                    temporary_event_stop_time = {}
                     current_session = session
                 event_time = row_user[7]
                 if row_user[2] is not None:
@@ -102,7 +102,7 @@ if __name__ == '__main__':
                 if event_type == 'play_video' and current_time is not None:
                     # if video_id not in playing:
                     playing[video_id] = current_time
-                    event_start[video_id] = event_time
+                    event_start_time[video_id] = event_time
                     # else:
                     #     temporary[video_id] = current_time
                     #     temporary_time[video_id] = event_time
@@ -110,24 +110,24 @@ if __name__ == '__main__':
                     if video_id in playing:
                         finished = 1 if event_type == 'stop_video' else 0
                         cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s, %s);',
-                                       [session, user_id, video_id, playing[video_id], current_time, event_start[video_id], event_time, finished])
+                                       [session, user_id, video_id, playing[video_id], current_time, event_start_time[video_id], event_time, finished])
                         del playing[video_id]
-                        del event_start[video_id]
-                        if video_id in temporary:
-                            del temporary[video_id]
+                        del event_start_time[video_id]
+                        if video_id in temporary_playing:
+                            del temporary_playing[video_id]
                 elif event_type == 'seek_video':
                     if video_id in playing and row_user[3] is not None:
                         old_time = float(row_user[3])
                         cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s, 0);',
-                                       [session, user_id, video_id, playing[video_id], old_time, event_start[video_id], event_time])
-                        if video_id in temporary:
-                            del temporary[video_id]
+                                       [session, user_id, video_id, playing[video_id], old_time, event_start_time[video_id], event_time])
+                        if video_id in temporary_playing:
+                            del temporary_playing[video_id]
                             del playing[video_id]
-                    elif video_id in playing and video_id in temporary:
+                    elif video_id in playing and video_id in temporary_playing:
                         cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s, 0);',
-                                       [current_session, user_id, video_id, playing[video_id], temporary[video_id], event_start[video_id],
-                                        temporary_time[video_id]])
-                        del temporary[video_id]
+                                       [current_session, user_id, video_id, playing[video_id], temporary_playing[video_id], event_start_time[video_id],
+                                        temporary_event_stop_time[video_id]])
+                        del temporary_playing[video_id]
                         del playing[video_id]
                     elif video_id in playing:
                         del playing[video_id]
@@ -135,7 +135,7 @@ if __name__ == '__main__':
                     if row_user[4] is not None:
                         new_time = float(row_user[4])
                         playing[video_id] = new_time
-                        event_start[video_id] = event_time
+                        event_start_time[video_id] = event_time
                 # elif event_type == 'save_user_state' and row_user[5] is not None:
                 #     if video_id not in playing:
                 #         playing[video_id] = float(row_user[5])
@@ -145,9 +145,9 @@ if __name__ == '__main__':
                 #         temporary_time[video_id] = event_time
 
             # make up plays without `stop` or `pause` event
-            for video_id in temporary:
+            for video_id in temporary_playing:
                 cursor.execute('INSERT INTO ' + table_name2 + ' VALUES(%s, %s, %s, %s, %s, %s, %s, 0);',
-                               [current_session, user_id, video_id, playing[video_id], temporary[video_id], event_start[video_id],
-                                temporary_time[video_id]])
+                               [current_session, user_id, video_id, playing[video_id], temporary_playing[video_id], event_start_time[video_id],
+                                temporary_event_stop_time[video_id]])
 
             conn.commit()
