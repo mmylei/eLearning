@@ -84,9 +84,15 @@ def get_features(conn, term, users):
     # table_name6 = ('HKUSTx-COMP' + term + '_problem_set').replace('-', '_').replace('.', '_')
     # table_name7 = (term + '_commentthread').replace('-', '_').replace('.', '_')
     # table_name11 = (term + '_courseware_studentmodule').replace('-', '_').replace('.', '_')
+    print 'num of users:', len(users)
+    print 'num of videos:', len(result1)
+    total_pairs = len(users) * len(result1)
+    processed_count = 0
     for uid in users:
         weekly_grades = get_weekly_grades(cursor, term, uid)
         for row in result1:
+            processed_count += 1
+            print 'progress:', processed_count, '/', total_pairs
             video_id = row[0]
             duration = math.ceil(float(row[2]))
             module_number = row[3]
