@@ -159,9 +159,9 @@ def get_features(conn, term, users):
                         pause_time = None
                     if session is not None:
                         if event_type == 'pause_video':
-                            pause_time = row_user[6]
+                            pause_time = float(row_user[6])
                         if event_type == 'play_video' and pause_time is not None:
-                            pause_length += row_user[6] - pause_time
+                            pause_length += float(row_user[6]) - pause_time
                             pause_time = None
             result_user_video.append(pause_length / duration)
 
