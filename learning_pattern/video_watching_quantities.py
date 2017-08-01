@@ -92,7 +92,8 @@ def get_features(conn, term, users):
         weekly_grades = get_weekly_grades(cursor, term, uid)
         for row in result1:
             processed_count += 1
-            print 'progress:', processed_count, '/', total_pairs
+            if processed_count == total_pairs or processed_count % 1000 == 0:
+                print 'progress:', processed_count, '/', total_pairs
             video_id = row[0]
             duration = math.ceil(float(row[2]))
             module_number = row[3]
