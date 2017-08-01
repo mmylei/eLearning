@@ -143,7 +143,7 @@ def get_features(conn, term, users):
                 result_user_video.append(result5[0][0])
 
             cursor.execute(
-                'SELECT event_type, `current_time`, old_time, new_time, saved_video_position, `session`, FROM_UNIXTIME(event_time)'
+                'SELECT event_type, `current_time`, old_time, new_time, saved_video_position, `session`, UNIX_TIMESTAMP(event_time)'
                 ' FROM clickstream.' + table_name5 +
                 ' WHERE user_id=' + str(uid) + ' and video_id=\'' + video_id + '\' order by event_time;')
             result6 = cursor.fetchall()
