@@ -16,6 +16,7 @@ terms = [
     # '102x-2T2014',
     ]
 
+
 def get_attempts(json):
     json = json.replace('\\\\', '\\')
     try:
@@ -67,7 +68,7 @@ def get_weekly_grades(cursor, term, uid):
         cursor.execute('select aggregated_category from ' + table_name2 + ' where xml_id=\'' + xml_id + '\';')
         temp1 = cursor.fetchall()
         if len(temp1) > 0:
-            result.append([row[0], row[1], row[2], row[3], temp1[0][0]])
+            result.append([row[0], float(row[1]), float(row[2]), row[3], temp1[0][0]])
     return result
 
 
@@ -229,7 +230,8 @@ def get_features(conn, term, users):
             result_user_video.append(attempts)
 
             grade = sum(map(lambda x: x[1], current_week_grades))
-            result_user_video.append(grade)
+            max_grade = sum(map(lambda x: x[2], current_week_grades))
+            result_user_video.append(grade / max_grade)
             features.append(result_user_video)
     return features
 
