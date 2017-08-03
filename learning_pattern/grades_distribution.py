@@ -44,7 +44,7 @@ def grades_by_week(weekly_grades, week_number):
 def sum_by_user(grades):
     grade = {}
     for row in grades:
-        uid = grades[3]
+        uid = row[3]
         if uid not in grade:
             grade[uid] = [0, 0]
         grade[uid][0] += row[0]
