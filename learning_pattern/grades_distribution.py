@@ -53,10 +53,12 @@ def sum_by_user(grades):
 
 
 def draw(grades, week_number):
+    plt.figure()
     plt.hist(grades, bins=10)
     plt.title("grades distribution")
     # plt.show()
     plt.savefig('week' + str(week_number) + '_grades_distribution.png', dpi=120)
+
 
 if __name__ == '__main__':
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
