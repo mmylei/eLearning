@@ -91,6 +91,7 @@ if __name__ == '__main__':
     X, columns = load_data()
     feature_length = len(columns)
     draw_correlation_figure(X, columns)
-    Y = X[:, len(columns)-1]  # grade (last column)
-    X = X[:, range(1, len(columns)-1)]  # except module_number (first column) and grade (last column)
+    indices = np.where(X[:, 0] == 1)[0]  # only keep week 1 data
+    Y = X[indices, len(columns)-1]  # grade (last column)
+    X = X[indices, range(1, len(columns)-1)]  # except module_number (first column) and grade (last column)
     regression(X, Y, RandomForestRegressor())
