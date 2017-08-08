@@ -231,6 +231,8 @@ def get_features(conn, term, users):
 
             grade = sum(map(lambda x: x[1], current_week_grades))
             max_grade = sum(map(lambda x: x[2], current_week_grades))
+            result_user_video.append(grade)
+            result_user_video.append(max_grade)
             if max_grade == 0:
                 result_user_video.append(0)
             else:
