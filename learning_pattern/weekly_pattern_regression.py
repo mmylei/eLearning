@@ -92,12 +92,12 @@ def regression(X, Y, model=RandomForestRegressor()):
 
 
 if __name__ == '__main__':
-    X, columns = load_data()
+    features, columns = load_data()
     feature_length = len(columns)
-    draw_correlation_figure(X, columns)
+    draw_correlation_figure(features, columns)
     for week_number in range(1, 6):
         print '-------------- week', week_number, '--------------'
-        indices = np.where(X[:, 0] == week_number)[0]  # only keep week 1 data
-        Y = X[indices, :][:, len(columns)-3]  # grade (last column)
-        X = X[indices, :][:, range(1, len(columns)-3)]  # except module_number (first column) and grade (last column)
+        indices = np.where(features[:, 0] == week_number)[0]  # only keep week 1 data
+        Y = features[indices, :][:, len(columns)-3]  # grade (last column)
+        X = features[indices, :][:, range(1, len(columns)-3)]  # except module_number (first column) and grade (last column)
         regression(X, Y, RandomForestRegressor())
