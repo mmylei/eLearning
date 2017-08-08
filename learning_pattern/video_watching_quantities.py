@@ -244,8 +244,8 @@ def get_features(conn, term, users):
 
 def reset_feature_column():
     data = np.load('weekly_quantities_data.npz')
-    data['columns'] = np.array(['module_number', 'real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts', 'grade', 'max_grade', 'normalized_grade'], dtype=np.str)
-    np.savez('weekly_quantities_data', **data)
+    columns = np.array(['module_number', 'real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts', 'grade', 'max_grade', 'normalized_grade'], dtype=np.str)
+    np.savez('weekly_quantities_data', **{'features': data['features'], 'columns': columns})
 
 if __name__ == '__main__':
     if len(sys.argv) == 2 and sys.argv[1] == 'setcolumn':
