@@ -1,3 +1,4 @@
+import sys
 import MySQLdb
 import math
 import json_wrapper
@@ -240,16 +241,26 @@ def get_features(conn, term, users):
             features.append(result_user_video)
     return features
 
-conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
-all_users = []
-all_features = []
-all_grades = []
-for term in terms:
-    users = get_users(conn, term)
-    features = get_features(conn, term, users)
-    all_users.extend(users)
-    all_features.extend(features)
 
-all_features = np.array(all_features, dtype=np.float32)
-columns = np.array(['module_number', 'real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts', 'grade'], dtype=np.str)
-np.savez('weekly_quantities_data', **{'features': all_features, 'columns': columns})
+def reset_feature_column():
+    data = np.load('weekly_quantities_data.npz')
+    data['columns'] = np.array(['module_number', 'real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts', 'grade', 'max_grade', 'normalized_grade'], dtype=np.str)
+    np.savez('weekly_quantities_data', **data)
+
+if __name__ == '__main__':
+    if len(sys.argv) == 2 and sys.argv[1] == 'setcolumn':
+        reset_feature_column()
+        exit()
+    conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
+    all_users = []
+    all_features = []
+    all_grades = []
+    for term in terms:
+        users = get_users(conn, term)
+        features = get_features(conn, term, users)
+        all_users.extend(users)
+        all_features.extend(features)
+
+    all_features = np.array(all_features, dtype=np.float32)
+    columns = np.array(['module_number', 'real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts', 'grade', 'max_grade', 'normalized_grade'], dtype=np.str)
+    np.savez('weekly_quantities_data', **{'features': all_features, 'columns': columns})
