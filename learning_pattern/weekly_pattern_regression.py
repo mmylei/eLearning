@@ -103,7 +103,7 @@ if __name__ == '__main__':
         # indices = np.where(features[:, 0] == week_number)[0]  # only keep week 1 data
         # Y = features[indices, :][:, len(columns)-3]  # grade (last column)
         # X = features[indices, :][:, range(1, len(columns)-3)]  # except module_number (first column) and grade (last column)
-        week_df = df[df.week_number == week_number]
+        week_df = df[df.module_number == week_number]
         Y = week_df['grade'].values
         X = week_df.groupby('uid')\
             .agg({'real_spent': 'sum', 'coverage': 'sum', 'watched': 'sum', 'pauses': 'sum',
