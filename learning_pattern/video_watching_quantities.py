@@ -240,6 +240,8 @@ def get_features(conn, term, users):
             else:
                 result_user_video.append(grade / max_grade)
             features.append(tuple(result_user_video))
+            if len(features) > 1000:
+                break
     return features
 
 
@@ -261,9 +263,11 @@ if __name__ == '__main__':
         features = get_features(conn, term, users)
         all_users.extend(users)
         all_features.extend(features)
-    dt = [('uid', 'i32'), ('vid', 'S64'), ('module_number', 'i32'), ('real_spent', 'f32'), ('coverage', 'f32'), ('watched', 'f32'), ('pauses', 'f32'),
-          ('pause_length', 'f32'), ('avg_speed', 'f32'), ('std_speed', 'f32'), ('seek_backward', 'f32'), ('seek_forward', 'f32'), ('attempts', 'f32'),
-          ('grade', 'f32'), ('max_grade', 'f32'), ('normalized_grade', 'f32')]
+    dt = [('uid', np.int32), ('vid', 'S64'), ('module_number', np.int32), ('real_spent', np.float32),
+          ('coverage', np.float32), ('watched', np.float32), ('pauses', np.float32), ('pause_length', np.float32),
+          ('avg_speed', np.float32), ('std_speed', np.float32), ('seek_backward', np.float32),
+          ('seek_forward', np.float32), ('attempts', np.float32), ('grade', np.float32), ('max_grade', np.float32),
+          ('normalized_grade', np.float32)]
     all_features = np.array(all_features, dtype=dt)
     feature_df = pd.DataFrame(all_features)
     feature_df.to_csv('weekly_quantities')
