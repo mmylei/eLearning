@@ -27,7 +27,7 @@ logger.setLevel(logging.INFO)
 def load_data():
     logger.info('loading csv data')
     # data = np.load('weekly_quantities_data.npz')
-    data = pd.read_csv('weekly_quantities')
+    data = pd.read_csv('weekly_quantities.csv')
     # X = data['features']
     # column_names = data['columns']
     # return X, column_names

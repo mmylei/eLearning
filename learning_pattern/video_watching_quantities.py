@@ -240,8 +240,6 @@ def get_features(conn, term, users):
             else:
                 result_user_video.append(grade / max_grade)
             features.append(tuple(result_user_video))
-            if len(features) > 1000:
-                break
     return features
 
 
@@ -270,6 +268,6 @@ if __name__ == '__main__':
           ('normalized_grade', np.float32)]
     all_features = np.array(all_features, dtype=dt)
     feature_df = pd.DataFrame(all_features)
-    feature_df.to_csv('weekly_quantities')
+    feature_df.to_csv('weekly_quantities.csv')
     #columns = np.array(['module_number', 'real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts', 'grade', 'max_grade', 'normalized_grade'], dtype=np.str)
     #np.savez('weekly_quantities_data', **{'features': all_features, 'columns': columns})
