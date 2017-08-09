@@ -104,12 +104,11 @@ if __name__ == '__main__':
         # Y = features[indices, :][:, len(columns)-3]  # grade (last column)
         # X = features[indices, :][:, range(1, len(columns)-3)]  # except module_number (first column) and grade (last column)
         week_df = df[df.module_number == week_number]
-        Y = week_df.groupby('uid').agg({'grade': 'max'}).reset_index().values
-        print Y[:10]
+        Y = week_df.groupby('uid').agg({'grade': 'max'}).reset_index()['grade'].values
         X = week_df.groupby('uid')\
             .agg({'real_spent': 'sum', 'coverage': 'sum', 'watched': 'sum', 'pauses': 'sum',
                                         'pause_length': 'sum', 'avg_speed': 'sum', 'std_speed': 'sum',
                                         'seek_backward': 'sum', 'seek_forward': 'sum'})\
-            .reset_index().values
-        print X[:10]
+            .reset_index()['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']\
+            .values
         regression(X, Y, RandomForestRegressor())
