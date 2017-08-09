@@ -25,25 +25,27 @@ logger.setLevel(logging.INFO)
 
 
 def load_data():
-    logger.info('loading npz data')
-    data = np.load('weekly_quantities_data.npz')
-    X = data['features']
-    column_names = data['columns']
-    return X, column_names
+    logger.info('loading csv data')
+    # data = np.load('weekly_quantities_data.npz')
+    data = pd.read_csv('weekly_quantities')
+    # X = data['features']
+    # column_names = data['columns']
+    # return X, column_names
+    return data
 
 
-def draw_correlation_figure(X, columns):
-    df = pd.DataFrame(data=X, columns=columns)
+def draw_correlation_figure(df):
+    # df = pd.DataFrame(data=X, columns=columns)
     correlations = df.corr()
     fig = plt.figure()
     ax = fig.add_subplot(111)
     cax = ax.matshow(correlations, vmin=-1, vmax=1)
     fig.colorbar(cax)
-    ticks = np.arange(0, feature_length, 1)
+    ticks = np.arange(0, len(df.columns), 1)
     ax.set_xticks(ticks)
     ax.set_yticks(ticks)
-    ax.set_xticklabels(columns)
-    ax.set_yticklabels(columns)
+    ax.set_xticklabels(list(df.columns))
+    ax.set_yticklabels(list(df.columns))
     savefig('./correlation.png', bbox_inches='tight')
 
 
@@ -92,12 +94,20 @@ def regression(X, Y, model=RandomForestRegressor()):
 
 
 if __name__ == '__main__':
-    features, columns = load_data()
-    feature_length = len(columns)
-    draw_correlation_figure(features, columns)
+    df = load_data()
+    # feature_length = len(columns)
+    # columns = ['uid', 'vid', 'module_number', 'real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts', 'grade', 'max_grade', 'normalized_grade']
+    draw_correlation_figure(df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'grade']])
     for week_number in range(1, 6):
         print '-------------- week', week_number, '--------------'
-        indices = np.where(features[:, 0] == week_number)[0]  # only keep week 1 data
-        Y = features[indices, :][:, len(columns)-3]  # grade (last column)
-        X = features[indices, :][:, range(1, len(columns)-3)]  # except module_number (first column) and grade (last column)
+        # indices = np.where(features[:, 0] == week_number)[0]  # only keep week 1 data
+        # Y = features[indices, :][:, len(columns)-3]  # grade (last column)
+        # X = features[indices, :][:, range(1, len(columns)-3)]  # except module_number (first column) and grade (last column)
+        week_df = df[df.week_number == week_number]
+        Y = week_df['grade'].values
+        X = week_df.groupby('uid')\
+            .agg({'real_spent': 'sum', 'coverage': 'sum', 'watched': 'sum', 'pauses': 'sum',
+                                        'pause_length': 'sum', 'avg_speed': 'sum', 'std_speed': 'sum',
+                                        'seek_backward': 'sum', 'seek_forward': 'sum'})\
+            .reset_index().values
         regression(X, Y, RandomForestRegressor())

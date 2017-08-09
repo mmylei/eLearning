@@ -3,6 +3,7 @@ import MySQLdb
 import math
 import json_wrapper
 import numpy as np
+import pandas as pd
 
 terms = [
     # java
@@ -99,7 +100,7 @@ def get_features(conn, term, users):
             video_id = row[0]
             duration = math.ceil(float(row[2]))
             module_number = row[3]
-            result_user_video = [module_number]
+            result_user_video = [uid, video_id, module_number]
 
             sql2 = 'select sum(TIMESTAMPDIFF(SECOND, real_time_start, real_time_end)) as real_watched_duration ' \
                ' from clickstream.' + table_name2 + \
@@ -238,7 +239,7 @@ def get_features(conn, term, users):
                 result_user_video.append(0)
             else:
                 result_user_video.append(grade / max_grade)
-            features.append(result_user_video)
+            features.append(tuple(result_user_video))
     return features
 
 
@@ -260,7 +261,11 @@ if __name__ == '__main__':
         features = get_features(conn, term, users)
         all_users.extend(users)
         all_features.extend(features)
-
-    all_features = np.array(all_features, dtype=np.float32)
-    columns = np.array(['module_number', 'real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts', 'grade', 'max_grade', 'normalized_grade'], dtype=np.str)
-    np.savez('weekly_quantities_data', **{'features': all_features, 'columns': columns})
+    dt = [('uid', 'i32'), ('vid', 'S64'), ('module_number', 'i32'), ('real_spent', 'f32'), ('coverage', 'f32'), ('watched', 'f32'), ('pauses', 'f32'),
+          ('pause_length', 'f32'), ('avg_speed', 'f32'), ('std_speed', 'f32'), ('seek_backward', 'f32'), ('seek_forward', 'f32'), ('attempts', 'f32'),
+          ('grade', 'f32'), ('max_grade', 'f32'), ('normalized_grade', 'f32')]
+    all_features = np.array(all_features, dtype=dt)
+    feature_df = pd.DataFrame(all_features)
+    feature_df.to_csv('weekly_quantities')
+    #columns = np.array(['module_number', 'real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts', 'grade', 'max_grade', 'normalized_grade'], dtype=np.str)
+    #np.savez('weekly_quantities_data', **{'features': all_features, 'columns': columns})
