@@ -78,6 +78,7 @@ def regression(X, Y, model=RandomForestRegressor()):
 
         Y_predict = model.predict(X_test)
         error = mean_squared_error(Y_test, Y_predict)
+        print 'absolute error:', np.sort(np.fabs(Y_predict-Y_test))
         logger.info('fold: ' + str(fold) + ', test error: ' + str(error))
 
         test_error += error
