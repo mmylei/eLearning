@@ -108,7 +108,7 @@ if __name__ == '__main__':
         X = week_df.groupby('uid')\
             .agg({'real_spent': 'sum', 'coverage': 'sum', 'watched': 'sum', 'pauses': 'sum',
                                         'pause_length': 'sum', 'avg_speed': 'sum', 'std_speed': 'sum',
-                                        'seek_backward': 'sum', 'seek_forward': 'sum'})\
-            .reset_index()[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']]\
+                                        'seek_backward': 'sum', 'seek_forward': 'sum', 'attempts': 'max'})\
+            .reset_index()[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts']]\
             .values
         regression(X, Y, RandomForestRegressor())
