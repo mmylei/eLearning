@@ -54,7 +54,9 @@ def sum_by_user(grades):
 
 def draw(grades, week_number):
     plt.figure()
-    plt.hist(grades, bins=10, normed=True)
+    x, bins, p = plt.hist(grades, bins=10, normed=True)
+    for item in p:
+        item.set_height(item.get_height() / sum(x))
     plt.title("grades distribution")
     # plt.show()
     plt.savefig('week' + str(week_number) + '_normalized_grades_distribution.png', dpi=120)
