@@ -49,7 +49,7 @@ def sum_by_user(grades):
             grade[uid] = [0, 0]
         grade[uid][0] += row[0]
         grade[uid][1] += row[1]
-    return [grade[x][0] / grade[x][1] for x in grade]
+    return [grade[x][0] for x in grade]
 
 
 def draw(grades, week_number):
