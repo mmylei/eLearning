@@ -119,7 +119,7 @@ if __name__ == '__main__':
                                         'pause_length': 'sum', 'avg_speed': 'sum', 'std_speed': 'sum',
                                         'seek_backward': 'sum', 'seek_forward': 'sum', 'attempts': 'max', 'grade': 'max'})\
             .reset_index()
-        Y = week_df['grade'].values
+        # Y = week_df['grade'].values
         X = week_df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']]\
             .values
         regression(X, Y, RandomForestRegressor())
