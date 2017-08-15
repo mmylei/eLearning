@@ -39,7 +39,7 @@ def get_video_duration(conn):
     cursor.execute(sql)
     result = cursor.fetchall()
     dt = [('vid', 'S64'), ('video_duration', np.float32)]
-    video_info = np.array(result, dtype=dt)
+    video_info = np.array(list(result), dtype=dt)
     video_info_df = pd.DataFrame(video_info)
     all_features = pd.read_csv('weekly_quantities.csv')
     new_features = all_features.join(video_info_df.set_index('vid'), on='vid')
@@ -254,6 +254,7 @@ def get_features(conn, term, users):
             else:
                 result_user_video.append(grade / max_grade)
             features.append(tuple(result_user_video))
+            features.append(duration)
     return features
 
 
@@ -282,7 +283,7 @@ if __name__ == '__main__':
           ('coverage', np.float32), ('watched', np.float32), ('pauses', np.float32), ('pause_length', np.float32),
           ('avg_speed', np.float32), ('std_speed', np.float32), ('seek_backward', np.float32),
           ('seek_forward', np.float32), ('attempts', np.float32), ('grade', np.float32), ('max_grade', np.float32),
-          ('normalized_grade', np.float32)]
+          ('normalized_grade', np.float32), ('video_duration', np.float32)]
     all_features = np.array(all_features, dtype=dt)
     feature_df = pd.DataFrame(all_features)
     feature_df.to_csv('weekly_quantities.csv')

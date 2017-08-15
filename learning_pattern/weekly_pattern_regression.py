@@ -36,6 +36,15 @@ def load_data():
     return data
 
 
+def drop_all_0_row(df):
+    return df[(df.T != 0).any()]
+
+
+def drop_long_real_spent_row(df):
+    week_df = df[df.real_spent <= 10]
+    return week_df
+
+
 def draw_correlation_figure(df):
     # df = pd.DataFrame(data=X, columns=columns)
     correlations = df.corr()
@@ -119,6 +128,7 @@ if __name__ == '__main__':
                                         'pause_length': 'sum', 'avg_speed': 'sum', 'std_speed': 'sum',
                                         'seek_backward': 'sum', 'seek_forward': 'sum', 'attempts': 'max', 'grade': 'max'})\
             .reset_index()
+        week_df = drop_all_0_row(week_df)
         Y = week_df['grade'].values
         X = week_df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']]\
             .values
