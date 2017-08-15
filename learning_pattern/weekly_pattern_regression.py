@@ -131,6 +131,6 @@ if __name__ == '__main__':
         week_df = drop_all_0_row(week_df)
         week_df = drop_long_real_spent_row(week_df)
         Y = week_df['grade'].values
-        X = week_df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']]\
+        X = week_df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts']]\
             .values
         regression(X, Y, RandomForestRegressor())
