@@ -32,6 +32,20 @@ def get_attempts(json):
         return 0
 
 
+def get_video_duration(conn):
+    table_name = 'Video_Basic_Info'
+    sql = 'select video_id, duration from ' + table_name + ' where term_id = \'COMP102_1x\';'
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    dt = [('vid', 'S64'), ('video_duration', np.float32)]
+    video_info = np.array(result, dtype=dt)
+    video_info_df = pd.DataFrame(video_info)
+    all_features = pd.read_csv('weekly_quantities.csv')
+    new_features = all_features.join(video_info_df.set_index('vid'), on='vid')
+    new_features.to_csv('new_weekly_quantities.csv')
+
+
 def get_users(conn, term):
     table_name1 = (term + '_courseware_studentmodule').replace('-', '_').replace('.', '_')
     sql = 'select distinct student_id from ' + table_name1 + ';'
@@ -253,6 +267,9 @@ if __name__ == '__main__':
         reset_feature_column()
         exit()
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
+    if len(sys.argv) == 2 and sys.argv[1] == 'setduration':
+        get_video_duration(conn)
+        exit()
     all_users = []
     all_features = []
     all_grades = []
