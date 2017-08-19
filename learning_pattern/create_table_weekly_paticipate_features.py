@@ -41,7 +41,7 @@ def get_weekly_participate(conn, term, users):
         for row in result1:
             for module_num in range(1, 6):
                 if row[1] == module_num:
-                    sql2 = 'select coverage, is_finished, is_covered from clickstream.' + table_name3 + ' where user_id = ' + str(uid) + ' and video_id= ' + row[0] + ';'
+                    sql2 = 'select coverage, is_finished, is_covered from clickstream.' + table_name3 + ' where user_id = ' + str(uid) + ' and video_id= \'' + row[0] + '\';'
                     cursor.execute(sql2)
                     result2 = cursor.fetchall()
                     video[module_num-1] += 1
