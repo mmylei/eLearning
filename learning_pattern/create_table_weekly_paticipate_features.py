@@ -93,7 +93,7 @@ def get_weekly_participate(conn, term, users):
         sql6 = 'select user_id, status from ' + table_name5 + ' where user_id = ' + str(uid) + ';'
         cursor.execute(sql6)
         result6 = cursor.fetchall()
-        if len(result6) > 0:
+        if len(result6) == 0:
             passed = -1
         elif result6[0][1] == 'downloadable':
             passed = 1
