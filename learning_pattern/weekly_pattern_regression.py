@@ -91,13 +91,14 @@ def regression(X, Y, model=RandomForestRegressor()):
         error = mean_squared_error(Y_test, Y_predict)
         logger.info('fold: ' + str(fold) + ', test error: ' + str(error))
 
-        # uids = week_df['uid'].values[test_index]
-        # full_info = np.dstack([uids, Y_test, Y_predict, np.fabs(Y_predict-Y_test)])[0]
-        # order = full_info[:, 3].argsort()
-        # full_info = full_info[order][[1, 2, 3, 4, 5, -5, -4, -3, -2, -1]]
-        # #print 'absolute error:', full_info
-        # for x in full_info:
-        #     print int(x[0]), x[1], x[2], x[3]
+        uids = week_df['uid'].values[test_index]
+        full_info = np.dstack([uids, Y_test, Y_predict, np.fabs(Y_predict-Y_test)])[0]
+        order = full_info[:, 3].argsort()
+        full_info = full_info[order][[1, 2, 3, 4, 5, -5, -4, -3, -2, -1]]
+        #print 'absolute error:', full_info
+        for x in full_info:
+            print int(x[0]), x[1], x[2], x[3]
+            print 'features: ', week_df[week_df.uid == int(x[0])]
 
         test_error += error
 
