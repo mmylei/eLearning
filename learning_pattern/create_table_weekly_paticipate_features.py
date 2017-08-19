@@ -139,7 +139,7 @@ if __name__ == '__main__':
         # 'COMP102.2x-4T2015',
         # 'COMP102x-2T2014',
     ]
-    conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
+    conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
     for term in terms:
         users = get_users(conn, term)
         get_weekly_participate(conn, term, users)
