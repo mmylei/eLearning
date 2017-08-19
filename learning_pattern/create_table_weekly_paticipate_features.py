@@ -117,11 +117,11 @@ def create_table(conn, table):
     c.execute("DROP TABLE IF EXISTS " + table + ";")
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
-              "(user_id int, m01_video int, m01_assignment decimal(32,5)), m01_lab decimal(32,5), m01_comment int, m01_commentthread int,"
-              "m02_video int, m02_assignment decimal(32,5), m02_lab decimal(32,5), m02_comment int, m02_commentthread int,"
-              "m03_video int, m03_assignment decimal(32,5), m03_lab decimal(32,5), m03_comment int, m03_commentthread int,"
-              "m04_video int, m04_assignment decimal(32,5), m04_lab decimal(32,5), m04_comment int, m04_commentthread int,"
-              "m05_video int, m05_assignment decimal(32,5), m05_lab decimal(32,5), m05_comment int, m05_commentthread int,"
+              "(user_id int, m01_video int, m01_assignment decimal(6,3), m01_lab decimal(6,3), m01_comment int, m01_commentthread int,"
+              "m02_video int, m02_assignment decimal(6,3), m02_lab decimal(6,3), m02_comment int, m02_commentthread int,"
+              "m03_video int, m03_assignment decimal(6,3), m03_lab decimal(6,3), m03_comment int, m03_commentthread int,"
+              "m04_video int, m04_assignment decimal(6,3), m04_lab decimal(6,3), m04_comment int, m04_commentthread int,"
+              "m05_video int, m05_assignment decimal(6,3), m05_lab decimal(6,3), m05_comment int, m05_commentthread int,"
               "final decimal(32,5), passed tinyint(2), m01_watched varchar(16), m02_watched varchar(16),"
               "m03_watched varchar(16), m04_watched varchar(16), m05_watched varchar(16));")
     conn.commit()
