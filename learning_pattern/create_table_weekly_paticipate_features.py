@@ -86,14 +86,14 @@ def get_weekly_participate(conn, term, users):
         sql5 = 'select student_id, aggregated_category, grade from ' + table_name4 + ' where student_id = ' + str(uid) + ' and aggregated_category = \'Exam\';'
         cursor.execute(sql5)
         result5 = cursor.fetchall()
-        if result5[0][0] is not None:
+        if len(result5) > 0:
             final = result5[0][2]
         else:
             final = -1
         sql6 = 'select user_id, status from ' + table_name5 + ' where user_id = ' + str(uid) + ';'
         cursor.execute(sql6)
         result6 = cursor.fetchall()
-        if result6[0][0] is None:
+        if len(result6) > 0:
             passed = -1
         elif result6[0][1] == 'downloadable':
             passed = 1
