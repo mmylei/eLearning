@@ -142,5 +142,6 @@ if __name__ == '__main__':
     ]
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
     for term in terms:
+        create_table(conn, 'weekly_participate_features')
         users = get_users(conn, term)
         get_weekly_participate(conn, term, users)
