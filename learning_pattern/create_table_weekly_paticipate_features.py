@@ -44,28 +44,29 @@ def get_weekly_participate(conn, term, users):
                     sql2 = 'select coverage, is_finished, is_covered from clickstream.' + table_name3 + ' where user_id = ' + str(uid) + ' and video_id= \'' + row[0] + '\';'
                     cursor.execute(sql2)
                     result2 = cursor.fetchall()
-                    video[module_num-1] += 1
-                    if result2[0][0] > 0:
-                        m_video[module_num-1] += 1
-                    if row[2] == 1:
-                        flag1[module_num-1] += 1
-                        if result2[0][1] == 1 or result2[0][2] == 1:
-                            finished_flag1[module_num-1] += 1
-                            finished[module_num-1] += 1
-                    else:
-                        if result2[0][1] == 1 or result2[0][2] == 1:
-                            finished[module_num-1] += 1
+                    if len(result2) > 0:
+                        video[module_num-1] += 1
+                        if result2[0][0] > 0:
+                            m_video[module_num-1] += 1
+                        if row[2] == 1:
+                            flag1[module_num-1] += 1
+                            if result2[0][1] == 1 or result2[0][2] == 1:
+                                finished_flag1[module_num-1] += 1
+                                finished[module_num-1] += 1
+                        else:
+                            if result2[0][1] == 1 or result2[0][2] == 1:
+                                finished[module_num-1] += 1
                     sql3 = 'select student_id, aggregated_category, grade from ' + table_name4 + ' where student_id = ' + str(uid) + ' and aggregated_category = \'M0' + str(module_num) + '\';'
                     cursor.execute(sql3)
                     result3 = cursor.fetchall()
-                    if result3[0][0] is not None:
+                    if len(result3) > 0:
                         m_assignment[module_num-1] = result3[0][2]
                     else:
                         m_assignment[module_num-1] = -1
                     sql4 = 'select student_id, aggregated_category, grade from ' + table_name4 + ' where student_id = ' + str(uid) + ' and aggregated_category = \'L0' + str(module_num) + '\';'
                     cursor.execute(sql4)
                     result4 = cursor.fetchall()
-                    if result4[0][0] is not None:
+                    if len(result4) > 0:
                         l_assignment[module_num-1] = result4[0][2]
                     else:
                         l_assignment[module_num-1] = -1
