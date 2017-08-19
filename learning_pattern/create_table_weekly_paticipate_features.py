@@ -78,7 +78,7 @@ def get_weekly_participate(conn, term, users):
                     cursor.execute(sql8)
                     result8 = cursor.fetchall()
                     for row8 in result8:
-                        sql9 = 'select count(*) from ' + table_name7 + ' where author_id = ' + str(uid) + ' and comment_thread_id = ' + row8[0] + ';'
+                        sql9 = 'select count(*) from ' + table_name7 + ' where author_id = ' + str(uid) + ' and comment_thread_id = \'' + row8[0] + '\';'
                         cursor.execute(sql9)
                         result9 = cursor.fetchall()
                         comment[module_num-1] += result9[0][0]
