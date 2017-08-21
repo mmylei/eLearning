@@ -36,8 +36,8 @@ def load_data():
     return data
 
 
-def all_0_row_index(df):
-    return (df.T != 0).any()
+def non_0_row_index(df):
+    return (df.T > 0.0001).any()
 
 
 def drop_long_real_spent_row(df):
@@ -130,9 +130,10 @@ if __name__ == '__main__':
                                         'seek_backward': 'sum', 'seek_forward': 'sum', 'attempts': 'max', 'grade': 'max'})\
             .reset_index()
         # week_df = drop_all_0_row(week_df)
-        week_df = drop_long_real_spent_row(week_df)
+        week_df = drop_long_real_spent_row(week_df).reset_index()
         X = week_df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']]
-        idx = all_0_row_index(X)
+        idx = non_0_row_index(X)
         X = X[idx].values
-        Y = week_df['grade'][idx].values
+        week_df = week_df[idx].reset_index()
+        Y = week_df['grade'].values
         regression(X, Y, RandomForestRegressor())
