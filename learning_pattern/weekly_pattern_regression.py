@@ -96,9 +96,9 @@ def regression(X, Y, model=RandomForestRegressor()):
         order = full_info[:, 3].argsort()
         full_info = full_info[order][[1, 2, 3, 4, 5, -5, -4, -3, -2, -1]]
         #print 'absolute error:', full_info
-        for x in full_info:
-            print int(x[0]), x[1], x[2], x[3]
-            print 'features: ', week_df[week_df.uid == int(x[0])]
+        # for x in full_info:
+        #     print int(x[0]), x[1], x[2], x[3]
+        #     print 'features: ', week_df[week_df.uid == int(x[0])]
 
         test_error += error
 
