@@ -39,50 +39,56 @@ def get_weekly_participate(conn, term, users):
         comment = [0] * 5
         watched = [''] * 5
         for row in result1:
-            for module_num in range(1, 6):
-                if row[1] == module_num:
-                    sql2 = 'select coverage, is_finished, is_covered from clickstream.' + table_name3 + ' where user_id = ' + str(uid) + ' and video_id= \'' + row[0] + '\';'
-                    cursor.execute(sql2)
-                    result2 = cursor.fetchall()
-                    if len(result2) > 0:
-                        video[module_num-1] += 1
-                        if result2[0][0] > 0:
-                            m_video[module_num-1] += 1
-                        if row[2] == 1:
-                            flag1[module_num-1] += 1
-                            if result2[0][1] == 1 or result2[0][2] == 1:
-                                finished_flag1[module_num-1] += 1
-                                finished[module_num-1] += 1
-                        else:
-                            if result2[0][1] == 1 or result2[0][2] == 1:
-                                finished[module_num-1] += 1
-                    sql3 = 'select student_id, aggregated_category, grade from ' + table_name4 + ' where student_id = ' + str(uid) + ' and aggregated_category = \'M0' + str(module_num) + '\';'
-                    cursor.execute(sql3)
-                    result3 = cursor.fetchall()
-                    if len(result3) > 0:
-                        m_assignment[module_num-1] = result3[0][2]
-                    else:
-                        m_assignment[module_num-1] = -1
-                    sql4 = 'select student_id, aggregated_category, grade from ' + table_name4 + ' where student_id = ' + str(uid) + ' and aggregated_category = \'L0' + str(module_num) + '\';'
-                    cursor.execute(sql4)
-                    result4 = cursor.fetchall()
-                    if len(result4) > 0:
-                        l_assignment[module_num-1] = result4[0][2]
-                    else:
-                        l_assignment[module_num-1] = -1
-                    sql7 = 'select count(*) from ' + table_name6 + ' where author_id = ' + str(uid) + ' and commentable_id like \'m' + str(module_num) + '%\';'
-                    cursor.execute(sql7)
-                    result7 = cursor.fetchall()
-                    comment_thread[module_num-1] = result7[0][0]
-                    sql8 = 'select distinct(`id`) from ' + table_name6 + ' where commentable_id like \'m' + str(module_num) + '%\';'
-                    cursor.execute(sql8)
-                    result8 = cursor.fetchall()
-                    for row8 in result8:
-                        sql9 = 'select count(*) from ' + table_name7 + ' where author_id = ' + str(uid) + ' and comment_thread_id = \'' + row8[0] + '\';'
-                        cursor.execute(sql9)
-                        result9 = cursor.fetchall()
-                        comment[module_num-1] += result9[0][0]
-                watched[module_num-1] = str(finished_flag1[module_num-1]) + '/' + str(flag1[module_num-1]) + '/' + str(finished[module_num-1]) + '/' + str(video[module_num-1])
+            module_num = row[1]
+            sql2 = 'select coverage, is_finished, is_covered from clickstream.' + table_name3 + ' where user_id = ' + str(uid) + ' and video_id= \'' + row[0] + '\';'
+            cursor.execute(sql2)
+            result2 = cursor.fetchall()
+            if len(result2) > 0:
+                video[module_num-1] += 1
+                if result2[0][0] > 0:
+                    m_video[module_num-1] += 1
+                if row[2] == 1:
+                    flag1[module_num-1] += 1
+                    if result2[0][1] == 1 or result2[0][2] == 1:
+                        finished_flag1[module_num-1] += 1
+                        finished[module_num-1] += 1
+                else:
+                    if result2[0][1] == 1 or result2[0][2] == 1:
+                        finished[module_num-1] += 1
+
+        for module_num in xrange(1, 6):
+            sql3 = 'select student_id, aggregated_category, grade from ' + table_name4 + ' where student_id = ' + str(uid) + ' and aggregated_category = \'M0' + str(module_num) + '\';'
+            cursor.execute(sql3)
+            result3 = cursor.fetchall()
+            if len(result3) > 0:
+                m_assignment[module_num-1] = result3[0][2]
+            else:
+                m_assignment[module_num-1] = -1
+            sql4 = 'select student_id, aggregated_category, grade from ' + table_name4 + ' where student_id = ' + str(uid) + ' and aggregated_category = \'L0' + str(module_num) + '\';'
+            cursor.execute(sql4)
+            result4 = cursor.fetchall()
+            if len(result4) > 0:
+                l_assignment[module_num-1] = result4[0][2]
+            else:
+                l_assignment[module_num-1] = -1
+            sql7 = 'select count(*) from ' + table_name6 + ' where author_id = ' + str(uid) + ' and commentable_id like \'m' + str(module_num) + '%\';'
+            cursor.execute(sql7)
+            result7 = cursor.fetchall()
+            comment_thread[module_num-1] = result7[0][0]
+            sql8 = 'select comment_thread_id, count(*) from ' + table_name7 + ' where author_id = ' + str(uid) + ' group by comment_thread_id;'
+            cursor.execute(sql8)
+            result8 = cursor.fetchall()
+            for row8 in result8:
+                comment_thread_id = row8[0]
+                sql9 = 'select count(*) from ' + table_name6 + ' where `id`=\'' + comment_thread_id + '\' and commentable_id like \'m' + str(
+                    module_num) + '%\';'
+                cursor.execute(sql9)
+                result9 = cursor.fetchall()
+                if len(result9) > 0:
+                    comment[module_num-1] += row8[1]
+
+        for module_num in range(1, 6):
+            watched[module_num-1] = str(finished_flag1[module_num-1]) + '/' + str(flag1[module_num-1]) + '/' + str(finished[module_num-1]) + '/' + str(video[module_num-1])
         sql5 = 'select student_id, aggregated_category, grade from ' + table_name4 + ' where student_id = ' + str(uid) + ' and aggregated_category = \'Exam\';'
         cursor.execute(sql5)
         result5 = cursor.fetchall()
