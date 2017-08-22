@@ -116,7 +116,7 @@ def get_features(conn, term, users):
             module_number = row[3]
             result_user_video = [uid, video_id, module_number]
 
-            cursor.execute('select count(distinct `session`) from ' + table_name5 +
+            cursor.execute('select count(distinct `session`) from clickstream.' + table_name5 +
                            ' where user_id=' + str(uid) + ' and video_id=\'' + video_id + '\' and event_type=\'play_video\';')
             watched_times = int(cursor.fetchall()[0][0])
 
