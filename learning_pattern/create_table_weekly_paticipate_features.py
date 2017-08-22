@@ -27,12 +27,22 @@ def get_weekly_participate(conn, term, users):
     cursor = conn.cursor()
     cursor.execute(sql1)
     result1 = cursor.fetchall()
+    flag1 = [0] * 5
+    video = [0] * 5
+    sql10 = 'select module_number, count(B.video_id) from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and B.term_id = \'COMP102_1x\' and B.module_number < 6 group by B.module_number;'
+    cursor.execute(sql10)
+    result10 = cursor.fetchall()
+    for module_num in range(1,6):
+        video[module_num-1] = result10[module_num-1][1]
+    sql11 = 'select module_number, count(B.video_id) from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and B.term_id = \'COMP102_1x\' and B.module_number < 6 and S.flag = 1 group by B.module_number;'
+    cursor.execute(sql11)
+    result11 = cursor.fetchall()
+    for module_num in range(1, 6):
+        flag1[module_num - 1] = result11[module_num - 1][1]
     for uid in users:
         m_video = [0] * 5
         finished = [0] * 5
         finished_flag1 = [0] * 5
-        flag1 = [0] * 5
-        video = [0] * 5
         m_assignment = [0] * 5
         l_assignment = [0] * 5
         comment_thread = [0] * 5
@@ -44,11 +54,11 @@ def get_weekly_participate(conn, term, users):
             cursor.execute(sql2)
             result2 = cursor.fetchall()
             if len(result2) > 0:
-                video[module_num-1] += 1
+                # video[module_num-1] += 1
                 if result2[0][0] > 0:
                     m_video[module_num-1] += 1
                 if row[2] == 1:
-                    flag1[module_num-1] += 1
+                    # flag1[module_num-1] += 1
                     if result2[0][1] == 1 or result2[0][2] == 1:
                         finished_flag1[module_num-1] += 1
                         finished[module_num-1] += 1
