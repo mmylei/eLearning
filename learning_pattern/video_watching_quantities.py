@@ -162,7 +162,7 @@ def get_features(conn, term, users):
             cursor.execute(sql5)
             result5 = cursor.fetchall()
             if watched_times > 1:
-                result_user_video.append(result5[0][0] / result5[0][0])
+                result_user_video.append(result5[0][0] / watched_times)
             else:
                 result_user_video.append(result5[0][0])
 
