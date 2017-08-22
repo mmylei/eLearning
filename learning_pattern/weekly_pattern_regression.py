@@ -125,9 +125,9 @@ if __name__ == '__main__':
         # X = features[indices, :][:, range(1, len(columns)-3)]  # except module_number (first column) and grade (last column)
         week_df = df[df.module_number == week_number]
         week_df = week_df.groupby('uid')\
-            .agg({'real_spent': 'sum', 'coverage': 'sum', 'watched': 'sum', 'pauses': 'sum',
-                                        'pause_length': 'sum', 'avg_speed': 'sum', 'std_speed': 'sum',
-                                        'seek_backward': 'sum', 'seek_forward': 'sum', 'attempts': 'max', 'grade': 'max'})\
+            .agg({'real_spent': 'mean', 'coverage': 'mean', 'watched': 'mean', 'pauses': 'mean',
+                                        'pause_length': 'mean', 'avg_speed': 'mean', 'std_speed': 'mean',
+                                        'seek_backward': 'mean', 'seek_forward': 'mean', 'attempts': 'max', 'grade': 'max'})\
             .reset_index()
         # week_df = drop_all_0_row(week_df)
         week_df = drop_long_real_spent_row(week_df).reset_index()

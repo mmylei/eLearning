@@ -116,6 +116,10 @@ def get_features(conn, term, users):
             module_number = row[3]
             result_user_video = [uid, video_id, module_number]
 
+            cursor.execute('select count(distinct `session`) from ' + table_name5 +
+                           ' where user_id=' + str(uid) + ' and video_id=\'' + video_id + '\' and event_type=\'play_video\';')
+            watched_times = int(cursor.fetchall()[0][0])
+
             sql2 = 'select sum(TIMESTAMPDIFF(SECOND, real_time_start, real_time_end)) as real_watched_duration ' \
                ' from clickstream.' + table_name2 + \
                ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\'' \
@@ -157,7 +161,9 @@ def get_features(conn, term, users):
                    ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\' and event_type = \'pause_video\';'
             cursor.execute(sql5)
             result5 = cursor.fetchall()
-            if result5[0][0] is not None:
+            if watched_times > 1:
+                result_user_video.append(result5[0][0] / result5[0][0])
+            else:
                 result_user_video.append(result5[0][0])
 
             cursor.execute(
@@ -181,7 +187,10 @@ def get_features(conn, term, users):
                         if event_type == 'play_video' and pause_time is not None:
                             pause_length += float(row_user[6]) - pause_time
                             pause_time = None
-            result_user_video.append(pause_length / duration)
+            if watched_times > 1:
+                result_user_video.append(pause_length / duration / watched_times)
+            else:
+                result_user_video.append(pause_length / duration)
 
             # get play speed
             cursor.execute(
@@ -231,14 +240,18 @@ def get_features(conn, term, users):
                    ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\' and event_type = \'seek_video\' and old_time > new_time and new_time >= 0 ;'
             cursor.execute(sql9)
             result9 = cursor.fetchall()
-            if result9[0][0] is not None:
+            if watched_times > 1:
+                result_user_video.append(result9[0][0] / watched_times)
+            else:
                 result_user_video.append(result9[0][0])
 
             sql10 = 'select count(*) from clickstream.' + table_name5 + \
                    ' where user_id = ' + str(uid) + ' and video_id=\'' + video_id + '\' and event_type = \'seek_video\' and old_time < new_time and old_time >= 0 ;'
             cursor.execute(sql10)
             result10 = cursor.fetchall()
-            if result10[0][0] is not None:
+            if watched_times > 1:
+                result_user_video.append(result10[0][0] / watched_times)
+            else:
                 result_user_video.append(result10[0][0])
 
             current_week_grades = filter(lambda x: x[4].endswith(str(module_number)), weekly_grades)
