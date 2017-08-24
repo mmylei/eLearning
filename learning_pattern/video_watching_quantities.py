@@ -268,7 +268,6 @@ def get_features(conn, term, users):
                 result_user_video.append(grade / max_grade)
             result_user_video.append(duration)
             features.append(tuple(result_user_video))
-            features.append(duration)
     return features
 
 
