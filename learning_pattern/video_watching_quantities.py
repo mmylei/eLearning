@@ -105,7 +105,7 @@ def get_features(conn, term, users):
     print 'num of videos:', len(result1)
     total_pairs = len(users) * len(result1)
     processed_count = 0
-    for uid in users:
+    for uid in users[:10]:
         weekly_grades = get_weekly_grades(cursor, term, uid)
         for row in result1:
             processed_count += 1
@@ -266,6 +266,7 @@ def get_features(conn, term, users):
                 result_user_video.append(0)
             else:
                 result_user_video.append(grade / max_grade)
+            result_user_video.append(duration)
             features.append(tuple(result_user_video))
             features.append(duration)
     return features
