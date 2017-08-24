@@ -1,17 +1,6 @@
 import numpy as np
-from numpy import linalg
-from numpy.linalg import norm
-from scipy.spatial.distance import squareform, pdist
-# We import sklearn.
-import sklearn
+import pandas as pd
 from sklearn.manifold import TSNE
-from sklearn.datasets import load_digits
-from sklearn.preprocessing import scale
-# We'll hack a bit with the t-SNE code in sklearn 0.15.2.
-from sklearn.metrics.pairwise import pairwise_distances
-from sklearn.manifold.t_sne import (_joint_probabilities,
-                                    _kl_divergence)
-from sklearn.utils.extmath import _ravel
 # Random state.
 RS = 20150101
 # We'll use matplotlib for graphics.
@@ -27,6 +16,15 @@ sns.set_context("notebook", font_scale=1.5,
 # from moviepy.video.io.bindings import mplfig_to_npimage
 # import moviepy.editor as mpy
 import json_wrapper
+
+
+def non_0_row_index(df):
+    return (df.T > 0.0001).any()
+
+
+def drop_long_real_spent_row(df):
+    week_df = df[df.real_spent <= 10]
+    return week_df
 
 
 def grades_to_labels(grades):
@@ -63,6 +61,33 @@ def scatter(x, colors):
     return f, ax, sc, txts
 
 
+# new feature
+df = pd.read_csv('weekly_quantities.csv')
+for week_number in range(1, 6):
+    print '-------------- week', week_number, '--------------'
+    # indices = np.where(features[:, 0] == week_number)[0]  # only keep week 1 data
+    # Y = features[indices, :][:, len(columns)-3]  # grade (last column)
+    # X = features[indices, :][:, range(1, len(columns)-3)]  # except module_number (first column) and grade (last column)
+    week_df = df[df.module_number == week_number]
+    week_df = week_df.groupby('uid') \
+        .agg({'real_spent': 'mean', 'coverage': 'mean', 'watched': 'mean', 'pauses': 'mean',
+              'pause_length': 'mean', 'avg_speed': 'mean', 'std_speed': 'mean',
+              'seek_backward': 'mean', 'seek_forward': 'mean', 'attempts': 'max', 'grade': 'max'}) \
+        .reset_index()
+    # week_df = drop_all_0_row(week_df)
+    week_df = drop_long_real_spent_row(week_df).reset_index()
+    X = week_df[
+        ['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward',
+         'seek_forward', 'attempts']]
+    idx = non_0_row_index(X)
+    X = X[idx].values
+    week_df = week_df[idx].reset_index()
+    Y = week_df['grade'].values
+    data_proj = TSNE(random_state=RS).fit_transform(X)
+    scatter(data_proj, Y)
+    plt.savefig('images/tsne-generated_' + str(week_number) + '.png', dpi=120)
+
+# old feature
 f = open('data.json', 'r')
 data = json_wrapper.loads(f.read())
 f.close()
