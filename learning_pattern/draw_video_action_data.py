@@ -4,6 +4,8 @@ from sklearn.manifold import TSNE
 # Random state.
 RS = 20150101
 # We'll use matplotlib for graphics.
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as PathEffects
 # We import seaborn to make nice plots.
