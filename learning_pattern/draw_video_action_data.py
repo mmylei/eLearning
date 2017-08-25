@@ -40,7 +40,7 @@ def grades_to_labels(grades):
 
 def scatter(x, colors):
     # We choose a color palette with seaborn.
-    # palette = np.array(sns.color_palette("hls", 10))
+    palette = np.array(sns.color_palette("hls", 10))
     # We create a scatter plot.
     f = plt.figure(figsize=(8, 8))
     ax = plt.subplot(aspect='equal')
@@ -60,7 +60,7 @@ def scatter(x, colors):
     #         PathEffects.Stroke(linewidth=5, foreground="w"),
     #         PathEffects.Normal()])
     #     txts.append(txt)
-    return f, ax, sc
+    # return f, ax, sc, txts
 
 
 # new feature
@@ -89,6 +89,7 @@ for week_number in range(1, 6):
     idx = non_0_row_index(X)
     X = X[idx].values
     week_df = week_df[idx].reset_index()
+    Y = week_df['grade'].values
     Y = Y.fill(1)
     # Y = np.digitize(Y, bins[week_number-1])
     data_proj = TSNE(random_state=RS).fit_transform(X)
