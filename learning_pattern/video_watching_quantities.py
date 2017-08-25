@@ -89,7 +89,7 @@ def get_weekly_grades(cursor, term, uid):
 
 
 def get_features(conn, term, users):
-    sql1 = 'select B.video_id, B.sequence, B.duration, B.module_number from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and S.flag = 1 and B.term_id = \'COMP102_1x\' and B.module_number < 6 order by B.sequence;'
+    sql1 = 'select B.video_id, B.sequence, B.duration, B.module_number from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and B.term_id = \'COMP102_1x\' and B.module_number < 6 order by B.sequence;'
     cursor = conn.cursor()
     cursor.execute(sql1)
     result1 = cursor.fetchall()
@@ -299,6 +299,6 @@ if __name__ == '__main__':
           ('normalized_grade', np.float32), ('video_duration', np.float32)]
     all_features = np.array(all_features, dtype=dt)
     feature_df = pd.DataFrame(all_features)
-    feature_df.to_csv('weekly_quantities.csv')
+    feature_df.to_csv('weekly_quantities_with_no_flag.csv')
     #columns = np.array(['module_number', 'real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts', 'grade', 'max_grade', 'normalized_grade'], dtype=np.str)
     #np.savez('weekly_quantities_data', **{'features': all_features, 'columns': columns})
