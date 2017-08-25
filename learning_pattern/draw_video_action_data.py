@@ -65,7 +65,11 @@ def scatter(x, colors):
 
 # new feature
 df = pd.read_csv('weekly_quantities.csv')
-bins = np.array([[0, 1.2, 3.2, 4], [0, 5.2, 10.4, 13], [0, 4.5, 8.1, 9], [0, 4, 8], [0, 4.8, 10.8, 12]], dtype=np.float32)
+bins = [np.array([0, 1.2, 3.2, 4], dtype=np.float32),
+        np.array([0, 5.2, 10.4, 13], dtype=np.float32),
+        np.array([0, 4.5, 8.1, 9], dtype=np.float32),
+        np.array([0, 4, 8], dtype=np.float32),
+        np.array([0, 4.8, 10.8, 12], dtype=np.float32)]
 for week_number in range(1, 6):
     print '-------------- week', week_number, '--------------'
     # indices = np.where(features[:, 0] == week_number)[0]  # only keep week 1 data
