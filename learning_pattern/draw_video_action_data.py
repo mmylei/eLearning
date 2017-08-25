@@ -85,7 +85,7 @@ for week_number in range(1, 6):
     week_df = drop_long_real_spent_row(week_df).reset_index()
     X = week_df[
         ['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward',
-         'seek_forward', 'attempts']]
+         'seek_forward']]
     idx = non_0_row_index(X)
     X = X[idx].values
     week_df = week_df[idx].reset_index()
@@ -95,7 +95,7 @@ for week_number in range(1, 6):
     data_proj = TSNE(random_state=RS).fit_transform(X)
     data_proj = np.clip(data_proj, -1000, 1000)
     scatter(data_proj, Y)
-    plt.savefig('tsne-generated_' + str(week_number) + '.png', dpi=120)
+    plt.savefig('tsne-generated_no_attempts' + str(week_number) + '.png', dpi=120)
 
 # old feature
 # f = open('data.json', 'r')
