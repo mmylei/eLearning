@@ -65,6 +65,7 @@ def scatter(x, colors):
 
 # new feature
 df = pd.read_csv('weekly_quantities.csv')
+bins = np.array([[0, 1.2, 3.2, 4], [0, 5.2, 10.4, 13], [0, 4.5, 8.1, 9], [0, 4, 8], [0, 4.8, 10.8, 12]], dtype=np.float32)
 for week_number in range(1, 6):
     print '-------------- week', week_number, '--------------'
     # indices = np.where(features[:, 0] == week_number)[0]  # only keep week 1 data
@@ -85,19 +86,20 @@ for week_number in range(1, 6):
     X = X[idx].values
     week_df = week_df[idx].reset_index()
     Y = week_df['grade'].values
+    Y = np.digitize(Y, bins[week_number-1])
     data_proj = TSNE(random_state=RS).fit_transform(X)
     scatter(data_proj, Y)
-    plt.savefig('images/tsne-generated_' + str(week_number) + '.png', dpi=120)
+    plt.savefig('tsne-generated_' + str(week_number) + '.png', dpi=120)
 
 # old feature
-f = open('data.json', 'r')
-data = json_wrapper.loads(f.read())
-f.close()
-X = np.array(data['features'], np.float32)
-Y = np.array(data['grades'], np.float32)
-Y = grades_to_labels(Y)
-for i in range(0, X.shape[1]/8):
-    X_video = X[:, np.arange(i*8, i*8+8)[[0,1,2,3,6,7]]]
-    data_proj = TSNE(random_state=RS).fit_transform(X_video)
-    scatter(data_proj, Y)
-    plt.savefig('images/tsne-generated_' + str(i) + '.png', dpi=120)
+# f = open('data.json', 'r')
+# data = json_wrapper.loads(f.read())
+# f.close()
+# X = np.array(data['features'], np.float32)
+# Y = np.array(data['grades'], np.float32)
+# Y = grades_to_labels(Y)
+# for i in range(0, X.shape[1]/8):
+#     X_video = X[:, np.arange(i*8, i*8+8)[[0,1,2,3,6,7]]]
+#     data_proj = TSNE(random_state=RS).fit_transform(X_video)
+#     scatter(data_proj, Y)
+#     plt.savefig('tsne-generated_' + str(i) + '.png', dpi=120)
