@@ -40,7 +40,7 @@ def grades_to_labels(grades):
 
 def scatter(x, colors):
     # We choose a color palette with seaborn.
-    palette = np.array(sns.color_palette("hls", 10))
+    # palette = np.array(sns.color_palette("hls", 10))
     # We create a scatter plot.
     f = plt.figure(figsize=(8, 8))
     ax = plt.subplot(aspect='equal')
@@ -51,25 +51,25 @@ def scatter(x, colors):
     ax.axis('off')
     ax.axis('tight')
     # We add the labels for each digit.
-    txts = []
-    for i in range(10):
-        # Position of each label.
-        xtext, ytext = np.median(x[colors == i, :], axis=0)
-        txt = ax.text(xtext, ytext, str(i), fontsize=24)
-        txt.set_path_effects([
-            PathEffects.Stroke(linewidth=5, foreground="w"),
-            PathEffects.Normal()])
-        txts.append(txt)
-    return f, ax, sc, txts
+    # txts = []
+    # for i in range(10):
+    #     # Position of each label.
+    #     xtext, ytext = np.median(x[colors == i, :], axis=0)
+    #     txt = ax.text(xtext, ytext, str(i), fontsize=24)
+    #     txt.set_path_effects([
+    #         PathEffects.Stroke(linewidth=5, foreground="w"),
+    #         PathEffects.Normal()])
+    #     txts.append(txt)
+    return f, ax, sc
 
 
 # new feature
 df = pd.read_csv('weekly_quantities.csv')
-bins = [np.array([0, 1.2, 3.2, 4], dtype=np.float32),
-        np.array([0, 5.2, 10.4, 13], dtype=np.float32),
-        np.array([0, 4.5, 8.1, 9], dtype=np.float32),
-        np.array([0, 4, 8], dtype=np.float32),
-        np.array([0, 4.8, 10.8, 12], dtype=np.float32)]
+# bins = [np.array([0, 1.2, 3.2, 4], dtype=np.float32),
+#         np.array([0, 5.2, 10.4, 13], dtype=np.float32),
+#         np.array([0, 4.5, 8.1, 9], dtype=np.float32),
+#         np.array([0, 4, 8], dtype=np.float32),
+#         np.array([0, 4.8, 10.8, 12], dtype=np.float32)]
 for week_number in range(1, 6):
     print '-------------- week', week_number, '--------------'
     # indices = np.where(features[:, 0] == week_number)[0]  # only keep week 1 data
@@ -89,8 +89,8 @@ for week_number in range(1, 6):
     idx = non_0_row_index(X)
     X = X[idx].values
     week_df = week_df[idx].reset_index()
-    Y = week_df['grade'].values
-    Y = np.digitize(Y, bins[week_number-1])
+    Y = Y.fill(1)
+    # Y = np.digitize(Y, bins[week_number-1])
     data_proj = TSNE(random_state=RS).fit_transform(X)
     data_proj = np.clip(data_proj, 0, 1000)
     scatter(data_proj, Y)
