@@ -92,6 +92,7 @@ for week_number in range(1, 6):
     Y = week_df['grade'].values
     Y = np.digitize(Y, bins[week_number-1])
     data_proj = TSNE(random_state=RS).fit_transform(X)
+    data_proj = np.clip(data_proj, 0, 1000)
     scatter(data_proj, Y)
     plt.savefig('tsne-generated_' + str(week_number) + '.png', dpi=120)
 
