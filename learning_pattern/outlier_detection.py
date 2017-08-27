@@ -1,4 +1,5 @@
 from sklearn.ensemble import IsolationForest
+from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import DBSCAN
 import pandas as pd
 
@@ -17,6 +18,7 @@ df = pd.read_csv('weekly_quantities_with_no_flag.csv')
 #         np.array([0, 4.5, 8.1, 9], dtype=np.float32),
 #         np.array([0, 4, 8], dtype=np.float32),
 #         np.array([0, 4.8, 10.8, 12], dtype=np.float32)]
+scaler = StandardScaler()
 for week_number in range(1, 6):
     print '-------------- week', week_number, '--------------'
     # indices = np.where(features[:, 0] == week_number)[0]  # only keep week 1 data
@@ -35,8 +37,9 @@ for week_number in range(1, 6):
          'seek_forward']]
     idx = non_0_row_index(X)
     X = X[idx].values
+    X = scaler.fit_transform(X)
     week_df = week_df[idx].reset_index()
-    md = DBSCAN(eps=0.3, min_samples=10)
+    md = DBSCAN(eps=1.5, min_samples=10)
     md.fit(X)
     print 'noisy samples:'
     print week_df[md.labels_ == -1]
