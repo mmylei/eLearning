@@ -1,4 +1,5 @@
 from sklearn.ensemble import IsolationForest
+from sklearn.cluster import DBSCAN
 import pandas as pd
 
 
@@ -35,7 +36,7 @@ for week_number in range(1, 6):
     idx = non_0_row_index(X)
     X = X[idx].values
     week_df = week_df[idx].reset_index()
-    clf = IsolationForest()
-    clf.fit(X)
-    Y = clf.predict(X)
-    print week_df[Y == -1]
+    md = DBSCAN(eps=0.3, min_samples=10)
+    md.fit(X)
+    print 'noisy samples:'
+    print week_df[md.labels_ == -1]
