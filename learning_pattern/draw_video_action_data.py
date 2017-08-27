@@ -64,7 +64,7 @@ def scatter(x, colors):
 
 
 # new feature
-df = pd.read_csv('weekly_quantities.csv')
+df = pd.read_csv('weekly_quantities_with_no_flag.csv')
 # bins = [np.array([0, 1.2, 3.2, 4], dtype=np.float32),
 #         np.array([0, 5.2, 10.4, 13], dtype=np.float32),
 #         np.array([0, 4.5, 8.1, 9], dtype=np.float32),
@@ -95,7 +95,7 @@ for week_number in range(1, 6):
     data_proj = TSNE(random_state=RS).fit_transform(X)
     data_proj = np.clip(data_proj, -1000, 1000)
     scatter(data_proj, Y)
-    plt.savefig('tsne-generated_no_attempts' + str(week_number) + '.png', dpi=120)
+    plt.savefig('tsne-generated_no_attempts_with_no_flag' + str(week_number) + '.png', dpi=120)
 
 # old feature
 # f = open('data.json', 'r')
