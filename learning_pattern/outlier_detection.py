@@ -34,8 +34,8 @@ for week_number in range(1, 6):
          'seek_forward']]
     idx = non_0_row_index(X)
     X = X[idx].values
+    week_df = week_df[idx].reset_index()
     clf = IsolationForest()
     clf.fit(X)
-    for feature in X:
-        if clf.predict(feature) == -1:
-            print 'outlier:', feature
+    Y = clf.predict(X)
+    print week_df[Y == -1]
