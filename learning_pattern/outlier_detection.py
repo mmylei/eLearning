@@ -15,7 +15,7 @@ def drop_long_real_spent_row(df):
     week_df = df[df.real_spent <= 10]
     return week_df
 
-df = pd.read_csv('weekly_quantities_with_no_flag.csv')
+df = pd.read_csv('weekly_quantities.csv')
 # bins = [np.array([0, 1.2, 3.2, 4], dtype=np.float32),
 #         np.array([0, 5.2, 10.4, 13], dtype=np.float32),
 #         np.array([0, 4.5, 8.1, 9], dtype=np.float32),
@@ -43,7 +43,7 @@ for week_number in range(1, 6):
     X = scaler.fit_transform(X)
     week_df = week_df[idx].reset_index()
     if week_number == 1:
-        inlier_uid = [96243, 126901, 171082, 283682, 200160, 79486, 83536, 96243, 10364885, 126493, 5437, 9016245, 8959747, 7911021, 10320236, 10286875, 10019464, 9481638, 9016245, 9044224, 7911021, 7865357, 1764726]
+        inlier_uid = [96243, 126901, 171082, 283682, 200160, 79486, 83536, 96243, 10364885, 126493, 5437, 9016245, 8959747, 7911021, 10320236, 10286875, 10019464, 9481638, 9016245, 9044224, 7911021, 7865357, 1764726, 6209505]
         inlier = week_df[week_df['uid'].isin(inlier_uid)][['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward',
          'seek_forward']].values
         inlier = scaler.transform(inlier)
