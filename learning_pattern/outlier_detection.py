@@ -51,7 +51,9 @@ for week_number in range(1, 6):
         clf.fit(inlier)
         Y = clf.predict(X)
         print 'outliers:'
-        print week_df[Y == -1]
+        temp = week_df[Y == -1]
+        temp = temp[temp['avg_speed'] > 0.5]
+        print temp
     # md = DBSCAN(eps=1.5, min_samples=10)
     # md.fit(X)
     # print 'noisy samples:'
