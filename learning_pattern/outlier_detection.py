@@ -41,7 +41,15 @@ for week_number in range(1, 6):
     X = X[idx].values
     X = scaler.fit_transform(X)
     week_df = week_df[idx].reset_index()
-    md = DBSCAN(eps=1.5, min_samples=10)
-    md.fit(X)
-    print 'noisy samples:'
-    print week_df[md.labels_ == -1]
+    if week_number == 1:
+        inlier_idx = [638, 730, 873, 1200, 1765]
+        inlier = X[inlier_idx]
+        clf = IsolationForest()
+        clf.fit(inlier)
+        Y = clf.predict(X)
+        print 'outliers:'
+        print week_df[Y == -1]
+    # md = DBSCAN(eps=1.5, min_samples=10)
+    # md.fit(X)
+    # print 'noisy samples:'
+    # print week_df[md.labels_ == -1]
