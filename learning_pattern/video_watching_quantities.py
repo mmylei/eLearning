@@ -60,7 +60,7 @@ def mean(play_piece):
     length = sum(map(lambda x: x[0], play_piece))
     if total == 0:
         return 0
-    return length / total
+    return total / length
 
 
 def std(play_piece):
