@@ -43,7 +43,7 @@ for week_number in range(1, 6):
     X = scaler.fit_transform(X)
     week_df = week_df[idx].reset_index()
     if week_number == 1:
-        inlier_uid = [96243, 126901, 171082, 283682, 200160, 79486, 83536, 96243]
+        inlier_uid = [96243, 126901, 171082, 283682, 200160, 79486, 83536, 96243, 10364885, 126493, 5437]
         inlier = week_df[week_df['uid'].isin(inlier_uid)][['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward',
          'seek_forward']].values
         inlier = scaler.transform(inlier)
