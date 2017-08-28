@@ -3,7 +3,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import DBSCAN
 import pandas as pd
 
-pd.set_option('display.width', 160)
+pd.set_option('display.width', 180)
 
 
 def non_0_row_index(df):
