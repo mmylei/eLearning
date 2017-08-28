@@ -4,6 +4,7 @@ from sklearn.cluster import DBSCAN
 import pandas as pd
 
 pd.set_option('display.width', 180)
+pd.set_option('display.max_rows', 1000)
 
 
 def non_0_row_index(df):
