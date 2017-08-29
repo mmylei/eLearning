@@ -15,7 +15,7 @@ def drop_long_real_spent_row(df):
     week_df = df[df.real_spent <= 10]
     return week_df
 
-df = pd.read_csv('weekly_quantities.csv')
+df = pd.read_csv('weekly_quantities_with_no_flag.csv')
 # bins = [np.array([0, 1.2, 3.2, 4], dtype=np.float32),
 #         np.array([0, 5.2, 10.4, 13], dtype=np.float32),
 #         np.array([0, 4.5, 8.1, 9], dtype=np.float32),
