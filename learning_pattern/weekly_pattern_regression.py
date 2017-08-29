@@ -135,7 +135,7 @@ if __name__ == '__main__':
             .reset_index()
         # week_df = drop_all_0_row(week_df)
 
-        X = week_df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']]
+        X = week_df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']].values
 
         # X = X[idx].values
         # week_df = week_df[idx].reset_index()
