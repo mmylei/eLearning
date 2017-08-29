@@ -29,7 +29,7 @@ week_df = None
 def load_data():
     logger.info('loading csv data')
     # data = np.load('weekly_quantities_data.npz')
-    data = pd.read_csv('weekly_quantities.csv')
+    data = pd.read_csv('weekly_quantities_with_no_flag.csv')
     # X = data['features']
     # column_names = data['columns']
     # return X, column_names
