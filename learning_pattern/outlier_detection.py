@@ -55,7 +55,7 @@ for week_number in range(1, 6):
         Y = clf.predict(X)
         print 'outliers:'
         temp = week_df[Y == -1]
-        temp = temp[temp['avg_speed'] > 0.0001]
+        temp = temp[temp['avg_speed'] > 0.5]
         print temp
     # md = DBSCAN(eps=1.5, min_samples=10)
     # md.fit(X)
