@@ -1,6 +1,7 @@
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import DBSCAN
+from sklearn.cluster import KMeans
 import pandas as pd
 
 pd.set_option('display.width', 180)
@@ -45,18 +46,20 @@ for week_number in range(1, 6):
     # X = X[idx].values
     X = scaler.fit_transform(X)
     # week_df = week_df[idx].reset_index()
-    if week_number == 1:
-        inlier_uid = [20851, 33026, 39442, 78727, 136585, 2362, 4213, 13611, 13745, 20341, 33026, 179385, 217745, 342662, 380170, 96243, 186517, 342662, 679030, 10367051, 10257688, 10060046]
-        inlier = week_df[week_df['uid'].isin(inlier_uid)][['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward',
-         'seek_forward']].values
-        inlier = scaler.transform(inlier)
-        clf = IsolationForest()
-        clf.fit(inlier)
-        Y = clf.predict(X)
-        print 'outliers:'
-        temp = week_df[Y == -1]
-        temp = temp[temp['avg_speed'] > 0.5]
-        print temp
+    kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
+    print kmeans.cluster_centers_
+    # if week_number == 1:
+    #     inlier_uid = [20851, 33026, 39442, 78727, 136585, 2362, 4213, 13611, 13745, 20341, 33026, 179385, 217745, 342662, 380170, 96243, 186517, 342662, 679030, 10367051, 10257688, 10060046]
+    #     inlier = week_df[week_df['uid'].isin(inlier_uid)][['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward',
+    #      'seek_forward']].values
+    #     inlier = scaler.transform(inlier)
+    #     clf = IsolationForest()
+    #     clf.fit(inlier)
+    #     Y = clf.predict(X)
+    #     print 'outliers:'
+    #     temp = week_df[Y == -1]
+    #     temp = temp[temp['avg_speed'] > 0.5]
+    #     print temp
     # md = DBSCAN(eps=1.5, min_samples=10)
     # md.fit(X)
     # print 'noisy samples:'
