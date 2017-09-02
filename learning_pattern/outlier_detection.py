@@ -23,6 +23,7 @@ df = pd.read_csv('weekly_quantities_with_no_flag.csv')
 #         np.array([0, 4, 8], dtype=np.float32),
 #         np.array([0, 4.8, 10.8, 12], dtype=np.float32)]
 scaler = MinMaxScaler()
+inlier = None
 for week_number in range(1, 6):
     print '-------------- week', week_number, '--------------'
     # indices = np.where(features[:, 0] == week_number)[0]  # only keep week 1 data
@@ -44,18 +45,17 @@ for week_number in range(1, 6):
          'seek_forward']].values
     # idx = non_0_row_index(X)
     # X = X[idx].values
-    X = scaler.fit_transform(X)
     # week_df = week_df[idx].reset_index()
-    kmeans = KMeans(n_clusters=4, random_state=0).fit(X)
-    print kmeans.cluster_centers_
-    # if week_number == 1:
-    #     inlier_uid = [20851, 33026, 39442, 78727, 136585, 2362, 4213, 13611, 13745, 20341, 33026, 179385, 217745, 342662, 380170, 96243, 186517, 342662, 679030, 10367051, 10257688, 10060046]
-    #     inlier = week_df[week_df['uid'].isin(inlier_uid)][['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward',
-    #      'seek_forward']].values
-    #     inlier = scaler.transform(inlier)
-    #     clf = IsolationForest()
-    #     clf.fit(inlier)
-    #     Y = clf.predict(X)
+
+    if week_number == 1:
+        inlier_uid = [20851, 33026, 39442, 78727, 136585, 2362, 4213, 13611, 13745, 20341, 33026, 179385, 217745, 342662, 380170, 96243, 186517, 342662, 679030, 10367051, 10257688, 10060046]
+        inlier = week_df[week_df['uid'].isin(inlier_uid)][['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward',
+         'seek_forward']].values
+        inlier = scaler.transform(inlier)
+
+    clf = IsolationForest()
+    clf.fit(inlier)
+    Y = clf.predict(X)
     #     print 'outliers:'
     #     temp = week_df[Y == -1]
     #     temp = temp[temp['avg_speed'] > 0.5]
@@ -64,3 +64,7 @@ for week_number in range(1, 6):
     # md.fit(X)
     # print 'noisy samples:'
     # print week_df[md.labels_ == -1]
+    X = scaler.fit_transform(X)
+    X = X[Y == 1]
+    kmeans = KMeans(n_clusters=4, random_state=0).fit(X)
+    print kmeans.cluster_centers_
