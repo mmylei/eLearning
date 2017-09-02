@@ -46,7 +46,7 @@ for week_number in range(1, 6):
     # X = X[idx].values
     X = scaler.fit_transform(X)
     # week_df = week_df[idx].reset_index()
-    kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
+    kmeans = KMeans(n_clusters=4, random_state=0).fit(X)
     print kmeans.cluster_centers_
     # if week_number == 1:
     #     inlier_uid = [20851, 33026, 39442, 78727, 136585, 2362, 4213, 13611, 13745, 20341, 33026, 179385, 217745, 342662, 380170, 96243, 186517, 342662, 679030, 10367051, 10257688, 10060046]
