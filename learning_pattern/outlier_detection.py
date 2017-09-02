@@ -1,5 +1,5 @@
 from sklearn.ensemble import IsolationForest
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.cluster import DBSCAN
 from sklearn.cluster import KMeans
 import pandas as pd
@@ -22,7 +22,7 @@ df = pd.read_csv('weekly_quantities_with_no_flag.csv')
 #         np.array([0, 4.5, 8.1, 9], dtype=np.float32),
 #         np.array([0, 4, 8], dtype=np.float32),
 #         np.array([0, 4.8, 10.8, 12], dtype=np.float32)]
-scaler = StandardScaler()
+scaler = MinMaxScaler()
 for week_number in range(1, 6):
     print '-------------- week', week_number, '--------------'
     # indices = np.where(features[:, 0] == week_number)[0]  # only keep week 1 data

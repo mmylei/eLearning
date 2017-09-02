@@ -15,7 +15,7 @@ from sklearn import svm
 from sklearn import neighbors
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import mean_squared_error, zero_one_loss
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import logging
 
 FORMAT = '%(asctime)-15s [%(levelname)s] %(filename)s:%(lineno)d %(message)s'
@@ -136,7 +136,8 @@ if __name__ == '__main__':
         # week_df = drop_all_0_row(week_df)
 
         X = week_df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']].values
-
+        scaler = MinMaxScaler()
+        X = scaler.fit_transform(X)
         # X = X[idx].values
         # week_df = week_df[idx].reset_index()
         Y = week_df['grade'].values
