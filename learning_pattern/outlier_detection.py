@@ -1,3 +1,7 @@
+import matplotlib
+matplotlib.use('agg')
+import matplotlib.pyplot as plt
+from matplotlib.pyplot import savefig
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.cluster import DBSCAN
@@ -66,7 +70,13 @@ for week_number in range(1, 6):
     # print week_df[md.labels_ == -1]
     X = scaler.fit_transform(X)
     X = X[Y == 1]
+    inertia = []
     for n in range(1, 11):
         kmeans = KMeans(n_clusters=n, random_state=0).fit(X)
         # print kmeans.cluster_centers_
         print kmeans.inertia_
+        inertia.append(kmeans.inertia_)
+    fig = plt.figure()
+    plt.plot(inertia)
+    savefig('./inertia_week_' + str(week_number) + '.eps', bbox_inches='tight')
+    plt.close()
