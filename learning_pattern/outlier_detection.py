@@ -66,7 +66,7 @@ for week_number in range(1, 6):
     # print week_df[md.labels_ == -1]
     X = scaler.fit_transform(X)
     X = X[Y == 1]
-    for n in range(2, 11):
+    for n in range(1, 11):
         kmeans = KMeans(n_clusters=n, random_state=0).fit(X)
         # print kmeans.cluster_centers_
         print kmeans.inertia_
