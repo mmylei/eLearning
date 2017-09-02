@@ -66,5 +66,5 @@ for week_number in range(1, 6):
     # print week_df[md.labels_ == -1]
     X = scaler.fit_transform(X)
     X = X[Y == 1]
-    kmeans = KMeans(n_clusters=4, random_state=0).fit(X)
+    kmeans = KMeans(n_clusters=8, random_state=0).fit(X)
     print kmeans.cluster_centers_
