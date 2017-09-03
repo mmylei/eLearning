@@ -39,10 +39,10 @@ def append_drop_feature():
     result = cursor.fetchall()
     for row in result:
         uid = row[0]
-        data.loc[data.uid == uid, 'drop_kind1'] = result[0][0]
-        data.loc[data.uid == uid, 'drop_kind2'] = result[0][1]
-        data.loc[data.uid == uid, 'drop_kind3'] = result[0][2]
-        data.loc[data.uid == uid, 'drop_kind4'] = result[0][3]
+        data.loc[data.uid == uid, 'drop_kind1'] = row[0]
+        data.loc[data.uid == uid, 'drop_kind2'] = row[1]
+        data.loc[data.uid == uid, 'drop_kind3'] = row[2]
+        data.loc[data.uid == uid, 'drop_kind4'] = row[3]
     data.to_csv('weekly_quantities_with_drop.csv')
 
 
