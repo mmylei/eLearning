@@ -37,12 +37,16 @@ def append_drop_feature():
     cursor.execute(
         'select user_id, drop_week1, drop_week2, drop_week3, drop_week4 from weekly_participate_features;')
     result = cursor.fetchall()
+    n = len(result)
+    i = 0
     for row in result:
+        i += 1
+        print 'insert row', i, '/', n
         uid = row[0]
-        data.loc[data.uid == uid, 'drop_kind1'] = row[0]
-        data.loc[data.uid == uid, 'drop_kind2'] = row[1]
-        data.loc[data.uid == uid, 'drop_kind3'] = row[2]
-        data.loc[data.uid == uid, 'drop_kind4'] = row[3]
+        data.loc[data.uid == uid, 'drop_kind1'] = row[1]
+        data.loc[data.uid == uid, 'drop_kind2'] = row[2]
+        data.loc[data.uid == uid, 'drop_kind3'] = row[3]
+        data.loc[data.uid == uid, 'drop_kind4'] = row[4]
     data.to_csv('weekly_quantities_with_drop.csv')
 
 
