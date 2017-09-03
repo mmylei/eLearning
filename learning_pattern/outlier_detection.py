@@ -34,14 +34,14 @@ for week_number in range(1, 6):
     # Y = features[indices, :][:, len(columns)-3]  # grade (last column)
     # X = features[indices, :][:, range(1, len(columns)-3)]  # except module_number (first column) and grade (last column)
     week_df = df[df.module_number == week_number]
-    week_df = drop_long_real_spent_row(week_df).reset_index()
+    week_df = drop_long_real_spent_row(week_df).reset_index(drop=True)
     idx = non_0_row_index(week_df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']])
-    week_df = week_df[idx].reset_index()
+    week_df = week_df[idx].reset_index(drop=True)
     week_df = week_df.groupby('uid') \
         .agg({'real_spent': 'mean', 'coverage': 'mean', 'watched': 'mean', 'pauses': 'mean',
               'pause_length': 'mean', 'avg_speed': 'mean', 'std_speed': 'mean',
               'seek_backward': 'mean', 'seek_forward': 'mean', 'attempts': 'max', 'grade': 'max'}) \
-        .reset_index()
+        .reset_index(drop=True)
     # week_df = drop_all_0_row(week_df)
     # week_df = drop_long_real_spent_row(week_df).reset_index()
     X = week_df[
