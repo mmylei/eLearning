@@ -34,14 +34,15 @@ def append_drop_feature():
     data.assign(drop_kind4=pd.Series(np.zeros((data.shape[0]), dtype=np.int8)))
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
     cursor = conn.cursor()
-    for i in xrange(data.shape[0]):
-        uid = data[i]['uid']
-        cursor.execute('select drop_week1, drop_week2, drop_week3, drop_week4 from weekly_participate_features where user_id=' + str(uid) + ';')
-        result = cursor.fetchall()
-        data[i]['drop_kind1'] = result[0][0]
-        data[i]['drop_kind2'] = result[0][1]
-        data[i]['drop_kind3'] = result[0][2]
-        data[i]['drop_kind4'] = result[0][3]
+    cursor.execute(
+        'select user_id, drop_week1, drop_week2, drop_week3, drop_week4 from weekly_participate_features;')
+    result = cursor.fetchall()
+    for row in result:
+        uid = row[0]
+        data[data.uid == uid]['drop_kind1'] = result[0][0]
+        data[data.uid == uid]['drop_kind2'] = result[0][1]
+        data[data.uid == uid]['drop_kind3'] = result[0][2]
+        data[data.uid == uid]['drop_kind4'] = result[0][3]
     data.to_csv('weekly_quantities_with_drop.csv')
 
 
@@ -118,7 +119,7 @@ if __name__ == '__main__':
     if 'append_feature' in sys.argv:
         append_drop_feature()
         exit()
-    
+
     df = load_data()
     for week_number in range(1, 6):
         print '-------------- week', week_number, '--------------'
