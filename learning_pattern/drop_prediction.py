@@ -49,10 +49,13 @@ def append_drop_feature():
         # data.loc[data.uid == uid, 'drop_kind2'] = row[2]
         # data.loc[data.uid == uid, 'drop_kind3'] = row[3]
         # data.loc[data.uid == uid, 'drop_kind4'] = row[4]
-        data.set_value(i, 'drop_kind1', result[0][0])
-        data.set_value(i, 'drop_kind2', result[0][1])
-        data.set_value(i, 'drop_kind3', result[0][2])
-        data.set_value(i, 'drop_kind4', result[0][3])
+        # someone has no data
+        if len(result) > 0:
+            data.set_value(i, 'drop_kind1', result[0][0])
+            data.set_value(i, 'drop_kind2', result[0][1])
+            data.set_value(i, 'drop_kind3', result[0][2])
+            data.set_value(i, 'drop_kind4', result[0][3])
+
         # data.loc[i, 'drop_kind1'] = result[0][0]
         # data.loc[i, 'drop_kind2'] = result[0][1]
         # data.loc[i, 'drop_kind3'] = result[0][2]
