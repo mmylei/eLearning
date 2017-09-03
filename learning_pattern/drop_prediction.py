@@ -115,7 +115,7 @@ if __name__ == '__main__':
     df = load_data()
     drop_kind = 'drop_kind1'
     # group by uid and module_number
-    df = df.groupby(['uid', 'module_number']) \
+    df = df.groupby(['uid', 'module_number'], as_index=False) \
         .agg({'real_spent': 'mean', 'coverage': 'mean', 'watched': 'mean', 'pauses': 'mean',
               'pause_length': 'mean', 'avg_speed': 'mean', 'std_speed': 'mean',
               'seek_backward': 'mean', 'seek_forward': 'mean', 'attempts': 'max', drop_kind: 'max'}) \
@@ -132,7 +132,7 @@ if __name__ == '__main__':
     # class 1: drop in the next week
     Y[df['module_number'] == df[drop_kind] - 1] = 1
     # get X
-    X = week_df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']].values
+    X = df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']].values
     scaler = MinMaxScaler()
     X = scaler.fit_transform(X)
     # classification
