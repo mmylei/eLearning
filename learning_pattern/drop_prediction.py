@@ -39,8 +39,8 @@ def append_drop_feature():
     # result = cursor.fetchall()
     n = data.shape[0]
     for i in xrange(n):
-        if i % 1000 == 0:
-            print 'insert row', i, '/', n
+        if i % 10000 == 0:
+            logger.info('insert row' + str(i) + '/' + str(n))
         uid = data.loc[i, 'uid']
         cursor.execute(
             'select drop_week1, drop_week2, drop_week3, drop_week4 from weekly_participate_features where user_id=' + str(uid) + ';')
@@ -115,7 +115,7 @@ if __name__ == '__main__':
     df = load_data()
     drop_kind = 'drop_kind1'
     # group by uid and module_number
-    df = week_df.groupby(['uid', 'module_number']) \
+    df = df.groupby(['uid', 'module_number']) \
         .agg({'real_spent': 'mean', 'coverage': 'mean', 'watched': 'mean', 'pauses': 'mean',
               'pause_length': 'mean', 'avg_speed': 'mean', 'std_speed': 'mean',
               'seek_backward': 'mean', 'seek_forward': 'mean', 'attempts': 'max', drop_kind: 'max'}) \
