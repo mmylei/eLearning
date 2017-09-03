@@ -112,12 +112,12 @@ if __name__ == '__main__':
         append_drop_feature()
         exit()
 
-    df = load_data()
+    df_original = load_data()
     for kind in range(1, 5):
         logger.info('------------------ kind ' + str(kind) + ' ------------------')
         drop_kind = 'drop_kind' + str(kind)
         # group by uid and module_number
-        df = df.groupby(['uid', 'module_number'], as_index=False) \
+        df = df_original.groupby(['uid', 'module_number'], as_index=False) \
             .agg({'real_spent': 'mean', 'coverage': 'mean', 'watched': 'mean', 'pauses': 'mean',
                   'pause_length': 'mean', 'avg_speed': 'mean', 'std_speed': 'mean',
                   'seek_backward': 'mean', 'seek_forward': 'mean', 'attempts': 'max', drop_kind: 'max'}) \
