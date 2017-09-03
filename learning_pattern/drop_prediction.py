@@ -39,7 +39,7 @@ def append_drop_feature():
     # result = cursor.fetchall()
     n = data.shape[0]
     for i in xrange(n):
-        if i % 10 == 0:
+        if i % 1000 == 0:
             print 'insert row', i, '/', n
         uid = data.loc[i, 'uid']
         cursor.execute(
@@ -49,10 +49,14 @@ def append_drop_feature():
         # data.loc[data.uid == uid, 'drop_kind2'] = row[2]
         # data.loc[data.uid == uid, 'drop_kind3'] = row[3]
         # data.loc[data.uid == uid, 'drop_kind4'] = row[4]
-        data.loc[i, 'drop_kind1'] = result[0][0]
-        data.loc[i, 'drop_kind2'] = result[0][1]
-        data.loc[i, 'drop_kind3'] = result[0][2]
-        data.loc[i, 'drop_kind4'] = result[0][3]
+        data.set_value(i, 'drop_kind1', result[0][0])
+        data.set_value(i, 'drop_kind2', result[0][1])
+        data.set_value(i, 'drop_kind3', result[0][2])
+        data.set_value(i, 'drop_kind4', result[0][3])
+        # data.loc[i, 'drop_kind1'] = result[0][0]
+        # data.loc[i, 'drop_kind2'] = result[0][1]
+        # data.loc[i, 'drop_kind3'] = result[0][2]
+        # data.loc[i, 'drop_kind4'] = result[0][3]
     data.to_csv('weekly_quantities_with_drop.csv')
 
 
