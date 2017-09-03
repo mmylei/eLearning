@@ -37,7 +37,7 @@ def append_drop_feature():
     # cursor.execute(
     #     'select user_id, drop_week1, drop_week2, drop_week3, drop_week4 from weekly_participate_features;')
     # result = cursor.fetchall()
-    n = len(data.shape[0])
+    n = data.shape[0]
     for i in xrange(n):
         i += 1
         if i % 1000 == 0:
