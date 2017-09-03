@@ -39,8 +39,7 @@ def append_drop_feature():
     # result = cursor.fetchall()
     n = data.shape[0]
     for i in xrange(n):
-        i += 1
-        if i % 1000 == 0:
+        if i % 10 == 0:
             print 'insert row', i, '/', n
         uid = data.loc[i, 'uid']
         cursor.execute(
