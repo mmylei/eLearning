@@ -120,21 +120,21 @@ if __name__ == '__main__':
         df = df_original.groupby(['uid', 'module_number'], as_index=False) \
             .agg({'real_spent': 'mean', 'coverage': 'mean', 'watched': 'mean', 'pauses': 'mean',
                   'pause_length': 'mean', 'avg_speed': 'mean', 'std_speed': 'mean',
-                  'seek_backward': 'mean', 'seek_forward': 'mean', 'attempts': 'max', drop_kind: 'max'}) \
+                  'seek_backward': 'mean', 'seek_forward': 'mean', 'attempts': 'max', 'grade': 'max', drop_kind: 'max'}) \
             .reset_index(drop=True)
         # features after dropping are not useful
         df = df[df['module_number'] < df[drop_kind]].reset_index(drop=True)
         # clean data
         df = drop_long_real_spent_row(df).reset_index(drop=True)
         idx = non_0_row_index(df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed',
-                                  'seek_backward', 'seek_forward']])
+                                  'seek_backward', 'seek_forward', 'attempts', 'grade']])
         df = df[idx].reset_index(drop=True)
         # get Y, default class 0
         Y = np.zeros((df.shape[0]), dtype=np.int8)
         # class 1: drop in the next week
         Y[df['module_number'] == df[drop_kind] - 1] = 1
         # get X
-        X = df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward']].values
+        X = df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward', 'seek_forward', 'attempts', 'grade']].values
         scaler = MinMaxScaler()
         X = scaler.fit_transform(X)
         # classification
