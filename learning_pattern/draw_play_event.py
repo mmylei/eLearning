@@ -16,7 +16,8 @@ def play_times(duration, watchs):
     count_repeat = np.zeros(seconds, dtype=float)
     for time in watchs:
         point = int(time)
-        if 0 <= point < seconds:
+        # drop 0 second data
+        if 0 < point < seconds:
             count_repeat[point] += 1
     return count_repeat
 
