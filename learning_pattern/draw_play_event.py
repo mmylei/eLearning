@@ -32,7 +32,7 @@ def draw(video_id, duration, watchs):
     plt.xticks(range(0, seconds, 50), fontsize=5)
     plt.ylabel('Play Count', fontsize=5)
     # plt.yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5], ['1', '1.1', '1.2', '1.3', '1.4', '1.5'], fontsize=5)
-    plt.savefig(dir + '/play/' + video_id + '.png', format='png', bbox_inches='tight', pad_inches=0)
+    plt.savefig(dir + video_id + '.png', format='png', bbox_inches='tight', pad_inches=0)
 
 
 if __name__ == '__main__':
