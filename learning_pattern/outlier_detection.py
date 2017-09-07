@@ -60,17 +60,21 @@ for week_number in range(1, 6):
     clf = IsolationForest()
     clf.fit(inlier)
     Y = clf.predict(X)
-    #     print 'outliers:'
-    #     temp = week_df[Y == -1]
-    #     temp = temp[temp['avg_speed'] > 0.5]
-    #     print temp
+    print 'outliers:'
+    temp = week_df[Y == -1]
+    temp = temp[temp['avg_speed'] > 0.5]
+    print temp
+
+    X = scaler.fit_transform(X)
+    X = X[Y == 1]
+
+    # DBSCAN
     # md = DBSCAN(eps=1.5, min_samples=10)
     # md.fit(X)
     # print 'noisy samples:'
     # print week_df[md.labels_ == -1]
-    X = scaler.fit_transform(X)
-    X = X[Y == 1]
 
+    # K-MEANS PLOT
     # draw inertia plots for choosing cluster number
     # inertia = []
     # for n in range(1, 11):
@@ -83,5 +87,6 @@ for week_number in range(1, 6):
     # savefig('./inertia_week_' + str(week_number) + '.eps', bbox_inches='tight')
     # plt.close()
 
-    kmeans = KMeans(n_clusters=4, random_state=0).fit(X)
-    print kmeans.cluster_centers_
+    # K-MEANS Centers
+    # kmeans = KMeans(n_clusters=4, random_state=0).fit(X)
+    # print kmeans.cluster_centers_
