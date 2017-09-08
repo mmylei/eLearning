@@ -48,7 +48,7 @@ def dropout_ratio(duration, watchs):
         count_distinct[point] = len(count)
 
     if count_distinct[0] > 0:
-        return 1 - count_distinct[-5] / count_distinct[0]
+        return 1 - count_distinct[-3] / count_distinct[1]
     else:
         print 'no watch at beginning'
         return -1
