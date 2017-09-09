@@ -17,24 +17,24 @@ def insert_table(conn, p, table):
 
 
 def get_weekly_participate(conn, term, users):
-    table_name2 = ('HKUSTx-COMP' + term + '_clickstream').replace('-', '_').replace('.', '_')
-    table_name3 = ('HKUSTx-COMP' + term + '-user_video').replace('-', '_').replace('.', '_')
-    table_name4 = ('HKUSTx-COMP' + term + '_student_grade').replace('-', '_').replace('.', '_')
-    table_name5 = (term + '_certificates_generatedcertificate').replace('-', '_').replace('.', '_')
-    table_name6 = (term + '_commentthread').replace('-', '_').replace('.', '_')
-    table_name7 = (term + '_comment').replace('-', '_').replace('.', '_')
-    sql1 = 'select B.video_id, B.module_number, S.flag from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and B.term_id = \'COMP102_1x\' and B.module_number < 6;'
+    table_name2 = ('HKUSTx-' + term + '_clickstream').replace('-', '_').replace('.', '_')
+    table_name3 = ('HKUSTx-' + term + '-user_video').replace('-', '_').replace('.', '_')
+    table_name4 = ('HKUSTx-' + term + '_student_grade').replace('-', '_').replace('.', '_')
+    table_name5 = (term.replace('COMP', '').replace('EBA', '') + '_certificates_generatedcertificate').replace('-', '_').replace('.', '_')
+    table_name6 = (term.replace('COMP', '').replace('EBA', '') + '_commentthread').replace('-', '_').replace('.', '_')
+    table_name7 = (term.replace('COMP', '').replace('EBA', '') + '_comment').replace('-', '_').replace('.', '_')
+    sql1 = 'select B.video_id, B.module_number, S.flag from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and B.term_id = \''+ convert_term_id(term) + '\' and B.module_number < 6;'
     cursor = conn.cursor()
     cursor.execute(sql1)
     result1 = cursor.fetchall()
     flag1 = [0] * 5
     video = [0] * 5
-    sql10 = 'select module_number, count(B.video_id) from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and B.term_id = \'COMP102_1x\' and B.module_number < 6 group by B.module_number;'
+    sql10 = 'select module_number, count(B.video_id) from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and B.term_id = \''+ convert_term_id(term) + '\' and B.module_number < 6 group by B.module_number;'
     cursor.execute(sql10)
     result10 = cursor.fetchall()
     for module_num in range(1,6):
         video[module_num-1] = result10[module_num-1][1]
-    sql11 = 'select module_number, count(B.video_id) from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and B.term_id = \'COMP102_1x\' and B.module_number < 6 and S.flag = 1 group by B.module_number;'
+    sql11 = 'select module_number, count(B.video_id) from Video_Basic_Info as B, clickstream.Video_Stats_Info as S where B.video_id = S.video_id and B.term_id = \''+ convert_term_id(term) + '\' and B.module_number < 6 and S.flag = 1 group by B.module_number;'
     cursor.execute(sql11)
     result11 = cursor.fetchall()
     for module_num in range(1, 6):
@@ -125,6 +125,7 @@ def get_weekly_participate(conn, term, users):
         values.append(final)
         values.append(passed)
         values.extend(watched)
+        values.append(term)
         insert_table(conn, values, 'weekly_participate_features')
 
 
@@ -142,22 +143,60 @@ def create_table(conn, table):
               "m03_watched varchar(16), m04_watched varchar(16), m05_watched varchar(16));")
     conn.commit()
 
+
+def convert_term_id(term):
+    if term in ['COMP102.1x-2T2015',
+        'COMP102.1x-2T2016',
+        'COMP102.1x-3T2016',
+        # '102.1x-4T2015',
+        'COMP102.2x-1T2016',
+        'COMP102.2x-2T2016',
+        'COMP102.2x-3T2016',
+        'COMP102.2x-4T2015']:
+        return 'COMP102_1x'
+    if term in ['COMP107x-3T2016',
+        'COMP107x-2016_T1',
+        'COMP107x-1T2016']:
+        return 'COMP107x_2016T1'
+    if term in ['EBA101x-3T2016',
+        'EBA101x-3T2014',
+        'EBA101x-1T2016']:
+        return 'EBA101x'
+    if term in [
+        'EBA102x-4Q2015',
+        'EBA102x-3T2016',
+        'EBA102x-1T2016']:
+        return 'EBA102x'
+
+
 if __name__ == '__main__':
 
     terms = [
         # java
-        # 'COMP102.1x-2T2015',
-        # 'COMP102.1x-2T2016',
-        # 'COMP102.1x-3T2016',
-        '102.1x-4T2015',
-        # 'COMP102.2x-1T2016',
-        # 'COMP102.2x-2T2016',
-        # 'COMP102.2x-3T2016',
-        # 'COMP102.2x-4T2015',
+        'COMP102.1x-2T2015',
+        'COMP102.1x-2T2016',
+        'COMP102.1x-3T2016',
+        # '102.1x-4T2015',
+        'COMP102.2x-1T2016',
+        'COMP102.2x-2T2016',
+        'COMP102.2x-3T2016',
+        'COMP102.2x-4T2015',
         # 'COMP102x-2T2014',
+        # android
+        'COMP107x-3T2016',
+        'COMP107x-2016_T1',
+        'COMP107x-1T2016',
+        # speaking
+        'EBA101x-3T2016',
+        'EBA101x-3T2014',
+        'EBA101x-1T2016',
+        # writing
+        'EBA102x-4Q2015',
+        'EBA102x-3T2016',
+        'EBA102x-1T2016'
     ]
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
     for term in terms:
-        create_table(conn, 'weekly_participate_features')
+        # create_table(conn, 'weekly_participate_features')
         users = get_users(conn, term)
         get_weekly_participate(conn, term, users)
