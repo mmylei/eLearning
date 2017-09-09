@@ -2,7 +2,7 @@ import MySQLdb
 
 
 def get_users(conn, term):
-    table_name1 = (term + '_auth_user').replace('-', '_').replace('.', '_')
+    table_name1 = (term.replace('COMP', '').replace('EBA', '') + '_auth_user').replace('-', '_').replace('.', '_')
     sql = 'select distinct `id` from ' + table_name1 + ';'
     cursor = conn.cursor()
     cursor.execute(sql)
