@@ -17,19 +17,19 @@ dir = sys.argv[1]
 if not dir.endswith('/'):
     dir += '/'
 terms = [
-         'COMP102.1x-2T2015',
-         'COMP102.1x-2T2016',
-         'COMP102.1x-3T2016',
+         # 'COMP102.1x-2T2015',
+         # 'COMP102.1x-2T2016',
+         # 'COMP102.1x-3T2016',
          # 'COMP102.1x-4T2015',
-         'COMP102.2x-1T2016',
-         'COMP102.2x-2T2016',
-         'COMP102.2x-3T2016',
-         'COMP102.2x-4T2015',
+         # 'COMP102.2x-1T2016',
+         # 'COMP102.2x-2T2016',
+         # 'COMP102.2x-3T2016',
+         # 'COMP102.2x-4T2015',
          # 'COMP102x-2T2014',
          # android
-         # 'COMP107x-3T2016',
-         # 'COMP107x-2016_T1',
-         # 'COMP107x-1T2016',
+         'COMP107x-3T2016',
+         'COMP107x-2016_T1',
+         'COMP107x-1T2016',
          # speaking
          # 'EBA101x-3T2016',
          # 'EBA101x-3T2014',
@@ -70,7 +70,7 @@ for term in terms:
                         aggregated_category = 'L' + set_name.split(' ')[1]
                     elif set_category != 'Exam':
                         print 'unhandled category:'
-                        print course_id, term_id, set_name, set_category, xml_id, category
+                        print course_id, ',', term_id, ',', set_name, ',', set_category, ',', xml_id, ',', category
                     try:
                         cursor.execute('INSERT INTO ' + table_name + ' values(%s, %s, %s, %s, %s, %s, %s);',
                                    [course_id, term_id, set_name, set_category, aggregated_category, xml_id, category])
