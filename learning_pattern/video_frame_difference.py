@@ -11,7 +11,8 @@ def draw_diff(vid):
     # cap = cv2.VideoCapture('/Users/maomaoyu/Desktop/4a2f0738f6074e8a887911b6df66bf1c.mp4')
     fps = cap.get(cv2.CAP_PROP_FPS)
     flag, prev_frame = cap.read()
-    cv2.waitKey(10)
+    print flag
+    # cv2.waitKey(10)
     while True:
         flag, frame = cap.read()
         if flag:
@@ -19,8 +20,8 @@ def draw_diff(vid):
             # print s
             result.append(s)
             prev_frame = frame
-            if cv2.waitKey(10) == 27:
-                break
+            # if cv2.waitKey(10) == 27:
+            #     break
         else:
             break
 
