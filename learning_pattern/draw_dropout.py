@@ -61,8 +61,8 @@ def draw(term, points_x, points_y):
     plt.scatter(points_x, points_y, s=2)
     plt.xlabel('Video Length (second)', fontsize=5)
     # plt.xticks(range(0, seconds, 50), fontsize=5)
-    plt.ylabel('Dropout Ratio', fontsize=5)
-    plt.yticks([0, 0.2, 0.4, 0.6, 0.8, 1], fontsize=5)
+    plt.ylabel('Dropout Rate (%)', fontsize=5)
+    plt.yticks([0, 0.2, 0.4, 0.6], fontsize=5)
     plt.savefig(dir + term + '.png', format='png', bbox_inches='tight', pad_inches=0)
 
 
