@@ -11,6 +11,7 @@ def draw_diff(vid):
     # cap = cv2.VideoCapture('/Users/maomaoyu/Desktop/4a2f0738f6074e8a887911b6df66bf1c.mp4')
     fps = cap.get(cv2.CAP_PROP_FPS)
     flag, prev_frame = cap.read()
+    cv2.waitKey(10)
     while True:
         flag, frame = cap.read()
         if flag:
@@ -37,7 +38,7 @@ def draw_diff(vid):
     plt.savefig('./diff_images/frame_diff_' + vid + '.eps', bbox_inches='tight', pad_inches=0)
     # plt.savefig('4a2f0738f6074e8a887911b6df66bf1c.eps', bbox_inches='tight', pad_inches=0)
 
-    
+
 for file in os.listdir('/disk02/data/eLearning/raw_teaching_material/Java_video/'):
     if file.split('.')[-1] == 'mp4':
         draw_diff(file.split('.')[0])
