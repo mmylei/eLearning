@@ -36,7 +36,9 @@ def draw_diff(vid):
     # plt.yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5], ['1', '1.1', '1.2', '1.3', '1.4', '1.5'], fontsize=5)
     plt.savefig('./diff_images/frame_diff_' + vid + '.eps', bbox_inches='tight', pad_inches=0)
     # plt.savefig('4a2f0738f6074e8a887911b6df66bf1c.eps', bbox_inches='tight', pad_inches=0)
-    for file in os.listdir('/disk02/data/eLearning/raw_teaching_material/Java_video/'):
-        if file.split('.')[-1] == 'mp4':
-            draw_diff(file.split('.')[0])
+
+    
+for file in os.listdir('/disk02/data/eLearning/raw_teaching_material/Java_video/'):
+    if file.split('.')[-1] == 'mp4':
+        draw_diff(file.split('.')[0])
 # draw_diff('4a2f0738f6074e8a887911b6df66bf1c')
