@@ -14,7 +14,7 @@ from sklearn import tree
 from sklearn import svm
 from sklearn import neighbors
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import mean_squared_error, zero_one_loss
+from sklearn.metrics import mean_squared_error, zero_one_loss, mean_absolute_error
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import logging
 
@@ -83,12 +83,12 @@ def regression(X, Y, model=RandomForestRegressor()):
         model.fit(X_train, Y_train)
 
         Y_predict = model.predict(X_train)
-        error = mean_squared_error(Y_train, Y_predict)
+        error = mean_absolute_error(Y_train, Y_predict)
         logger.info('fold: ' + str(fold) + ', training error: ' + str(error))
         train_error += error
 
         Y_predict = model.predict(X_test)
-        error = mean_squared_error(Y_test, Y_predict)
+        error = mean_absolute_error(Y_test, Y_predict)
         logger.info('fold: ' + str(fold) + ', test error: ' + str(error))
 
         uids = week_df['uid'].values[test_index]
