@@ -138,4 +138,4 @@ if __name__ == '__main__':
         scaler = MinMaxScaler()
         X = scaler.fit_transform(X)
         # classification
-        classification(X, Y, RandomForestClassifier())
+        classification(X, Y, RandomForestClassifier(n_estimators=20, max_depth=5, min_samples_leaf=3))
