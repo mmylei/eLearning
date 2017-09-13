@@ -60,6 +60,14 @@ def draw_correlation_figure(df):
     savefig('./correlation.png', bbox_inches='tight')
 
 
+def baseline(Y):
+    average = np.mean(Y)
+    bl = 0
+    for grade in Y:
+        bl += abs(grade - average)
+    return bl
+
+
 def regression(X, Y, model=RandomForestRegressor()):
     test_error = 0
     train_error = 0
@@ -107,6 +115,8 @@ def regression(X, Y, model=RandomForestRegressor()):
 
     logger.info('train_error: ' + str(real_train_error))
     logger.info('test_error: ' + str(real_test_error))
+    bl = baseline(Y)
+    logger.info('baseline: ' + str(bl))
     return model
 
 
