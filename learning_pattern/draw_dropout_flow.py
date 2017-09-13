@@ -56,7 +56,7 @@ def dropout_flow(duration, watchs):
         else:
             result.append(1 - float(cnt) / temp)
         temp = cnt
-    return result
+    return result, count_distinct
 
 
 def draw(vid, data):
@@ -68,7 +68,7 @@ def draw(vid, data):
     # plt.xticks(range(0, seconds, 50), fontsize=5)
     plt.ylabel('Dropout Rate (%)', fontsize=5)
     # plt.yticks([0, 0.2, 0.4], fontsize=5)
-    plt.savefig(dir + 'dropout_flow_' + vid + '.png', format='png', bbox_inches='tight', pad_inches=0)
+    plt.savefig(dir + 'dropout_flow_' + vid + '.eps', bbox_inches='tight', pad_inches=0)
     plt.close()
 
 
@@ -112,6 +112,7 @@ if __name__ == '__main__':
                 print 'cannot find video info:', video_id
                 continue
             duration = float(d_result[0][0])
-            flow = dropout_flow(duration, play_pieces)
+            flow, cnt = dropout_flow(duration, play_pieces)
             draw(video_id, flow)
+            draw(video_id + '_count', cnt)
 
