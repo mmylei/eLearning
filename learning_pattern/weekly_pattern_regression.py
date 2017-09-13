@@ -65,6 +65,7 @@ def baseline(Y):
     bl = 0
     for grade in Y:
         bl += abs(grade - average)
+    bl = bl / len(Y)
     return bl
 
 
