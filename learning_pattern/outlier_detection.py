@@ -7,7 +7,9 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.cluster import DBSCAN
 from sklearn.cluster import KMeans
 import pandas as pd
+import numpy
 
+numpy.set_printoptions(threshold=numpy.nan)
 pd.set_option('display.width', 180)
 pd.set_option('display.max_rows', 1000)
 
