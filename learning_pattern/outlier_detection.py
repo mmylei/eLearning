@@ -69,7 +69,8 @@ for week_number in range(1, 6):
 
     X = scaler.fit_transform(X)
     X = X[Y == 1]
-    print X.mean(axis=1)
+    # print X.mean(axis=0)
+    print week_df[Y == 1].mean(axis=0)
 
     # DBSCAN
     # md = DBSCAN(eps=1.5, min_samples=10)
