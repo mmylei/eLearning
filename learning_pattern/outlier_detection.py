@@ -46,7 +46,7 @@ for week_number in range(1, 6):
     # week_df = drop_long_real_spent_row(week_df).reset_index()
     X = week_df[
         ['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed', 'seek_backward',
-         'seek_forward']].values
+         'seek_forward', 'attempts']].values
     # idx = non_0_row_index(X)
     # X = X[idx].values
     # week_df = week_df[idx].reset_index()
@@ -67,6 +67,7 @@ for week_number in range(1, 6):
 
     X = scaler.fit_transform(X)
     X = X[Y == 1]
+    print X.mean()
 
     # DBSCAN
     # md = DBSCAN(eps=1.5, min_samples=10)
