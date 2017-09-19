@@ -63,7 +63,7 @@ if __name__ == '__main__':
             if row[0] is None:
                 continue
             video_id = row[0]
-            print('start draw video ' + video_id)
+            # print('start draw video ' + video_id)
             cursor.execute('SELECT `current_time`'
                            ' FROM ' + table_name +
                            ' WHERE video_id=\'' + video_id + '\' ' + 'and event_type = \'play_video\' and `current_time` is not NULL;')
@@ -84,6 +84,6 @@ if __name__ == '__main__':
             module_count[str(module_number)] = sequence
 
             play_count = play_times(duration, play_records)
-            threshold = 0.5 * max(play_count)
+            threshold = 0.3 * max(play_count)
             peak = map(lambda x: 1 if x >= threshold else 0, play_count)
             insert_table(conn, [module_number, video_id, sequence, json_wrapper.dumps(peak)], table_name2)
