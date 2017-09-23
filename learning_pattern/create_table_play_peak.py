@@ -27,7 +27,7 @@ def create_table(conn, table):
     c = conn.cursor()
     c.execute("DROP TABLE IF EXISTS " + table + ";")
     conn.commit()
-    c.execute("CREATE TABLE " + table + "(module_number int, video_id varchar(32), sequence int, peak varchar(4096));")
+    c.execute("CREATE TABLE " + table + "(module_number int, video_id varchar(32), sequence int, peak varchar(4096), primary key (video_id));")
     conn.commit()
 
 

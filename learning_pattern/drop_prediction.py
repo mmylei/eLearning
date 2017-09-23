@@ -102,6 +102,9 @@ def classification(X, Y, model):
     real_test_error = test_error / 5.0
     real_train_error = train_error / 5.0
 
+    model.fit(X, Y)
+    print model.feature_importances_
+
     logger.info('train_error: ' + str(real_train_error))
     logger.info('test_error: ' + str(real_test_error))
     return model
