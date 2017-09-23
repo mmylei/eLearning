@@ -132,6 +132,7 @@ if __name__ == '__main__':
         idx = non_0_row_index(df[['real_spent', 'coverage', 'watched', 'pauses', 'pause_length', 'avg_speed', 'std_speed',
                                   'seek_backward', 'seek_forward', 'attempts', 'grade']])
         df = df[idx].reset_index(drop=True)
+        df.to_csv('./dropout_features_with_label_' + str(kind) + '.csv')
         # get Y, default class 0
         Y = np.zeros((df.shape[0]), dtype=np.int8)
         # class 1: drop in the next week
