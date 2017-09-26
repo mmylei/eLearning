@@ -80,7 +80,7 @@ if __name__ == '__main__':
         dir = './dropout/'
         table_name = ('HKUSTx-' + term + '-video_play_piece').replace('-', '_').replace('.', '_')
         cursor = conn.cursor()
-        cursor.execute('SELECT distinct(video_id) FROM ' + table_name + ' as P and clickstream.Video_Stats_Info as S where P.video_id = S.video_id and S.flag = 1 ;')
+        cursor.execute('SELECT distinct(video_id) FROM ' + table_name + ' as P and Video_Stats_Info as S where P.video_id = S.video_id and S.flag = 1 ;')
         result = cursor.fetchall()
         points_x = []
         points_y = []
