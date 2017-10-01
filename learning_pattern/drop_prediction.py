@@ -1,4 +1,6 @@
 import matplotlib
+from sklearn.manifold import TSNE
+
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import savefig
@@ -16,6 +18,7 @@ from sklearn import neighbors
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import mean_squared_error, zero_one_loss
 from sklearn.preprocessing import MinMaxScaler
+import seaborn as sns
 import logging
 
 FORMAT = '%(asctime)-15s [%(levelname)s] %(filename)s:%(lineno)d %(message)s'
@@ -142,4 +145,23 @@ if __name__ == '__main__':
         scaler = MinMaxScaler()
         X = scaler.fit_transform(X)
         # classification
-        classification(X, Y, RandomForestClassifier(n_estimators=20, max_depth=5, min_samples_leaf=3))
+        model = RandomForestClassifier(n_estimators=20, max_depth=5, min_samples_leaf=3)
+        classification(X, Y, model)
+        if kind == 3:
+            model.fit(X, Y)
+            idx = Y == model.predict(X)
+            X = X[idx]
+            Y = Y[idx]
+            data_proj = TSNE().fit_transform(X)
+            data_proj = np.clip(data_proj, -1000, 1000)
+            palette = np.array(sns.color_palette("hls", 10))
+            # We create a scatter plot.
+            f = plt.figure(figsize=(8, 8))
+            ax = plt.subplot(aspect='equal')
+            sc = ax.scatter(data_proj[:, 0], data_proj[:, 1], lw=0, s=40,
+                            c=palette[Y.astype(np.int)])
+            # plt.xlim(-25, 25)
+            # plt.ylim(-25, 25)
+            ax.axis('off')
+            ax.axis('tight')
+            plt.savefig('drop_tsne_3.eps', bbox_inches='tight', pad_inches=0)
