@@ -8,8 +8,8 @@ def create_table(conn, table):
     c.execute("DROP TABLE IF EXISTS `" + table + "`;")
     conn.commit()
     c.execute("CREATE TABLE " + table + "(user_id varchar(32), user_name varchar(64),"
-                                        "session_id varchar(64), event_type varchar(128),"
-                                        "name varchar(128), event_source varchar(16), emitted_time datetime);")
+                                        "session_id varchar(64), event_type varchar(2048),"
+                                        "name varchar(2048), event_source varchar(16), emitted_time datetime);")
     conn.commit()
 
 
