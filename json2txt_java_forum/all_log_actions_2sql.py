@@ -26,7 +26,7 @@ def process(file_name, conn, term):
     create_table(conn, term + '_clickstream_events')
     while line:
         obj = json_wrapper.loads(line)
-        text = [obj['context']['user_id'], obj['username'], obj['session'], obj['event_type'],
+        text = [obj['context']['user_id'], obj['username'], obj['session'] if 'session' in obj else None, obj['event_type'],
                               obj['name'], obj['event_source'],
                               obj['time']]
         insert_table(conn, text, term + '_clickstream_events')
