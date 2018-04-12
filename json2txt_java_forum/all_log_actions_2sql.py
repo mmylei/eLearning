@@ -7,9 +7,9 @@ def create_table(conn, table):
     c = conn.cursor()
     c.execute("DROP TABLE IF EXISTS `" + table + "`;")
     conn.commit()
-    c.execute("CREATE TABLE " + table + " (user_id varchar(32), user_name varchar(64),"
+    c.execute("CREATE TABLE " + table + "(user_id varchar(32), user_name varchar(64),"
                                         "session_id varchar(64), event_type varchar(128),"
-                                        "name varchar(128), event_source varchar(16), emitted_time datetime;")
+                                        "name varchar(128), event_source varchar(16), emitted_time datetime);")
     conn.commit()
 
 
