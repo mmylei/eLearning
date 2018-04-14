@@ -55,7 +55,7 @@ if __name__ == '__main__':
     if not dir.endswith('/'):
         dir += '/'
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
-    terms = android_terms
+    terms = speaking_terms
     for term in terms:
         file_name = dir + "HKUSTx-" + term + "-clickstream.log"
         process(file_name, conn, term)
