@@ -26,7 +26,7 @@ def process(file_name, conn, term):
     create_table(conn, term + '_clickstream_events')
     while line:
         obj = json_wrapper.loads(line)
-        text = [obj['context']['user_id'] if 'user_id' in obj else None, obj['username'], obj['session'] if 'session' in obj else None, obj['event_type'],
+        text = [obj['context']['user_id'] if 'user_id' in obj['context'] else None, obj['username'], obj['session'] if 'session' in obj else None, obj['event_type'],
                               obj['name'] if 'name' in obj else None, obj['event_source'],
                               obj['time']]
         insert_table(conn, text, term + '_clickstream_events')
@@ -55,7 +55,7 @@ if __name__ == '__main__':
     if not dir.endswith('/'):
         dir += '/'
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
-    terms = writing_terms
+    terms = java_terms
     for term in terms:
         file_name = dir + "HKUSTx-" + term + "-clickstream.log"
         process(file_name, conn, term)
