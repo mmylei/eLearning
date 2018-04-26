@@ -9,7 +9,7 @@ def create_grades_table(conn, table):
     c.execute("CREATE TABLE " + table +
               "(`student_id` int, `module_id` varchar(64), `page_view` int,"
               " distinct_attempt int, `submission` int, distinct_correct int, avg_solve_time decimal(10, 5),"
-              " `start` datetime, `end` datetime);")
+              " `start` datetime, `end` datetime, PRIMARY KEY (student_id, module_id));")
     conn.commit()
 
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
@@ -68,7 +68,7 @@ for term_key in terms:
         problems = [row[0] for row in cursor.fetchall()]
         # calc values of each column
         cursor.execute("SELECT student_id, count(distinct xml_id), sum(attempts), sum(grade=max_grade),"
-                       " sum(TIMESTAMPDIFF(SECOND, created, modified)), min(created), max(end) FROM "
+                       " sum(TIMESTAMPDIFF(SECOND, created, modified)), min(created), max(modified) FROM "
                        + term + "_students_grades" + " WHERE attempts > 0 and xml_id in %s group by student_id;", [problems])
         result = cursor.fetchall()
         for row in result:
