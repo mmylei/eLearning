@@ -39,10 +39,12 @@ def process(file_name, conn, term, module_id):
         for sqt in sequential:
             vertical = element[sqt]
             for vert in vertical:
-                eid = vert.split('@')[-1]
-                etype = vert.split('@')[0]
-                text = [num, name, etype, eid]
-                insert_table(conn, text, term + '_element')
+                real_element = element[vert]
+                for relment in real_element:
+                    eid = relment.split('@')[-1]
+                    etype = relment.split('@')[0]
+                    text = [num, name, etype, eid]
+                    insert_table(conn, text, term + '_element')
     f.close()
 
 if __name__ == '__main__':
