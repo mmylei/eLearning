@@ -37,7 +37,7 @@ def process(file_name, conn, term, module_id):
         num = mid.split('@')[-1]
         sequential = element['chapter@' + num]
         for sqt in sequential:
-            vertical = element['sequential@' + sqt]
+            vertical = element[sqt]
             for vert in vertical:
                 eid = vert.split('@')[-1]
                 etype = vert.split('@')[0]
