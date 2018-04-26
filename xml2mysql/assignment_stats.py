@@ -43,8 +43,8 @@ modules = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695
              'M04@668fb99bb9684644822889e460197fe9', 'M05@3f0585f6e4574bac95384a227d50ef5f',
              'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
 for term in terms:
-    create_grades_table(conn, term + "_assignment_stats")
     term = term.replace('.', '_').replace('-', '_')
+    create_grades_table(conn, term + "_assignment_stats")
     cursor = conn.cursor()
     # get page views of each student
     page_views = {}
