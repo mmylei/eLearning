@@ -8,7 +8,7 @@ def create_grades_table(conn, table):
     conn.commit()
     c.execute("CREATE TABLE " + table +
               "(`student_id` int, `module_id` varchar(64), `page_view` int,"
-              " distinct_attempt int, `submission` int, distinct_correct int, avg_solve_time decimal(10, 5),"
+              " distinct_attempt int, `submission` int, distinct_correct int, avg_solve_time double,"
               " `start` datetime, `end` datetime, PRIMARY KEY (student_id, module_id));")
     conn.commit()
 
