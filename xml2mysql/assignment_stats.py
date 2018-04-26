@@ -81,7 +81,10 @@ for term_key in terms:
             distinct_attempt = row[1]
             submission = row[2]
             distinct_correct = row[3]
-            avg_solve_time = row[4] * 1.0 / distinct_attempt
+            if row[4] == 0:
+                avg_solve_time = 0
+            else:
+                avg_solve_time = row[4] * 1.0 / distinct_attempt
             start = row[5]
             end = row[6]
             cursor.execute("INSERT INTO " + term + "_assignment_stats VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
