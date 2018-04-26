@@ -56,6 +56,7 @@ for term in terms:
         except Exception as e:
             print state
             print row[8]
+            print term
             raise e
         if 'attempts' in obj:
             attempt = obj['attempts']
