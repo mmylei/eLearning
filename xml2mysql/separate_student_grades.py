@@ -40,7 +40,7 @@ terms = [
 for term in terms:
     term = term.replace('.', '_').replace('-', '_')
     cursor = conn.cursor()
-    cursor.execute("SELECT module_id, student_id, grade, max_grade, course_id, state, created, modified FROM "
+    cursor.execute("SELECT module_id, student_id, grade, max_grade, course_id, state, created, modified, id FROM "
                    + term + "_courseware_studentmodule" + " WHERE module_type = \"problem\" and grade is not NULL;")
     result = cursor.fetchall()
     for row in result:
@@ -55,6 +55,7 @@ for term in terms:
             obj = json_wrapper.loads(state)
         except Exception as e:
             print state
+            print row[8]
             raise e
         if 'attempts' in obj:
             attempt = obj['attempts']
