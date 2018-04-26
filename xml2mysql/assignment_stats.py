@@ -63,7 +63,7 @@ for term_key in terms:
     for module in modules:
         module_id = module.split('@')[-1]
         # get all problems under this module
-        cursor.execute("SELECT element_id from " + term + "_element where module_id=%s and element_type=\"problem\"",
+        cursor.execute("SELECT element_id from " + terms[term_key] + term + "_element where module_id=%s and element_type=\"problem\"",
                        [module_id])
         problems = [row[0] for row in cursor.fetchall()]
         # calc values of each column
