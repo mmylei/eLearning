@@ -50,6 +50,7 @@ for term in terms:
         created = row[6]
         modified = row[7]
         state = row[5]
+        state = state.replace('\\\\', '\\')
         try:
             obj = json_wrapper.loads(state)
         except Exception as e:
