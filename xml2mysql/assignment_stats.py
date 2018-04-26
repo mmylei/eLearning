@@ -49,7 +49,7 @@ for term_key in terms:
     # get page views of each student
     page_views = {}
     cursor.execute("SELECT user_id, event_type FROM " + terms[term_key] + term + "_clickstream_events"
-                   " WHERE event_type like %s;", ['%problem_get'])
+                   " WHERE user_id <> '' and user_id is not NULL and event_type like %s;", ['%problem_get'])
     for row in cursor.fetchall():
         student_id = int(row[0])
         xml_id = row[1].split('/')[-4].split('@')[-1]
@@ -59,6 +59,7 @@ for term_key in terms:
             page_views[student_id][xml_id] = 1
         else:
             page_views[student_id][xml_id] += 1
+    print('page view counted')
     for module in modules:
         module_id = module.split('@')[-1]
         # get all problems under this module
@@ -87,5 +88,6 @@ for term_key in terms:
                            [student_id, module_id, page_view, distinct_attempt, submission, distinct_correct,
                             avg_solve_time, start, end])
         conn.commit()
+        print('module ' + module_id + ' inserted')
 
 conn.close()
