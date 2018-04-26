@@ -50,7 +50,11 @@ for term in terms:
         created = row[6]
         modified = row[7]
         state = row[5]
-        obj = json_wrapper.loads(state)
+        try:
+            obj = json_wrapper.loads(state)
+        except Exception as e:
+            print state
+            raise e
         if 'attempts' in obj:
             attempt = obj['attempts']
         else:
