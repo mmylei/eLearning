@@ -69,7 +69,7 @@ for term_key in terms:
         # calc values of each column
         cursor.execute("SELECT student_id, count(distinct xml_id), sum(attempts), sum(grade=max_grade),"
                        " sum(TIMESTAMPDIFF(SECOND, created, modified)), min(created), max(end) FROM "
-                       + term + "_student_grades" + " WHERE attempts > 0 and xml_id in %s group by student_id;", [problems])
+                       + term + "_students_grades" + " WHERE attempts > 0 and xml_id in %s group by student_id;", [problems])
         result = cursor.fetchall()
         for row in result:
             student_id = row[0]
