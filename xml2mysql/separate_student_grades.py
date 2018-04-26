@@ -65,8 +65,8 @@ for term in terms:
             xml_id = row[0].split('+')[-1].split('@')[-1]
         else:
             xml_id = row[0].split('/')[-1]
-        create_grades_table(conn, term + "students_grades")
-        cursor.execute("INSERT INTO" + term + "students_grades VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        create_grades_table(conn, term + "_students_grades")
+        cursor.execute("INSERT INTO " + term + "_students_grades VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
                        [student_id, course_id, term_id, xml_id, grade, max_grade, attempt, created, modified])
         conn.commit()
 
