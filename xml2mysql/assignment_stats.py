@@ -42,13 +42,13 @@ modules = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695
              'M02@db78e7f298c345f3af42589e06c470a2', 'M03@b57525ba4b974719b9ce4eca914e1c39',
              'M04@668fb99bb9684644822889e460197fe9', 'M05@3f0585f6e4574bac95384a227d50ef5f',
              'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
-for term in terms:
-    term = term.replace('.', '_').replace('-', '_')
+for term_key in terms:
+    term = term_key.replace('.', '_').replace('-', '_')
     create_grades_table(conn, term + "_assignment_stats")
     cursor = conn.cursor()
     # get page views of each student
     page_views = {}
-    cursor.execute("SELECT user_id, event_type FROM " + terms[term] + term + "_clickstream_events"
+    cursor.execute("SELECT user_id, event_type FROM " + terms[term_key] + term + "_clickstream_events"
                    " WHERE event_type like %s;", ['%problem_get'])
     for row in cursor.fetchall():
         student_id = int(row[0])
