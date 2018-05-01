@@ -23,8 +23,8 @@ dir = sys.argv[1]
 if not dir.endswith('/'):
     dir += '/'
 
-terms = android_terms
-table_prefix = android_table_prefix
+terms = speaking_terms
+table_prefix = speaking_table_prefix
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 for i in range(len(terms)):
     # auth_user.create_table(conn, table_prefix[i] + '_auth_user')
@@ -35,7 +35,7 @@ for i in range(len(terms)):
     # certificates_generatedcertificate.insert_table(conn, dir + "HKUSTx-EBA" + terms[i] + "-certificates_generatedcertificate-prod-analytics.sql",
     #                                                 table_prefix[i] + '_certificates_generatedcertificate')
     courseware_studentmodule.create_table(conn, table_prefix[i] + '_courseware_studentmodule')
-    courseware_studentmodule.insert_table(conn, dir + "HKUSTx-COMP" + terms[i] + "-courseware_studentmodule-prod-analytics.sql",
+    courseware_studentmodule.insert_table(conn, dir + "HKUSTx-EBA" + terms[i] + "-courseware_studentmodule-prod-analytics.sql",
                            table_prefix[i] + '_courseware_studentmodule')
     # student_anonymoususerid.create_table(conn, table_prefix[i] + '_student_anonymoususerid')
     # student_anonymoususerid.insert_table(conn, dir + "HKUSTx-EBA" + terms[i] + "-student_anonymoususerid-prod-analytics.sql",
