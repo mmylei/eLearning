@@ -70,17 +70,17 @@ if __name__ == '__main__':
     if not dir.endswith('/'):
         dir += '/'
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
-    terms = java_2terms
+    terms = java_1terms
     #Java_102.1x
-    # module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695d2aa25b5',
-    #              'M02@db78e7f298c345f3af42589e06c470a2', 'M03@b57525ba4b974719b9ce4eca914e1c39',
-    #              'M04@668fb99bb9684644822889e460197fe9', 'M05@3f0585f6e4574bac95384a227d50ef5f',
-    #              'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
-    #Java_102.2x
-    module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@2dedce7b2d7240d59bd69fed8ed6d375',
-                 'M02@0e9380db36894e7cbd23b50742464bf2', 'M03@356a9cd3ced348f18695f1c2e3202196',
-                 'M04@5ce89fe48f9e4cb8adc08c83c29da49f', 'M05@a889242857844579902cda2842e3a84b',
+    module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695d2aa25b5',
+                 'M02@db78e7f298c345f3af42589e06c470a2', 'M03@b57525ba4b974719b9ce4eca914e1c39',
+                 'M04@668fb99bb9684644822889e460197fe9', 'M05@3f0585f6e4574bac95384a227d50ef5f',
                  'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
+    #Java_102.2x
+    # module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@2dedce7b2d7240d59bd69fed8ed6d375',
+    #              'M02@0e9380db36894e7cbd23b50742464bf2', 'M03@356a9cd3ced348f18695f1c2e3202196',
+    #              'M04@5ce89fe48f9e4cb8adc08c83c29da49f', 'M05@a889242857844579902cda2842e3a84b',
+    #              'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
 
     for term in terms:
         file_name = dir + "HKUSTx-" + term + "-course_structure-prod-analytics.json"
