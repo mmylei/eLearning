@@ -69,8 +69,9 @@ if __name__ == '__main__':
     speaking_terms2014 = [ 'EBA101x-3T2014']
     # speaking_table_prefix = [x.replace('.', '_').replace('-', '_') for x in speaking_terms]
 
-    writing_terms = ['EBA102x-3T2016', 'EBA102x-1T2016']
+    writing_terms = ['EBA102x-1T2016']
     writing_terms4q2015 = ['EBA102x-4Q2015']
+    writing_terms3T2016 = ['EBA102x-3T2016']
     # writing_table_prefix = [x.replace('.', '_').replace('-', '_') for x in writing_terms]
 
     dir = sys.argv[1]
@@ -100,12 +101,20 @@ if __name__ == '__main__':
     #              'M06@d0f02e09d13c41d1a1e1135ecb54cbe9', 'M07@c588e52413634310b2fd1aa257f840e3',
     #              'post@428e6b7750e54d92a2c5bae1561a3b62']
 
-    # Writing
+    # Writing 1T2016
     module_id = ['pre@4efc576a67bc4d3f97c9e5826cc1af83', 'M01@df20fa07b6ae4e84bd0d51cd7c407e56',
                  'M02@174183c4cc9844508e4a98556614b7f0', 'M03@16b9fe2877fc413d88e2a0008a85b36e',
                  'M04@81f50f96e4c44d87ae19452270f1aa6d', 'M05@d2e89afb6cd743218d80f92272c98bff',
                  'M06@60ffad0df6d94b8f8016ede87ebca6bd', 'M07@2406dcc97b9c4aa1a2b8fd8ebd38d7b7',
                  'post@7bcb47d024034947b7db98ebc1a0d8b5']
+
+    # Writing 3T2016
+    # module_id = ['pre@e6495aee35324f588fd4c87963b4b841', 'M01@df20fa07b6ae4e84bd0d51cd7c407e56',
+    #              'M02@174183c4cc9844508e4a98556614b7f0', 'M03@16b9fe2877fc413d88e2a0008a85b36e',
+    #              'M04@81f50f96e4c44d87ae19452270f1aa6d', 'M05@d2e89afb6cd743218d80f92272c98bff',
+    #              'M06@60ffad0df6d94b8f8016ede87ebca6bd', 'M07@2406dcc97b9c4aa1a2b8fd8ebd38d7b7',
+    #              'post@7bcb47d024034947b7db98ebc1a0d8b5']
+
     for term in terms:
         file_name = dir + "HKUSTx-" + term + "-course_structure-prod-analytics.json"
         process(file_name, conn, term, module_id)
