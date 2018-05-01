@@ -23,8 +23,8 @@ dir = sys.argv[1]
 if not dir.endswith('/'):
     dir += '/'
 
-terms = android_terms
-table_prefix = android_table_prefix
+terms = java_terms
+table_prefix = java_table_prefix
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 for i in range(len(terms)):
     # auth_user.create_table(conn, table_prefix[i] + '_auth_user')
@@ -34,9 +34,9 @@ for i in range(len(terms)):
     # certificates_generatedcertificate.create_table(conn, table_prefix[i] + '_certificates_generatedcertificate')
     # certificates_generatedcertificate.insert_table(conn, dir + "HKUSTx-EBA" + terms[i] + "-certificates_generatedcertificate-prod-analytics.sql",
     #                                                 table_prefix[i] + '_certificates_generatedcertificate')
-    # courseware_studentmodule.create_table(conn, table_prefix[i] + '_courseware_studentmodule')
-    # courseware_studentmodule.insert_table(conn, dir + "HKUSTx-EBA" + terms[i] + "-courseware_studentmodule-prod-analytics.sql",
-    #                        table_prefix[i] + '_courseware_studentmodule')
+    courseware_studentmodule.create_table(conn, table_prefix[i] + '_courseware_studentmodule')
+    courseware_studentmodule.insert_table(conn, dir + "HKUSTx-COMP" + terms[i] + "-courseware_studentmodule-prod-analytics.sql",
+                           table_prefix[i] + '_courseware_studentmodule')
     # student_anonymoususerid.create_table(conn, table_prefix[i] + '_student_anonymoususerid')
     # student_anonymoususerid.insert_table(conn, dir + "HKUSTx-EBA" + terms[i] + "-student_anonymoususerid-prod-analytics.sql",
     #                                       table_prefix[i] + '_student_anonymoususerid')
@@ -51,8 +51,8 @@ for i in range(len(terms)):
     # django_comment_client_role_users.create_table(conn, table_prefix[i] + '_django_comment_client_role_users')
     # django_comment_client_role_users.insert_table(conn, dir + "HKUSTx-EBA" + terms[i] + "-django_comment_client_role_users-prod-analytics.sql", table_prefix[i] + '_django_comment_client_role_users')
 
-    student_courseaccessrole.create_table(conn, table_prefix[i] + '_student_courseaccessrole')
-    student_courseaccessrole.insert_table(conn, dir + "HKUSTx-COMP" + terms[i] + "-student_courseaccessrole-prod-analytics.sql",
-                           table_prefix[i] + '_student_courseaccessrole')
+    # student_courseaccessrole.create_table(conn, table_prefix[i] + '_student_courseaccessrole')
+    # student_courseaccessrole.insert_table(conn, dir + "HKUSTx-COMP" + terms[i] + "-student_courseaccessrole-prod-analytics.sql",
+    #                        table_prefix[i] + '_student_courseaccessrole')
 
 conn.close()

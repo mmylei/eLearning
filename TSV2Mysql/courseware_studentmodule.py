@@ -3,7 +3,7 @@ def create_table(conn, table):
     c.execute("DROP TABLE IF EXISTS `" + table + "`;")
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
-              "(id int, module_type varchar(100), module_id varchar(100), student_id int, state text,"
+              "(id int, module_type varchar(100), module_id varchar(100), student_id int, state long text,"
               "grade decimal(30,25), created datetime, modified datetime, max_grade decimal(30,25), done varchar(100),"
               "course_id varchar(100));")
     conn.commit()
