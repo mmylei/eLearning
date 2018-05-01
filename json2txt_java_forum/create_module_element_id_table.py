@@ -52,7 +52,7 @@ if __name__ == '__main__':
              '102x-2T2014', '102.1x-3T2016', '102.2x-3T2016']
     # terms = ['102.1x-2T2015']
 
-    java_terms = ['COMP102.1x-2T2015', 'COMP102.1x-2T2016', 'COMP102.1x-4T2015', 'COMP102.2x-1T2016', 'COMP102.2x-2T2016', 'COMP102.2x-4T2015',
+    java_terms = ['COMP102.1x-2T2015', 'COMP102.1x-2T2016', 'COMP102.2x-1T2016', 'COMP102.2x-2T2016', 'COMP102.2x-4T2015',
                   'COMP102x-2T2014', 'COMP102.1x-3T2016', 'COMP102.2x-3T2016']
     # java_table_prefix = [x.replace('.', '_').replace('-', '_') for x in java_terms]
     java_4T2015 = ['COMP102.1x-4T2015']
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     if not dir.endswith('/'):
         dir += '/'
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
-    terms = java_4T2015
+    terms = java_terms
     module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695d2aa25b5',
                  'M02@db78e7f298c345f3af42589e06c470a2', 'M03@b57525ba4b974719b9ce4eca914e1c39',
                  'M04@668fb99bb9684644822889e460197fe9', 'M05@3f0585f6e4574bac95384a227d50ef5f',
