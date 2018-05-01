@@ -18,7 +18,7 @@ def insert_table(conn, p, table):
     conn.commit()
 
 
-def process(file_name, conn, term, module_id):
+def process(file_name, conn, term, module_id, split_type, split_id):
     f = open(file_name)
     term = term.replace('.', '_').replace('-', '_')
     create_table(conn, term + '_element')
@@ -26,12 +26,12 @@ def process(file_name, conn, term, module_id):
     obj = json_wrapper.loads(f.read())
     for key in obj:
         child = []
-        if key.split('@')[-2].split('+')[0] == 'course':
+        if split_type(key) == 'course':
             continue
         else:
             for children in obj[key]['children']:
-                child.append(children.split('@')[-2].split('+')[0] + '@' + children.split('@')[-1])
-            element[key.split('@')[-2].split('+')[0] + '@' + key.split('@')[-1]] = child
+                child.append(split_type(children) + '@' + split_id(children))
+            element[split_type(key) + '@' + split_id(key)] = child
     for mid in module_id:
         name = mid.split('@')[0]
         num = mid.split('@')[-1]
@@ -70,7 +70,9 @@ if __name__ == '__main__':
     # speaking_table_prefix = [x.replace('.', '_').replace('-', '_') for x in speaking_terms]
 
     writing_terms = ['EBA102x-1T2016']
+    # have not create table for this term yet
     writing_terms4q2015 = ['EBA102x-4Q2015']
+
     writing_terms3T2016 = ['EBA102x-3T2016']
     # writing_table_prefix = [x.replace('.', '_').replace('-', '_') for x in writing_terms]
 
@@ -78,12 +80,12 @@ if __name__ == '__main__':
     if not dir.endswith('/'):
         dir += '/'
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
-    terms = writing_terms3T2016
+    terms = java_2xterm
     #Java_102.1x
-    # module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695d2aa25b5',
-    #              'M02@db78e7f298c345f3af42589e06c470a2', 'M03@b57525ba4b974719b9ce4eca914e1c39',
-    #              'M04@668fb99bb9684644822889e460197fe9', 'M05@3f0585f6e4574bac95384a227d50ef5f',
-    #              'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
+    module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695d2aa25b5',
+                 'M02@db78e7f298c345f3af42589e06c470a2', 'M03@b57525ba4b974719b9ce4eca914e1c39',
+                 'M04@668fb99bb9684644822889e460197fe9', 'M05@3f0585f6e4574bac95384a227d50ef5f',
+                 'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
     #Java_102.2x
     # module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@2dedce7b2d7240d59bd69fed8ed6d375',
     #              'M02@0e9380db36894e7cbd23b50742464bf2', 'M03@356a9cd3ced348f18695f1c2e3202196',
@@ -109,13 +111,16 @@ if __name__ == '__main__':
     #              'post@7bcb47d024034947b7db98ebc1a0d8b5']
 
     # Writing 3T2016
-    module_id = ['pre@e6495aee35324f588fd4c87963b4b841', 'M01@df20fa07b6ae4e84bd0d51cd7c407e56',
-                 'M02@174183c4cc9844508e4a98556614b7f0', 'M03@16b9fe2877fc413d88e2a0008a85b36e',
-                 'M04@81f50f96e4c44d87ae19452270f1aa6d', 'M05@d2e89afb6cd743218d80f92272c98bff',
-                 'M06@60ffad0df6d94b8f8016ede87ebca6bd', 'M07@2406dcc97b9c4aa1a2b8fd8ebd38d7b7',
-                 'post@7bcb47d024034947b7db98ebc1a0d8b5']
+    # module_id = ['pre@e6495aee35324f588fd4c87963b4b841', 'M01@df20fa07b6ae4e84bd0d51cd7c407e56',
+    #              'M02@174183c4cc9844508e4a98556614b7f0', 'M03@16b9fe2877fc413d88e2a0008a85b36e',
+    #              'M04@81f50f96e4c44d87ae19452270f1aa6d', 'M05@d2e89afb6cd743218d80f92272c98bff',
+    #              'M06@60ffad0df6d94b8f8016ede87ebca6bd', 'M07@2406dcc97b9c4aa1a2b8fd8ebd38d7b7',
+    #              'post@7bcb47d024034947b7db98ebc1a0d8b5']
 
     for term in terms:
         file_name = dir + "HKUSTx-" + term + "-course_structure-prod-analytics.json"
-        process(file_name, conn, term, module_id)
+        if term in ['COMP102x-2T2014', 'EBA101x-3T2014', 'EBA102x-4Q2015']:
+            process(file_name, conn, term, module_id, lambda x: x.split('/')[-2], lambda x: x.split('/')[-1])
+        else:
+            process(file_name, conn, term, module_id, lambda x: x.split('@')[-2].split('+')[0], lambda x: x.split('@')[-1])
     conn.close()
