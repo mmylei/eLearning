@@ -69,7 +69,8 @@ if __name__ == '__main__':
     speaking_terms2014 = [ 'EBA101x-3T2014']
     # speaking_table_prefix = [x.replace('.', '_').replace('-', '_') for x in speaking_terms]
 
-    writing_terms = ['EBA102x-4Q2015', 'EBA102x-3T2016', 'EBA102x-1T2016']
+    writing_terms = ['EBA102x-3T2016', 'EBA102x-1T2016']
+    writing_terms4q2015 = ['EBA102x-4Q2015']
     # writing_table_prefix = [x.replace('.', '_').replace('-', '_') for x in writing_terms]
 
     dir = sys.argv[1]
