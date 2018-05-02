@@ -91,7 +91,7 @@ for term_key in terms:
                        [module_id])
         problems = [row[0] for row in cursor.fetchall()]
         if len(problems) == 0:
-            print('no problems')
+            continue
         # calc values of each column
         cursor.execute("SELECT student_id, count(distinct xml_id), sum(attempts), sum(grade=max_grade),"
                        " sum(TIMESTAMPDIFF(SECOND, created, modified)), min(created), max(modified) FROM "
