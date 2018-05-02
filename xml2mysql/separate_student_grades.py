@@ -36,7 +36,7 @@ terms = [
         '102x-4Q2015',
         '102x-3T2016',
         '102x-1T2016'
-    ]
+    ] 
 for term in terms:
     term = term.replace('.', '_').replace('-', '_')
     cursor = conn.cursor()
