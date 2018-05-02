@@ -27,12 +27,12 @@ terms = {
         # '102x-2T2014': 'COMP',
         # android
         # '107x-3T2016': 'COMP',
-        '107x-2016_T1': 'COMP',
+        # '107x-2016_T1': 'COMP',
         # '107x-1T2016': 'COMP',
         # speaking
         # '101x-3T2016': 'EBA',
-        # '101x-3T2014': 'EBA',
-        # '101x-1T2016': 'EBA',
+        '101x-3T2014': 'EBA',
+        '101x-1T2016': 'EBA',
         # writing
         # '102x-4Q2015': 'EBA',
         # '102x-3T2016': 'EBA',
@@ -46,16 +46,16 @@ terms = {
 #              'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
 
 #1072016T1
-modules = ['pre@72365fc2f807409582f1db38f3ac6879', 'M01@234fa80753b1476592ae17d37b17bb9e',
-                 'M02@9fd029452bf2495f819dd083fe769a5d', 'M03@b254be2e401a44a794c1a6961adffcc5',
-                 'M04@4f6e3c6c28564d2f84289d7eaceebcb1', 'M05@93ca675ee54240d79cddc6219556011f']
+# modules = ['pre@72365fc2f807409582f1db38f3ac6879', 'M01@234fa80753b1476592ae17d37b17bb9e',
+#                  'M02@9fd029452bf2495f819dd083fe769a5d', 'M03@b254be2e401a44a794c1a6961adffcc5',
+#                  'M04@4f6e3c6c28564d2f84289d7eaceebcb1', 'M05@93ca675ee54240d79cddc6219556011f']
 
 #1013T2014 1011T2016
-# modules = ['pre@7bb6213618344dd9a3d6eed0679cd1da', 'M01@786a1e9b72a4426aa0faae7ea8dfd458',
-#              'M02@9f97ebac81584d4d82c2278c04466f72', 'M03@0347ec2e8ed84434a3ffdd0aeb9b29ca',
-#              'M04@8dfb41aede1b4adc98354c5ff05335d8', 'M05@d49f74961ee74674950be979f2365f82',
-#              'M06@d0f02e09d13c41d1a1e1135ecb54cbe9', 'M07@c588e52413634310b2fd1aa257f840e3',
-#              'post@428e6b7750e54d92a2c5bae1561a3b62']
+modules = ['pre@7bb6213618344dd9a3d6eed0679cd1da', 'M01@786a1e9b72a4426aa0faae7ea8dfd458',
+             'M02@9f97ebac81584d4d82c2278c04466f72', 'M03@0347ec2e8ed84434a3ffdd0aeb9b29ca',
+             'M04@8dfb41aede1b4adc98354c5ff05335d8', 'M05@d49f74961ee74674950be979f2365f82',
+             'M06@d0f02e09d13c41d1a1e1135ecb54cbe9', 'M07@c588e52413634310b2fd1aa257f840e3',
+             'post@428e6b7750e54d92a2c5bae1561a3b62']
 
 #1024Q2015 1021T2016
 # modules = ['pre@4efc576a67bc4d3f97c9e5826cc1af83', 'M01@df20fa07b6ae4e84bd0d51cd7c407e56',
