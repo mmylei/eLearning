@@ -24,17 +24,20 @@ def process(file_name, conn, term, module_id, split_type, split_id):
     create_table(conn, term + '_element')
     element = {}
     obj = json_wrapper.loads(f.read())
+    discussion_dict = {}
+    for key in obj:
+        if split_type(key) == 'discussion' and 'discussion_id' in obj[key]['metadata']:
+            discussion_dict[split_id(key)] = obj[key]['metadata']['discussion_id']
     for key in obj:
         child = []
         if split_type(key) == 'course':
             continue
-        elif split_type(key) == 'discussion' and 'discussion_id' in obj[key]['metadata']:
-            for children in obj[key]['children']:
-                child.append(split_type(children) + '@' + obj[key]['metadata']['discussion_id'])
-            element[split_type(key) + '@' + obj[key]['metadata']['discussion_id']] = child
         else:
             for children in obj[key]['children']:
-                child.append(split_type(children) + '@' + split_id(children))
+                if split_type(children) == 'discussion':
+                    child.append(split_type(children) + '@' + discussion_dict[split_id(children)])
+                else:
+                    child.append(split_type(children) + '@' + split_id(children))
             element[split_type(key) + '@' + split_id(key)] = child
     for mid in module_id:
         name = mid.split('@')[0]
