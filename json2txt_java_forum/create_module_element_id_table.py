@@ -30,7 +30,7 @@ def process(file_name, conn, term, module_id, split_type, split_id):
             continue
         elif split_type(key) == 'discussion' and 'discussion_id' in obj[key]['metadata']:
             for children in obj[key]['children']:
-                child.append(split_type(children) + '@' + split_id(children))
+                child.append(split_type(children) + '@' + obj[key]['metadata']['discussion_id'])
             element[split_type(key) + '@' + obj[key]['metadata']['discussion_id']] = child
         else:
             for children in obj[key]['children']:
