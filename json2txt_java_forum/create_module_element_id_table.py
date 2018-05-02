@@ -28,11 +28,11 @@ def process(file_name, conn, term, module_id, split_type, split_id):
         child = []
         if split_type(key) == 'course':
             continue
-        elif split_type(key) == 'discussion' and 'discussion_id' in obj[key]:
+        elif split_type(key) == 'discussion' and 'discussion_id' in obj[key]['metadata']:
             print('discussion')
             for children in obj[key]['children']:
                 child.append(split_type(children) + '@' + split_id(children))
-            element[split_type(key) + '@' + obj[key]['discussion_id']] = child
+            element[split_type(key) + '@' + obj[key]['metadata']['discussion_id']] = child
         else:
             if split_type(key) == 'discussion':
                 print('discussion no id:' + str(obj[key]))
