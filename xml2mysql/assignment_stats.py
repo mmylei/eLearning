@@ -90,10 +90,12 @@ for term_key in terms:
         cursor.execute("SELECT element_id from " + terms[term_key] + term + "_element where module_id=%s and element_type=\"problem\"",
                        [module_id])
         problems = [row[0] for row in cursor.fetchall()]
+        if len(problems) == 0:
+            print('no problems')
         # calc values of each column
         cursor.execute("SELECT student_id, count(distinct xml_id), sum(attempts), sum(grade=max_grade),"
                        " sum(TIMESTAMPDIFF(SECOND, created, modified)), min(created), max(modified) FROM "
-                       + term + "_students_grades" + " WHERE attempts > 0 and xml_id in %s group by student_id;", [problems])
+                       + term + "_students_grades" + " WHERE attempts > 0 and xml_id in %s GROUP BY student_id;", [problems])
         result = cursor.fetchall()
         for row in result:
             student_id = row[0]
