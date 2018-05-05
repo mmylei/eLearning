@@ -41,13 +41,6 @@ if __name__ == '__main__':
 
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
     for term in terms:
-        print('start draw term ' + term)
-        if not os.path.exists('./play/'):
-            os.mkdir('./play/')
-        dir = './play/' + term + '/'
-        if not os.path.exists(dir):
-            os.mkdir(dir)
-
         table_name = ('HKUSTx-' + term + '_clickstream').replace('-', '_').replace('.', '_')
         cursor = conn.cursor()
         cursor.execute('SELECT distinct(video_id) FROM ' + table_name + ';')
