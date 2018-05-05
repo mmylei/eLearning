@@ -1,10 +1,6 @@
 import MySQLdb
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 import numpy as np
 import os
-import json_wrapper
 
 width = 1024
 height = 256
@@ -27,7 +23,7 @@ def create_table(conn, table):
     c = conn.cursor()
     c.execute("DROP TABLE IF EXISTS " + table + ";")
     conn.commit()
-    c.execute("CREATE TABLE " + table + "(module_number int, video_id varchar(32), sequence int, peak varchar(4096), primary key (video_id));")
+    c.execute("CREATE TABLE " + table + "(module_number int, video_id varchar(32), sequence int, peak_time int, peak_type int, primary key (video_id, peak_time));")
     conn.commit()
 
 
@@ -86,4 +82,6 @@ if __name__ == '__main__':
             play_count = play_times(duration, play_records)
             threshold = 0.3 * max(play_count)
             peak = map(lambda x: 1 if x >= threshold else 0, play_count)
-            insert_table(conn, [module_number, video_id, sequence, json_wrapper.dumps(peak)], table_name2)
+            for i in xrange(len(peak)):
+                if peak[i] == 1:
+                    insert_table(conn, [module_number, video_id, sequence, i, None], table_name2)
