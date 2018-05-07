@@ -9,13 +9,14 @@ def create_table(conn, table):
     conn.commit()
     c.execute("CREATE TABLE " + table + "(user_id varchar(32), user_name varchar(64),"
                                         "session_id varchar(64), event_type varchar(2048),"
-                                        "name varchar(2048), event_source varchar(16), emitted_time datetime);")
+                                        "name varchar(2048), event_source varchar(16), emitted_time datetime,"
+                                        " `referer` varchar(2048));")
     conn.commit()
 
 
 def insert_table(conn, p, table):
     c = conn.cursor()
-    c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s, %s, %s, %s);", p)
+    c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s, %s, %s, %s, %s);", p)
     conn.commit()
 
 
@@ -28,7 +29,7 @@ def process(file_name, conn, term):
         obj = json_wrapper.loads(line)
         text = [obj['context']['user_id'] if 'user_id' in obj['context'] else None, obj['username'], obj['session'] if 'session' in obj else None, obj['event_type'],
                               obj['name'] if 'name' in obj else None, obj['event_source'],
-                              obj['time']]
+                              obj['time'], obj['referer']]
         insert_table(conn, text, term + '_clickstream_events')
         line = f.readline()
     f.close()
