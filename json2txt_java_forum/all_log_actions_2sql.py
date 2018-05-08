@@ -21,7 +21,9 @@ def insert_table(p, table):
     try:
         c = conn.cursor()
         c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s, %s, %s, %s, %s);", p)
-    except Exception:
+    except Exception as e:
+        print('caught exception:')
+        print(e.message)
         conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
         c = conn.cursor()
         c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s, %s, %s, %s, %s);", p)
