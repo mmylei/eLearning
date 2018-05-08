@@ -23,7 +23,7 @@ def insert_table(p, table):
         c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s, %s, %s, %s, %s);", p)
     except Exception as e:
         print('caught exception:')
-        print(e.message)
+        print(str(e))
         conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
         c = conn.cursor()
         c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s, %s, %s, %s, %s);", p)
@@ -69,4 +69,5 @@ if __name__ == '__main__':
     for term in terms:
         file_name = dir + "HKUSTx-" + term + "-clickstream.log"
         process(file_name, term)
+        print(term)
     conn.close()
