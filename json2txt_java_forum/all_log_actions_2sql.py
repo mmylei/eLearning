@@ -17,11 +17,11 @@ def create_table(table):
 
 
 def insert_table(p, table):
+    global conn
     try:
         c = conn.cursor()
         c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s, %s, %s, %s, %s);", p)
     except Exception:
-        global conn
         conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
         c = conn.cursor()
         c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s, %s, %s, %s, %s);", p)
