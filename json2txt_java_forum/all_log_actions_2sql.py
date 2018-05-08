@@ -2,8 +2,10 @@ import json_wrapper
 import MySQLdb
 import sys
 
+conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 
-def create_table(conn, table):
+
+def create_table(table):
     c = conn.cursor()
     c.execute("DROP TABLE IF EXISTS `" + table + "`;")
     conn.commit()
@@ -14,23 +16,29 @@ def create_table(conn, table):
     conn.commit()
 
 
-def insert_table(conn, p, table):
-    c = conn.cursor()
-    c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s, %s, %s, %s, %s);", p)
+def insert_table(p, table):
+    try:
+        c = conn.cursor()
+        c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s, %s, %s, %s, %s);", p)
+    except Exception:
+        global conn
+        conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
+        c = conn.cursor()
+        c.execute("INSERT INTO " + table + " VALUES(%s, %s, %s, %s, %s, %s, %s, %s);", p)
     conn.commit()
 
 
-def process(file_name, conn, term):
+def process(file_name, term):
     f = open(file_name)
     line = f.readline()
     term = term.replace('.', '_').replace('-', '_')
-    create_table(conn, term + '_clickstream_events')
+    create_table(term + '_clickstream_events')
     while line:
         obj = json_wrapper.loads(line)
         text = [obj['context']['user_id'] if 'user_id' in obj['context'] else None, obj['username'], obj['session'] if 'session' in obj else None, obj['event_type'],
                               obj['name'] if 'name' in obj else None, obj['event_source'],
                               obj['time'], obj['referer']]
-        insert_table(conn, text, term + '_clickstream_events')
+        insert_table(text, term + '_clickstream_events')
         line = f.readline()
     f.close()
 
@@ -55,9 +63,8 @@ if __name__ == '__main__':
     dir = sys.argv[1]
     if not dir.endswith('/'):
         dir += '/'
-    conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
     terms = java_terms
     for term in terms:
         file_name = dir + "HKUSTx-" + term + "-clickstream.log"
-        process(file_name, conn, term)
+        process(file_name, term)
     conn.close()
