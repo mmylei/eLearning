@@ -52,20 +52,20 @@ if __name__ == '__main__':
     java_terms = [
                   'COMP102x-2T2014', 'COMP102.1x-3T2016', 'COMP102.2x-3T2016']
     # java_table_prefix = [x.replace('.', '_').replace('-', '_') for x in java_terms]
-
-    android_terms = ['COMP107x-3T2016', 'COMP107x-2016_T1', 'COMP107x-1T2016']
+    # 'COMP107x-3T2016', , 'COMP107x-1T2016'
+    android_terms = ['COMP107x-2016_T1']
     # android_table_prefix = [x.replace('.', '_').replace('-', '_') for x in android_terms]
-
-    speaking_terms = ['EBA101x-3T2016', 'EBA101x-3T2014', 'EBA101x-1T2016']
+    # 'EBA101x-3T2016',
+    speaking_terms = ['EBA101x-3T2014', 'EBA101x-1T2016']
     # speaking_table_prefix = [x.replace('.', '_').replace('-', '_') for x in speaking_terms]
-
-    writing_terms = ['EBA102x-4Q2015', 'EBA102x-3T2016', 'EBA102x-1T2016']
+    #  'EBA102x-3T2016',
+    writing_terms = ['EBA102x-4Q2015','EBA102x-1T2016']
     # writing_table_prefix = [x.replace('.', '_').replace('-', '_') for x in writing_terms]
 
     dir = sys.argv[1]
     if not dir.endswith('/'):
         dir += '/'
-    terms = java_terms
+    terms = android_terms
     for term in terms:
         file_name = dir + "HKUSTx-" + term + "-clickstream.log"
         process(file_name, term)
