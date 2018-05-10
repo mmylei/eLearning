@@ -68,7 +68,7 @@ modules = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695
 
 def solve_time_table(cursor, student_id, table):
     cursor.execute("SELECT event_type, referer, emitted_time FROM " + table +
-                   " WHERE user_id = %s AND (event_type in %s OR event_type like %s) SORT BY emitted_time;",
+                   " WHERE user_id = %s AND (event_type in %s OR event_type like %s) ORDER BY emitted_time;",
                    [student_id, ['problem_graded', 'page_close'], '%problem_get'])
     time_table = {}
     current_referer = None
