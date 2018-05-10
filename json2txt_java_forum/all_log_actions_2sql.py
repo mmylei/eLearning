@@ -39,7 +39,7 @@ def process(file_name, term):
         obj = json_wrapper.loads(line)
         text = [obj['context']['user_id'] if 'user_id' in obj['context'] else None, obj['username'], obj['session'] if 'session' in obj else None, obj['event_type'],
                               obj['name'] if 'name' in obj else None, obj['event_source'],
-                              obj['time'], obj['referer']]
+                              obj['time'], obj['referer'] if 'referer' in obj else None]
         insert_table(text, term + '_clickstream_events')
         line = f.readline()
     f.close()
@@ -47,9 +47,9 @@ def process(file_name, term):
 if __name__ == '__main__':
     old_terms = ['102.1x-2T2015', '102.1x-2T2016', '102.1x-4T2015', '102.2x-1T2016', '102.2x-2T2016', '102.2x-4T2015',
              '102x-2T2014', '102.1x-3T2016', '102.2x-3T2016']
-    # terms = ['COMP102.1x-2T2015', 'COMP102.1x-2T2016', 'COMP102.1x-4T2015', 'COMP102.2x-1T2016']
+    # terms = ['COMP102.1x-2T2015', 'COMP102.1x-2T2016', 'COMP102.1x-4T2015', 'COMP102.2x-1T2016','COMP102.2x-2T2016', 'COMP102.2x-4T2015']
 
-    java_terms = ['COMP102.2x-2T2016', 'COMP102.2x-4T2015',
+    java_terms = [
                   'COMP102x-2T2014', 'COMP102.1x-3T2016', 'COMP102.2x-3T2016']
     # java_table_prefix = [x.replace('.', '_').replace('-', '_') for x in java_terms]
 
