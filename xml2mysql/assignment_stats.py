@@ -141,7 +141,7 @@ for term_key in terms:
                                     for problem_id in problems)
                 else:
                     page_view = 0
-                distinct_problem_view = len(page_view[student_id])
+                distinct_problem_view = len(page_views[student_id])
                 distinct_problem_attempt = row[1]
                 submission = row[2]
                 distinct_correct = row[3]
