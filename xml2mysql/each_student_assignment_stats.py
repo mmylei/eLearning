@@ -152,6 +152,7 @@ for term_key in terms:
                 page_view = page_views[student_id][xml_id] if xml_id in page_views[student_id] else 0
             else:
                 page_view = 0
+            row = result[0]
             submission = row[0]
             correct = row[1] == row[2]
             total_solve_time = problem_solve_time_table[xml_id] if xml_id in problem_solve_time_table else 0
