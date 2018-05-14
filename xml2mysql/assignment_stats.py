@@ -41,10 +41,10 @@ terms = {
         }
 
 #10214T2015
-modules = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695d2aa25b5',
+modules = ['M01@1ee4603833d742e698d27695d2aa25b5',
              'M02@db78e7f298c345f3af42589e06c470a2', 'M03@b57525ba4b974719b9ce4eca914e1c39',
              'M04@668fb99bb9684644822889e460197fe9', 'M05@3f0585f6e4574bac95384a227d50ef5f',
-             'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
+             'Exam@1020d90b174142239fcdefc2f8555d55']
 
 #1072016T1
 # modules = ['pre@72365fc2f807409582f1db38f3ac6879', 'M01@234fa80753b1476592ae17d37b17bb9e',
@@ -69,7 +69,7 @@ modules = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695
 def solve_time_table(cursor, student_id, table):
     cursor.execute("SELECT event_type, referer, emitted_time FROM " + table +
                    " WHERE user_id = %s AND (event_type in %s OR event_type like %s) ORDER BY emitted_time;",
-                   [student_id, ['problem_graded', 'page_close'], '%problem_get'])
+                   [str(student_id), ['problem_graded', 'page_close'], '%problem_get'])
     time_table = {}
     current_referer = None
     current_problem = None
