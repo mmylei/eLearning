@@ -156,8 +156,8 @@ for term_key in terms:
             submission = row[0]
             correct = row[1] == row[2]
             total_solve_time = problem_solve_time_table[xml_id] if xml_id in problem_solve_time_table else 0
-            start = row[4]
-            end = row[5]
+            start = row[3]
+            end = row[4]
             text1.write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}\n".format(
                 student_id, xml_id, module_id, p_type, page_view, submission, correct, total_solve_time, start, end))
         logger.info("student " + str(student_id) + " finished")
