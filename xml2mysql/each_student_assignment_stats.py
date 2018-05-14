@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s [%(levelname)s] (%(
 def solve_time_table(cursor, student_id, table):
     cursor.execute("SELECT event_type, referer, emitted_time FROM " + table +
                    " WHERE user_id = %s AND (event_type in %s OR event_type like %s) ORDER BY emitted_time;",
-                   [student_id, ['problem_graded', 'page_close'], '%problem_get'])
+                   [str(student_id), ['problem_graded', 'page_close'], '%problem_get'])
     time_table = {}
     current_referer = None
     current_problem = None
