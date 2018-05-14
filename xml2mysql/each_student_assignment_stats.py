@@ -134,7 +134,7 @@ for term_key in terms:
     logger.info('problems got')
     # calc values of each column
     for student_id in page_views:
-        logger.info("scan student " + student_id)
+        logger.info("scan student " + str(student_id))
         logger.info("counting solve time table")
         problem_solve_time_table = solve_time_table(cursor, student_id, terms[term_key] + term + "_clickstream_events")
         logger.info("solve time table counted")
@@ -159,7 +159,7 @@ for term_key in terms:
             end = row[5]
             text1.write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}\n".format(
                 student_id, xml_id, module_id, p_type, page_view, submission, correct, total_solve_time, start, end))
-        logger.info("student " + student_id + " finished")
+        logger.info("student " + str(student_id) + " finished")
         text1.flush()
     logger.info("term " + term_key + " finished")
 text1.close()
