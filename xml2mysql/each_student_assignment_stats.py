@@ -146,7 +146,7 @@ for term_key in terms:
             cursor.execute("SELECT attempts, grade, max_grade,"
                            " created, modified FROM "
                            + term + "_students_grades" + " WHERE attempts > 0 and xml_id = %s and student_id=%s;",
-                           xml_id, student_id)
+                           [xml_id, student_id])
             result = cursor.fetchall()
             if student_id in page_views:
                 page_view = page_views[student_id][xml_id] if xml_id in page_views[student_id] else 0
