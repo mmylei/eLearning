@@ -152,6 +152,8 @@ for term_key in terms:
                 page_view = page_views[student_id][xml_id] if xml_id in page_views[student_id] else 0
             else:
                 page_view = 0
+            if len(result) == 0:
+                continue
             row = result[0]
             submission = row[0]
             correct = row[1] == row[2]
