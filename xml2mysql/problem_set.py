@@ -61,11 +61,13 @@ for term in terms:
             while not queue.empty():
                 id = queue.get_nowait()
                 category = data[id]['category']
-                if category in ['problem']:
+                if category in ['problem', 'openassessment']:
                     xml_id = id.split('@')[-1]
                     aggregated_category = 'Exam'
                     if set_category.startswith('Module'):
                         aggregated_category = 'M' + set_category.split(' ')[1]
+                    elif set_category.startswith('Week'):
+                        aggregated_category = 'W' + set_category.split(' ')[1]
                     elif set_category == 'Labs':
                         aggregated_category = 'L' + set_name.split(' ')[1]
                     elif set_category != 'Exam':
