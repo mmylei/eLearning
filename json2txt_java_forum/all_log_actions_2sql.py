@@ -65,7 +65,7 @@ if __name__ == '__main__':
     dir = sys.argv[1]
     if not dir.endswith('/'):
         dir += '/'
-    terms = android_terms
+    terms = speaking_terms
     for term in terms:
         file_name = dir + "HKUSTx-" + term + "-clickstream.log"
         process(file_name, term)
