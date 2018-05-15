@@ -67,7 +67,7 @@ for term in terms:
                     if set_category.startswith('Module'):
                         aggregated_category = 'M' + set_category.split(' ')[1]
                     elif set_category.startswith('Week'):
-                        aggregated_category = 'W' + set_category.split(' ')[1]
+                        aggregated_category = 'M' + set_category.split(' ')[1]
                     elif set_category == 'Labs':
                         aggregated_category = 'L' + set_name.split(' ')[1]
                     elif set_category != 'Exam':
