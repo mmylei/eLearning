@@ -31,13 +31,13 @@ terms = [
          # 'COMP107x-2016_T1',
          # 'COMP107x-1T2016',
          # speaking
-         'EBA101x-3T2016',
-         'EBA101x-3T2014',
-         'EBA101x-1T2016',
+         # 'EBA101x-3T2016',
+         # 'EBA101x-3T2014',
+         # 'EBA101x-1T2016',
          # writing
-         # 'EBA102x-4Q2015',
-         # 'EBA102x-3T2016',
-         # 'EBA102x-1T2016'
+         'EBA102x-4Q2015',
+         'EBA102x-3T2016',
+         'EBA102x-1T2016'
          ]
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 for term in terms:
@@ -76,6 +76,8 @@ for term in terms:
                         aggregated_category = 'T 0' + set_name.split(' ')[1]
                     elif set_category == 'Labs':
                         aggregated_category = 'L' + set_name.split(' ')[1]
+                    elif set_category == 'Final Exam':
+                        aggregated_category = 'Exam'
                     elif set_category != 'Exam':
                         print 'unhandled category:'
                         print course_id, ',', term_id, ',', set_name, ',', set_category, ',', xml_id, ',', category
