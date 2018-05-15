@@ -10,7 +10,7 @@ def create_table(conn, table):
     conn.commit()
     c.execute("CREATE TABLE " + table + " "
               "(course_id varchar(16), term_id varchar(16), set_name varchar(64), set_category varchar(16),"
-              "aggregated_category varchar(16), xml_id varchar(64), category varchar(16));")
+              "aggregated_category varchar(16), xml_id varchar(128), category varchar(16));")
     conn.commit()
 
 dir = sys.argv[1]
@@ -71,9 +71,9 @@ for term in terms:
                     elif set_category.startswith('Participation'):
                         aggregated_category = 'M' + set_name.split(' ')[0][:-1]
                     elif set_category.startswith('Quiz'):
-                        aggregated_category = 'Q' + set_name.split(' ')[1]
+                        aggregated_category = 'Q 0' + set_name.split(' ')[1]
                     elif set_category.startswith('Task'):
-                        aggregated_category = 'T' + set_name.split(' ')[1]
+                        aggregated_category = 'T 0' + set_name.split(' ')[1]
                     elif set_category == 'Labs':
                         aggregated_category = 'L' + set_name.split(' ')[1]
                     elif set_category != 'Exam':
