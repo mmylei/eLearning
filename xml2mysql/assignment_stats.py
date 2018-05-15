@@ -1,5 +1,8 @@
 import MySQLdb
-import json_wrapper
+import logging
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s [%(levelname)s] (%(name)s: %(lineno)d) %(message)s')
 
 
 def create_grades_table(conn, table):
@@ -90,6 +93,7 @@ def solve_time_table(cursor, student_id, table):
 
 
 for term_key in terms:
+    logger.info("start term " + term_key)
     term = term_key.replace('.', '_').replace('-', '_')
     create_grades_table(conn, term + "_assignment_stats")
     cursor = conn.cursor()
@@ -106,8 +110,9 @@ for term_key in terms:
             page_views[student_id][xml_id] = 1
         else:
             page_views[student_id][xml_id] += 1
-    print('page view counted')
+    logger.info('page view counted')
     for module in modules:
+        logger.info("start module " + module)
         module_id = module.split('@')[-1]
         module_name = module.split('@')[0]
         if module_name == 'Exam':
@@ -127,6 +132,7 @@ for term_key in terms:
             for row in result:
                 problems.append(row[0])
             if len(problems) == 0:
+                logger.info("no problems of type " + problem_type)
                 continue
             # calc values of each column
             cursor.execute("SELECT student_id, count(distinct xml_id), sum(attempts), sum(grade=max_grade),"
@@ -135,6 +141,7 @@ for term_key in terms:
             result = cursor.fetchall()
             for row in result:
                 student_id = row[0]
+                logger.info("start student id " + str(student_id))
                 problem_solve_time_table = solve_time_table(cursor, student_id, terms[term_key] + term + "_clickstream_events")
                 if student_id in page_views:
                     page_view = sum(page_views[student_id][problem_id] if problem_id in page_views[student_id] else 0
@@ -156,7 +163,9 @@ for term_key in terms:
                 cursor.execute("INSERT INTO " + term + "_assignment_stats VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                                [student_id, module_id, problem_type, page_view, distinct_problem_view, distinct_problem_attempt,
                                 submission, distinct_correct, avg_solve_time, start, end])
+                logger.info("finished student " + str(student_id))
+            logger.info("finished problem type " + problem_type)
             conn.commit()
-        print('module ' + module_id + ' inserted')
+        logger.info('module ' + module_id + ' inserted')
 
 conn.close()
