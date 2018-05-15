@@ -28,12 +28,12 @@ terms = [
          # 'COMP102x-2T2014',
          # android
          # 'COMP107x-3T2016',
-         'COMP107x-2016_T1',
+         # 'COMP107x-2016_T1',
          # 'COMP107x-1T2016',
          # speaking
-         # 'EBA101x-3T2016',
-         # 'EBA101x-3T2014',
-         # 'EBA101x-1T2016',
+         'EBA101x-3T2016',
+         'EBA101x-3T2014',
+         'EBA101x-1T2016',
          # writing
          # 'EBA102x-4Q2015',
          # 'EBA102x-3T2016',
@@ -68,6 +68,12 @@ for term in terms:
                         aggregated_category = 'M' + set_category.split(' ')[1]
                     elif set_category.startswith('Week'):
                         aggregated_category = 'M' + set_category.split(' ')[1]
+                    elif set_category.startswith('Participation'):
+                        aggregated_category = 'M' + set_category.split(' ')[0]
+                    elif set_category.startswith('Quiz'):
+                        aggregated_category = 'Q' + set_category.split(' ')[1]
+                    elif set_category.startswith('Task'):
+                        aggregated_category = 'T' + set_category.split(' ')[1]
                     elif set_category == 'Labs':
                         aggregated_category = 'L' + set_name.split(' ')[1]
                     elif set_category != 'Exam':
