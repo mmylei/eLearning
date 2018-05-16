@@ -48,8 +48,14 @@ def process(file_name, conn, term, module_id, split_type, split_id):
             for vert in vertical:
                 real_element = element[vert]
                 for relment in real_element:
-                    eid = relment.split('@')[-1]
-                    etype = relment.split('@')[0]
+                    if relment in element:
+                        lib_problem = element[relment]
+                        for lproblem in lib_problem:
+                            eid = lproblem.split('@')[-1]
+                            etype = lproblem.split('@')[0]
+                    elif relment not in element:
+                        eid = relment.split('@')[-1]
+                        etype = relment.split('@')[0]
                     text = [num, name, etype, eid]
                     insert_table(conn, text, term + '_element')
     f.close()
@@ -62,7 +68,8 @@ if __name__ == '__main__':
     java_2terms = ['COMP102.2x-2T2016', 'COMP102.2x-4T2015',
                    'COMP102.2x-3T2016', 'COMP102.2x-1T2016']
     # java_table_prefix = [x.replace('.', '_').replace('-', '_') for x in java_terms]
-    java_1terms = ['COMP102.1x-4T2015', 'COMP102.1x-2T2015', 'COMP102.1x-2T2016', 'COMP102.1x-3T2016']
+    java_1terms = ['COMP102.1x-4T2015']
+    # 'COMP102.1x-2T2015', 'COMP102.1x-2T2016', 'COMP102.1x-3T2016']
 
     java_2xterm = ['COMP102x-2T2014']
 
@@ -85,21 +92,21 @@ if __name__ == '__main__':
     if not dir.endswith('/'):
         dir += '/'
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
-    terms = android_terms
+    terms = java_1terms
     #Java_102.1x
-    # module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695d2aa25b5',
-    #              'M02@db78e7f298c345f3af42589e06c470a2', 'M03@b57525ba4b974719b9ce4eca914e1c39',
-    #              'M04@668fb99bb9684644822889e460197fe9', 'M05@3f0585f6e4574bac95384a227d50ef5f',
-    #              'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
+    module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695d2aa25b5',
+                 'M02@db78e7f298c345f3af42589e06c470a2', 'M03@b57525ba4b974719b9ce4eca914e1c39',
+                 'M04@668fb99bb9684644822889e460197fe9', 'M05@3f0585f6e4574bac95384a227d50ef5f',
+                 'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
     #Java_102.2x
     # module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@2dedce7b2d7240d59bd69fed8ed6d375',
     #              'M02@0e9380db36894e7cbd23b50742464bf2', 'M03@356a9cd3ced348f18695f1c2e3202196',
     #              'M04@5ce89fe48f9e4cb8adc08c83c29da49f', 'M05@a889242857844579902cda2842e3a84b',
     #              'Exam@1020d90b174142239fcdefc2f8555d55', 'post@fd8a124c47d940dfa7d88a8ac37a7cc5']
     #Android
-    module_id = ['pre@72365fc2f807409582f1db38f3ac6879', 'M01@234fa80753b1476592ae17d37b17bb9e',
-                 'M02@9fd029452bf2495f819dd083fe769a5d', 'M03@b254be2e401a44a794c1a6961adffcc5',
-                 'M04@4f6e3c6c28564d2f84289d7eaceebcb1', 'M05@93ca675ee54240d79cddc6219556011f']
+    # module_id = ['pre@72365fc2f807409582f1db38f3ac6879', 'M01@234fa80753b1476592ae17d37b17bb9e',
+    #              'M02@9fd029452bf2495f819dd083fe769a5d', 'M03@b254be2e401a44a794c1a6961adffcc5',
+    #              'M04@4f6e3c6c28564d2f84289d7eaceebcb1', 'M05@93ca675ee54240d79cddc6219556011f']
 
     # Speaking
     # module_id = ['pre@7bb6213618344dd9a3d6eed0679cd1da', 'M01@786a1e9b72a4426aa0faae7ea8dfd458',
