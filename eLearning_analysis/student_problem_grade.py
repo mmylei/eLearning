@@ -22,8 +22,8 @@ terms = [
          # 'HKUSTx_COMP107x_1T2016',
          # speaking
          # 'HKUSTx_EBA101x_3T2016',
-         # 'HKUSTx_EBA101x_3T2014',
-         # 'HKUSTx_EBA101x_1T2016',
+         'HKUSTx_EBA101x_3T2014',
+         'HKUSTx_EBA101x_1T2016',
          # writing
          'HKUSTx_EBA102x_4Q2015',
          # 'HKUSTx_EBA102x_3T2016',
