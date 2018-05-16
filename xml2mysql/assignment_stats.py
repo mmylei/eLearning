@@ -118,7 +118,7 @@ for term_key in terms:
         if module_name == 'Exam':
             problem_types = ['Exam']
         elif module_name[0] == 'M':
-            problem_types = [module_name, module_name.replace('M', 'L')]
+            problem_types = [module_name, module_name.replace('M', 'L'), module_name.replace('M', 'Q'), module_name.replace('M', 'T')]
         else:
             problem_types = [module_name]
         for problem_type in problem_types:
