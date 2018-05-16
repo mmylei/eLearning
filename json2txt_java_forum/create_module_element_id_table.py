@@ -48,7 +48,7 @@ def process(file_name, conn, term, module_id, split_type, split_id):
             for vert in vertical:
                 real_element = element[vert]
                 for relment in real_element:
-                    if relment in element:
+                    if len(element[relment]) > 0:
                         lib_problem = element[relment]
                         for lproblem in lib_problem:
                             eid = lproblem.split('@')[-1]
@@ -56,10 +56,10 @@ def process(file_name, conn, term, module_id, split_type, split_id):
                             print(etype + ' ' + eid)
                             text = [num, name, etype, eid]
                             insert_table(conn, text, term + '_element')
-                    elif relment not in element:
+                    else:
                         eid = relment.split('@')[-1]
                         etype = relment.split('@')[0]
-                        print(etype + ' ' + eid)
+                        print(etype + '-------' + eid)
                         text = [num, name, etype, eid]
                         insert_table(conn, text, term + '_element')
 
