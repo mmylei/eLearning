@@ -32,10 +32,10 @@ terms = [
          # 'COMP107x-1T2016',
          # speaking
          # 'EBA101x-3T2016',
-         'EBA101x-3T2014',
+         # 'EBA101x-3T2014',
          # 'EBA101x-1T2016',
          # writing
-         # 'EBA102x-4Q2015',
+         'EBA102x-4Q2015',
          # 'EBA102x-3T2016',
          # 'EBA102x-1T2016'
          ]
