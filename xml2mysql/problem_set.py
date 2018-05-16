@@ -31,9 +31,9 @@ terms = [
          # 'COMP107x-2016_T1',
          # 'COMP107x-1T2016',
          # speaking
-         'EBA101x-3T2016',
+         # 'EBA101x-3T2016',
          'EBA101x-3T2014',
-         'EBA101x-1T2016',
+         # 'EBA101x-1T2016',
          # writing
          # 'EBA102x-4Q2015',
          # 'EBA102x-3T2016',
@@ -62,14 +62,17 @@ for term in terms:
                 id = queue.get_nowait()
                 category = data[id]['category']
                 if category in ['problem', 'openassessment']:
-                    xml_id = id.split('@')[-1]
+                    if '@' in id:
+                        xml_id = id.split('@')[-1]
+                    else:
+                        xml_id = id.split('/')[-1]
                     aggregated_category = 'Exam'
                     if set_category.startswith('Module'):
                         aggregated_category = 'M' + set_category.split(' ')[1]
                     elif set_category.startswith('Week'):
                         aggregated_category = 'M' + set_category.split(' ')[1]
                     elif set_category.startswith('Participation'):
-                        aggregated_category = 'M' + set_name.split(' ')[0][:-1]
+                        aggregated_category = 'M0' + set_name.split(' ')[0][:-2]
                     elif set_category.startswith('Quiz'):
                         aggregated_category = 'Q0' + set_name.split(' ')[1]
                     elif set_category.startswith('Task'):
