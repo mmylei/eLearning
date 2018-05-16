@@ -53,11 +53,14 @@ def process(file_name, conn, term, module_id, split_type, split_id):
                         for lproblem in lib_problem:
                             eid = lproblem.split('@')[-1]
                             etype = lproblem.split('@')[0]
+                            text = [num, name, etype, eid]
+                            insert_table(conn, text, term + '_element')
                     elif relment not in element:
                         eid = relment.split('@')[-1]
                         etype = relment.split('@')[0]
-                    text = [num, name, etype, eid]
-                    insert_table(conn, text, term + '_element')
+                        text = [num, name, etype, eid]
+                        insert_table(conn, text, term + '_element')
+
     f.close()
 
 if __name__ == '__main__':
