@@ -207,7 +207,7 @@ for term_key in terms:
             # get all problems under this module
             cursor.execute("SELECT element_id from " + terms[term_key] + term + "_element, HKUSTx_"
                            + terms[
-                               term_key] + term + "_problem_set where element_id = xml_id and aggregated_category = \""
+                               term_key] + term + "_problem_set as P where element_id = xml_id and P.aggregated_category = \""
                            + problem_type + "\" and module_id=%s and element_type=\"problem\"",
                            [module_id])
             result = cursor.fetchall()
