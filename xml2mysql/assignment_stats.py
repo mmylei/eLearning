@@ -61,10 +61,10 @@ get_problem_id = {
     '107x-1T2016': lambda x: x.split('@')[-1].split('/')[0],
     # speaking
     '101x-3T2016': lambda x: x.split('@')[-1].split('/')[0],
-    '101x-3T2014': lambda x: x.split('_')[-1].split('/')[0],
+    '101x-3T2014': lambda x: x.split('/')[-4].split('_')[-1],
     '101x-1T2016': lambda x: x.split('@')[-1].split('/')[0],
     # writing
-    '102x-4Q2015': lambda x: x.split('_')[-1].split('/')[0],
+    '102x-4Q2015': lambda x: x.split('/')[-4].split('_')[-1],
     '102x-3T2016': lambda x: x.split('@')[-1].split('/')[0],
     '102x-1T2016': lambda x: x.split('@')[-1].split('/')[0]
 }
