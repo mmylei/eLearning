@@ -36,12 +36,12 @@ terms = {
     # '107x-1T2016': 'COMP',
     # speaking
     # '101x-3T2016': 'EBA',
-    # '101x-3T2014': 'EBA',
-    # '101x-1T2016': 'EBA',
+    '101x-3T2014': 'EBA',
+    '101x-1T2016': 'EBA',
     # writing
-    # '102x-4Q2015': 'EBA',
+    '102x-4Q2015': 'EBA',
     # '102x-3T2016': 'EBA',
-    # '102x-1T2016': 'EBA'
+    '102x-1T2016': 'EBA'
 }
 
 get_problem_id = {
@@ -232,7 +232,7 @@ for term_key in terms:
                 else:
                     page_view = 0
                 if student_id in page_views:
-                    distinct_problem_view = len(page_views[student_id])
+                    distinct_problem_view = sum(1 if problem_id in page_views[student_id] else 0 for problem_id in problems)
                 else:
                     distinct_problem_view = 0
                 distinct_problem_attempt = row[1]
