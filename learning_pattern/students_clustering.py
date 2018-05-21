@@ -34,12 +34,11 @@ terms = {
 # user_id module_id avg_watch_time avg_solve_time avg_watch_num complete_time avg_replay_times avg_submit_times grades correct_num forum_activity
 
 
-def get_avg_watch_time(cursor, user_id, module_number, term):
+def get_avg_watch_time(cursor, user_id, module_number, term_key):
     cursor.execute("select P.video_id, sum(TIMESTAMPDIFF(SECOND,P.real_time_start, P.real_time_end)) from HKUSTx_COMP"
-                   + term.replace('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_Info as V"
-                                              " where P.video_id = V.video_id and V.term_id = "
-                   + term + " and P.user_id = " + user_id + " and V.module_number = "
-                   + module_number + " group by P.video_id;")
+                   + term_key.replace('.', '_').replace('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_Info as V"
+                                              " where P.video_id = V.video_id and V.term_id = %s"
+                    + " and P.user_id = %s and V.module_number = %s group by P.video_id;", [term_key, user_id, module_number])
     video_count = 0
     time = 0
     for row in cursor.fetchall():
@@ -50,18 +49,17 @@ def get_avg_watch_time(cursor, user_id, module_number, term):
 
 
 def get_avg_solve_time(cursor, user_id, module_id, term, module_name):
-    cursor.execute("select avg_solve_time from eLearning." + term + "_assignment_stats where student_id = "
-                   + user_id + " and module_id = " + module_id + " and module_name = " + module_name + ";")
+    cursor.execute("select avg_solve_time from eLearning." + term + "_assignment_stats where student_id = %s"
+                   + " and module_id = %s and module_name = %s;", [user_id, module_id, module_name])
     return cursor.fetchall()
 
 
 # avg watch num for each day
-def get_avg_watch_num(cursor, user_id, module_number, term):
+def get_avg_watch_num(cursor, user_id, module_number, term_key):
     cursor.execute("select P.video_id, P.real_time_start, P.real_time_end from HKUSTx_COMP"
-                   + term.repalce('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_Info as V"
-                                              " where P.video_id = V.video_id and V.term_id = "
-                   + term + " and P.user_id = " + user_id + " and V.module_number = "
-                   + module_number + ";")
+                   + term_key.replace('.', '_').replace('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_Info as V"
+                   + " where P.video_id = V.video_id and V.term_id = %s"
+                   + " and P.user_id = %s and V.module_number = %s;", [term_key, user_id, module_number])
     video_list = []
     time_list = []
     for row in cursor.fetchall():
@@ -75,16 +73,14 @@ def get_avg_watch_num(cursor, user_id, module_number, term):
     return avg_watch_num
 
 
-def get_complete_time(cursor, user_id, module_id, module_number, term):
+def get_complete_time(cursor, user_id, module_id, module_number, term_key):
     cursor.execute("select min(P.real_time_start), max(P.real_time_end) from HKUSTx_COMP"
-                   + term.repalce('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_Info as V"
-                                              " where P.video_id = V.video_id and V.term_id = "
-                   + term + " and P.user_id = " + user_id + " and V.module_number = "
-                   + module_number + ";")
+                   + term_key.replace('.', '_').replace('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_Info as V"
+                   + " where P.video_id = V.video_id and V.term_id = %s"
+                   + " and P.user_id = %s and V.module_number = %s;", [term_key, user_id, module_number])
     result1 = cursor.fetchall()
-    cursor.execute("select min(start), max(end) from eLearning." + term +
-                   "_assignment_stats where student_id = "
-                   + user_id + " and module_id = " + module_id + ";")
+    cursor.execute("select min(start), max(end) from eLearning." + term_key.replace('.', '_').replace('-', '_') +
+                   "_assignment_stats where student_id = %s and module_id = %s;", [user_id, module_id])
     result2 = cursor.fetchall()
     min_time = result1[0][0]
     max_time = result1[0][1]
@@ -101,8 +97,8 @@ def get_avg_replay_times(cursor, user_id, module_number, term):
 
 def get_avg_submit_times(cursor, user_id, module_id, term, module_name):
     cursor.execute("select distinct_problem_attempt, submission from eLearning." + term +
-                   "_assignment_stats where student_id = "
-                   + user_id + " and module_id = " + module_id + " and module_name = " + module_name + ";")
+                   "_assignment_stats where student_id = %s and module_id = %s and module_name = %s;",
+                   [user_id, module_id, module_name])
     num = cursor.fetchall()[0][0]
     submission = cursor.fetchall()[0][1]
     return 1.0 * submission / num
@@ -110,8 +106,8 @@ def get_avg_submit_times(cursor, user_id, module_id, term, module_name):
 
 def get_grades(cursor, user_id, term, module_name):
     cursor.execute("select G.grade, A.max_grade from eLearning.HKUSTx_COMP" + term +
-                   "_student_grade as G, eLearning.all_max_grade as A where G.student_id = " +
-                   user_id + " and G.aggregated_category = A.problem_type = " + module_name + ";")
+                   "_student_grade as G, eLearning.all_max_grade as A where G.student_id = %s"
+                   + " and G.aggregated_category = A.problem_type and A.problem_type = %s;", [user_id, module_name])
     grade = cursor.fetchall()[0][0]
     max_grade = cursor.fetchall()[0][1]
     return float(grade) / float(max_grade)
@@ -119,22 +115,21 @@ def get_grades(cursor, user_id, term, module_name):
 
 def get_correct_num(cursor, user_id, term, module_id, module_name):
     cursor.execute("select count(*) from eLearning.HKUSTx_COMP" + term +
-                   "_problem_set where aggregated_category = " + module_name + ";")
+                   "_problem_set where aggregated_category = %s;", [module_name])
     problem_num = cursor.fetchall()[0][0]
     cursor.execute("select distinct_correct from eLearning." + term +
-                   "_assignment_stats where student_id = "
-                   + user_id + " and module_id = " + module_id + " and module_name = " + module_name + ";")
+                   "_assignment_stats where student_id = %s and module_id = %s and module_name = %s;",
+                   [user_id, module_id, module_name])
     correct_num = cursor.fetchall()[0][0]
     return 1.0 * correct_num / problem_num
 
 
 def get_forum_activity(cursor, user_id, term, module_name):
     cursor.execute("select response_num from eLearning." + term +
-                   "_forum_stats where author_id = " +
-                   user_id + " and module_id = " + module_name + ";")
+                   "_forum_stats where author_id = %s and module_id = %s;", [user_id, module_name])
     respond = cursor.fetchall()[0][0]
     cursor.execute("select sum(response_num) from eLearning." + term +
-                   "_forum_stats where module_id = " + module_name + ";")
+                   "_forum_stats where module_id = %s;", [module_name])
     all_respond = cursor.fetchall()[0][0]
     return 1.0 * respond / all_respond
 
@@ -155,10 +150,10 @@ def prepare_features():
             module_id = row[1]
             module_name = row[2]
             module_number = row[2].split('0')[-1]
-            avg_watch_time = get_avg_watch_time(cursor, user_id, module_number, term)
+            avg_watch_time = get_avg_watch_time(cursor, user_id, module_number, term_key)
             avg_solve_time = get_avg_solve_time(cursor, user_id, module_id, term, module_name)
-            avg_watch_num = get_avg_watch_num(cursor, user_id, module_number, term)
-            complete_time = get_complete_time(cursor, user_id, module_id, module_number, term)
+            avg_watch_num = get_avg_watch_num(cursor, user_id, module_number, term_key)
+            complete_time = get_complete_time(cursor, user_id, module_id, module_number, term_key)
             avg_replay_times = get_avg_replay_times(cursor, user_id, module_number, term)
             avg_submit_times = get_avg_submit_times(cursor, user_id, module_id, term, module_name)
             grades = get_grades(cursor, user_id, term, module_name)
