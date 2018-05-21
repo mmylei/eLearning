@@ -40,18 +40,18 @@ def get_avg_watch_time(cursor, user_id, module_number, term_key):
                                               " where P.video_id = V.video_id and V.term_id = %s"
                     + " and P.user_id = %s and V.module_number = %s group by P.video_id;", [term_key, user_id, module_number])
     video_count = 0
-    time = 0
+    time = 0.0
     for row in cursor.fetchall():
         video_count += 1
         time += row[1]
-    avg_watch_time = time / video_count
+    avg_watch_time = (time / video_count) if video_count > 0 else 0.0
     return avg_watch_time
 
 
 def get_avg_solve_time(cursor, user_id, module_id, term, module_name):
     cursor.execute("select avg_solve_time from eLearning." + term + "_assignment_stats where student_id = %s"
                    + " and module_id = %s and module_name = %s;", [user_id, module_id, module_name])
-    return cursor.fetchall()
+    return cursor.fetchall()[0][0]
 
 
 # avg watch num for each day
@@ -69,7 +69,7 @@ def get_avg_watch_num(cursor, user_id, module_number, term_key):
             time_list.append(str(row[1]).split(' ')[0])
         if str(row[2]).split(' ')[0] not in time_list:
             time_list.append(str(row[2]).split(' ')[0])
-    avg_watch_num = 1.0 * len(video_list) / len(time_list)
+    avg_watch_num = (1.0 * len(video_list) / len(time_list)) if len(time_list) > 0 else 0.0
     return avg_watch_num
 
 
@@ -101,7 +101,7 @@ def get_avg_submit_times(cursor, user_id, module_id, term, module_name):
                    [user_id, module_id, module_name])
     num = cursor.fetchall()[0][0]
     submission = cursor.fetchall()[0][1]
-    return 1.0 * submission / num
+    return (1.0 * submission / num) if num > 0 else 0.0
 
 
 def get_grades(cursor, user_id, term, module_name):
@@ -121,7 +121,7 @@ def get_correct_num(cursor, user_id, term, module_id, module_name):
                    "_assignment_stats where student_id = %s and module_id = %s and module_name = %s;",
                    [user_id, module_id, module_name])
     correct_num = cursor.fetchall()[0][0]
-    return 1.0 * correct_num / problem_num
+    return (1.0 * correct_num / problem_num) if problem_num > 0 else 0.0
 
 
 def get_forum_activity(cursor, user_id, term, module_name):
@@ -131,7 +131,7 @@ def get_forum_activity(cursor, user_id, term, module_name):
     cursor.execute("select sum(response_num) from eLearning." + term +
                    "_forum_stats where module_id = %s;", [module_name])
     all_respond = cursor.fetchall()[0][0]
-    return 1.0 * respond / all_respond
+    return (1.0 * respond / all_respond) if all_respond > 0 else 0.0
 
 
 def prepare_features():
