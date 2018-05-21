@@ -146,9 +146,9 @@ def prepare_features():
             continue
         term = term_key.replace('.', '_').replace('-', '_')
         cursor = conn.cursor()
-        cursor.execute("select A.user_id, A.module_id, A.module_name from eLearning." + term +
+        cursor.execute("select A.student_id, A.module_id, A.module_name from eLearning." + term +
                        "_assignment_stats as A, eLearning." + term +
-                       "_django_comment_client_role_users as R where A.user_id = R.student_id and A.user_id <> 0 "
+                       "_django_comment_client_role_users as R where A.student_id = R.student_id and A.student_id <> 0 "
                        "and R.name = 'Student';")
         features = []
         for row in cursor.fetchall():
