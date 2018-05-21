@@ -52,7 +52,7 @@ def get_avg_watch_time(cursor, user_id, module_number, term_key):
     time = 0.0
     for row in cursor.fetchall():
         video_count += 1
-        time += row[1]
+        time += float(row[1])
     avg_watch_time = (time / video_count) if video_count > 0 else 0.0
     return avg_watch_time
 
