@@ -144,7 +144,7 @@ def get_forum_activity(cursor, user_id, term, module_name):
     cursor.execute("select sum(response_num) from eLearning." + term +
                    "_forum_stats where module_id = %s;", [module_name])
     all_respond = cursor.fetchall()[0][0]
-    return (1.0 * respond / all_respond) if all_respond > 0 else 0.0
+    return (1.0 * respond / float(all_respond)) if all_respond > 0 else 0.0
 
 
 def prepare_features():
