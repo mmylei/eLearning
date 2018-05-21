@@ -36,7 +36,7 @@ terms = {
 
 def get_avg_watch_time(cursor, user_id, module_number, term):
     cursor.execute("select P.video_id, sum(TIMESTAMPDIFF(SECOND,P.real_time_start, P.real_time_end)) from HKUSTx_COMP_"
-                   + term.repalce('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_info as V"
+                   + term.replace('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_info as V"
                                               " where P.video_id = V.video_id and V.term_id = "
                    + term + " and P.user_id = " + user_id + " and V.module_number = "
                    + module_number + " group by P.video_id;")
@@ -71,7 +71,7 @@ def get_avg_watch_num(cursor, user_id, module_number, term):
             time_list.append(str(row[1]).split(' ')[0])
         if str(row[2]).split(' ')[0] not in time_list:
             time_list.append(str(row[2]).split(' ')[0])
-    avg_watch_num = len(time_list) / len(video_list)
+    avg_watch_num = 1.0 * len(video_list) / len(time_list)
     return avg_watch_num
 
 
@@ -96,8 +96,7 @@ def get_complete_time(cursor, user_id, module_id, module_number, term):
 
 
 def get_avg_replay_times(cursor, user_id, module_number, term):
-
-    pass
+    return 0
 
 
 def get_avg_submit_times(cursor, user_id, module_id, term, module_name):
@@ -106,7 +105,7 @@ def get_avg_submit_times(cursor, user_id, module_id, term, module_name):
                    + user_id + " and module_id = " + module_id + " and module_name = " + module_name + ";")
     num = cursor.fetchall()[0][0]
     submission = cursor.fetchall()[0][1]
-    return submission / num
+    return 1.0 * submission / num
 
 
 def get_grades(cursor, user_id, term, module_name):
@@ -115,7 +114,7 @@ def get_grades(cursor, user_id, term, module_name):
                    user_id + " and G.aggregated_category = A.problem_type = " + module_name + ";")
     grade = cursor.fetchall()[0][0]
     max_grade = cursor.fetchall()[0][1]
-    return grade / max_grade
+    return float(grade) / float(max_grade)
 
 
 def get_correct_num(cursor, user_id, term, module_id, module_name):
@@ -126,7 +125,7 @@ def get_correct_num(cursor, user_id, term, module_id, module_name):
                    "_assignment_stats where student_id = "
                    + user_id + " and module_id = " + module_id + " and module_name = " + module_name + ";")
     correct_num = cursor.fetchall()[0][0]
-    return correct_num / problem_num
+    return 1.0 * correct_num / problem_num
 
 
 def get_forum_activity(cursor, user_id, term, module_name):
@@ -137,7 +136,7 @@ def get_forum_activity(cursor, user_id, term, module_name):
     cursor.execute("select sum(response_num) from eLearning." + term +
                    "_forum_stats where module_id = " + module_name + ";")
     all_respond = cursor.fetchall()[0][0]
-    return respond / all_respond
+    return 1.0 * respond / all_respond
 
 
 def prepare_features():
@@ -160,13 +159,13 @@ def prepare_features():
             avg_solve_time = get_avg_solve_time(cursor, user_id, module_id, term, module_name)
             avg_watch_num = get_avg_watch_num(cursor, user_id, module_number, term)
             complete_time = get_complete_time(cursor, user_id, module_id, module_number, term)
-            # avg_replay_times = get_avg_replay_times(cursor, user_id, module_number, term)
+            avg_replay_times = get_avg_replay_times(cursor, user_id, module_number, term)
             avg_submit_times = get_avg_submit_times(cursor, user_id, module_id, term, module_name)
             grades = get_grades(cursor, user_id, term, module_name)
             correct_num = get_correct_num(cursor, user_id, term, module_id, module_name)
             forum_activity = get_forum_activity(cursor, user_id, term, module_name)
             one_feature = [user_id, module_id, module_name, avg_watch_time, avg_solve_time, avg_watch_num, complete_time,
-                           avg_submit_times, grades, correct_num, forum_activity]
+                           avg_replay_times, avg_submit_times, grades, correct_num, forum_activity]
             features.append(one_feature)
         with open(term_key + '_assignment_stats_features.csv', 'wb') as f:
             writer = csv.writer(f)
