@@ -136,7 +136,11 @@ def get_correct_num(cursor, user_id, term, module_id, module_name):
 def get_forum_activity(cursor, user_id, term, module_name):
     cursor.execute("select response_num from eLearning." + term +
                    "_forum_stats where author_id = %s and module_id = %s;", [user_id, module_name])
-    respond = cursor.fetchall()[0][0]
+    result = cursor.fetchall()
+    if len(result) > 0:
+        respond = result[0][0]
+    else:
+        respond = 0
     cursor.execute("select sum(response_num) from eLearning." + term +
                    "_forum_stats where module_id = %s;", [module_name])
     all_respond = cursor.fetchall()[0][0]
