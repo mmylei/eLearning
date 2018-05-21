@@ -162,7 +162,7 @@ def prepare_features():
             user_id = str(row[0])
             module_id = row[1]
             module_name = row[2]
-            module_number = row[2].split('0')[-1]
+            module_number = int(row[2].split('0')[-1]) if '0' in row[2] else -10;
             avg_watch_time = get_avg_watch_time(cursor, user_id, module_number, term_key)
             avg_solve_time = get_avg_solve_time(cursor, user_id, module_id, term, module_name)
             avg_watch_num = get_avg_watch_num(cursor, user_id, module_number, term_key)
