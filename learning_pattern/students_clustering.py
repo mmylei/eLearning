@@ -35,7 +35,7 @@ terms = {
 
 
 def get_avg_watch_time(cursor, user_id, module_number, term):
-    cursor.execute("select P.video_id, sum(TIMESTAMPDIFF(SECOND,P.real_time_start, P.real_time_end)) from HKUSTx_COMP_"
+    cursor.execute("select P.video_id, sum(TIMESTAMPDIFF(SECOND,P.real_time_start, P.real_time_end)) from HKUSTx_COMP"
                    + term.replace('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_info as V"
                                               " where P.video_id = V.video_id and V.term_id = "
                    + term + " and P.user_id = " + user_id + " and V.module_number = "
@@ -57,7 +57,7 @@ def get_avg_solve_time(cursor, user_id, module_id, term, module_name):
 
 # avg watch num for each day
 def get_avg_watch_num(cursor, user_id, module_number, term):
-    cursor.execute("select P.video_id, P.real_time_start, P.real_time_end from HKUSTx_COMP_"
+    cursor.execute("select P.video_id, P.real_time_start, P.real_time_end from HKUSTx_COMP"
                    + term.repalce('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_info as V"
                                               " where P.video_id = V.video_id and V.term_id = "
                    + term + " and P.user_id = " + user_id + " and V.module_number = "
@@ -76,7 +76,7 @@ def get_avg_watch_num(cursor, user_id, module_number, term):
 
 
 def get_complete_time(cursor, user_id, module_id, module_number, term):
-    cursor.execute("select min(P.real_time_start), max(P.real_time_end) from HKUSTx_COMP_"
+    cursor.execute("select min(P.real_time_start), max(P.real_time_end) from HKUSTx_COMP"
                    + term.repalce('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_info as V"
                                               " where P.video_id = V.video_id and V.term_id = "
                    + term + " and P.user_id = " + user_id + " and V.module_number = "
