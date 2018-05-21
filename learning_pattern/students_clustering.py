@@ -84,6 +84,8 @@ def get_complete_time(cursor, user_id, module_id, module_number, term_key):
     result2 = cursor.fetchall()
     min_time = result1[0][0]
     max_time = result1[0][1]
+    if result1[0][0] is None or result1[0][1] is None or result2[0][0] is None or result2[0][1] is None:
+        return 0
     if min_time > result2[0][0]:
         min_time = result2[0][0]
     if max_time < result2[0][1]:
