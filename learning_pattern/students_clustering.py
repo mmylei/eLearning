@@ -31,6 +31,15 @@ terms = {
     # '102x-1T2016': 'EBA'
 }
 
+video_basic_info_term_name_table = {
+    '102.1x-4T2015': 'COMP102_1x',
+    '107x-2016_T1': 'COMP107x_2016T1',
+    '101x-3T2014': '101x-3T2014',
+    '101x-1T2016': '101x-1T2016',
+    '102x-4Q2015': '102x-4Q2015',
+    '102x-1T2016': '102x-1T2016'
+}
+
 # user_id module_id avg_watch_time avg_solve_time avg_watch_num complete_time avg_replay_times avg_submit_times grades correct_num forum_activity
 
 
@@ -38,7 +47,7 @@ def get_avg_watch_time(cursor, user_id, module_number, term_key):
     cursor.execute("select P.video_id, sum(TIMESTAMPDIFF(SECOND,P.real_time_start, P.real_time_end)) from HKUSTx_COMP"
                    + term_key.replace('.', '_').replace('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_Info as V"
                                               " where P.video_id = V.video_id and V.term_id = %s"
-                    + " and P.user_id = %s and V.module_number = %s group by P.video_id;", [term_key, user_id, module_number])
+                    + " and P.user_id = %s and V.module_number = %s group by P.video_id;", [video_basic_info_term_name_table[term_key], user_id, module_number])
     video_count = 0
     time = 0.0
     for row in cursor.fetchall():
@@ -59,7 +68,7 @@ def get_avg_watch_num(cursor, user_id, module_number, term_key):
     cursor.execute("select P.video_id, P.real_time_start, P.real_time_end from HKUSTx_COMP"
                    + term_key.replace('.', '_').replace('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_Info as V"
                    + " where P.video_id = V.video_id and V.term_id = %s"
-                   + " and P.user_id = %s and V.module_number = %s;", [term_key, user_id, module_number])
+                   + " and P.user_id = %s and V.module_number = %s;", [video_basic_info_term_name_table[term_key], user_id, module_number])
     video_list = []
     time_list = []
     for row in cursor.fetchall():
@@ -77,7 +86,7 @@ def get_complete_time(cursor, user_id, module_id, module_number, term_key):
     cursor.execute("select min(P.real_time_start), max(P.real_time_end) from HKUSTx_COMP"
                    + term_key.replace('.', '_').replace('-', '_') + "_video_play_piece as P, eLearning.Video_Basic_Info as V"
                    + " where P.video_id = V.video_id and V.term_id = %s"
-                   + " and P.user_id = %s and V.module_number = %s;", [term_key, user_id, module_number])
+                   + " and P.user_id = %s and V.module_number = %s;", [video_basic_info_term_name_table[term_key], user_id, module_number])
     result1 = cursor.fetchall()
     cursor.execute("select min(start), max(end) from eLearning." + term_key.replace('.', '_').replace('-', '_') +
                    "_assignment_stats where student_id = %s and module_id = %s;", [user_id, module_id])
@@ -101,8 +110,7 @@ def get_avg_submit_times(cursor, user_id, module_id, term, module_name):
     cursor.execute("select distinct_problem_attempt, submission from eLearning." + term +
                    "_assignment_stats where student_id = %s and module_id = %s and module_name = %s;",
                    [user_id, module_id, module_name])
-    num = cursor.fetchall()[0][0]
-    submission = cursor.fetchall()[0][1]
+    num, submission = cursor.fetchall()[0]
     return (1.0 * submission / num) if num > 0 else 0.0
 
 
@@ -110,8 +118,7 @@ def get_grades(cursor, user_id, term, module_name):
     cursor.execute("select G.grade, A.max_grade from eLearning.HKUSTx_COMP" + term +
                    "_student_grade as G, eLearning.all_max_grade as A where G.student_id = %s"
                    + " and G.aggregated_category = A.problem_type and A.problem_type = %s;", [user_id, module_name])
-    grade = cursor.fetchall()[0][0]
-    max_grade = cursor.fetchall()[0][1]
+    grade, max_grade = cursor.fetchall()[0]
     return float(grade) / float(max_grade)
 
 
