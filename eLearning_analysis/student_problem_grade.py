@@ -10,7 +10,7 @@ terms = [
          # 'HKUSTx_COMP102_1x_2T2015',
          # 'HKUSTx_COMP102_1x_2T2016',
          # 'HKUSTx_COMP102_1x_3T2016',
-         # 'HKUSTx_102_1x_4T2015',
+         'HKUSTx_102_1x_4T2015',
          # 'HKUSTx_COMP102_2x_1T2016',
          # 'HKUSTx_COMP102_2x_2T2016',
          # 'HKUSTx_COMP102_2x_3T2016',
@@ -23,11 +23,11 @@ terms = [
          # speaking
          # 'HKUSTx_EBA101x_3T2016',
          'HKUSTx_EBA101x_3T2014',
-         # 'HKUSTx_EBA101x_1T2016',
+         'HKUSTx_EBA101x_1T2016',
          # writing
          'HKUSTx_EBA102x_4Q2015',
          # 'HKUSTx_EBA102x_3T2016',
-         # 'HKUSTx_EBA102x_1T2016'
+         'HKUSTx_EBA102x_1T2016'
          ]
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 for term in terms:
