@@ -22,7 +22,7 @@ dir = sys.argv[1]
 if not dir.endswith('/'):
     dir += '/'
 
-terms = writing_terms
+terms = speaking_terms
 table_prefix = writing_table_prefix
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
 for i in range(len(terms)):
