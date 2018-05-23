@@ -173,7 +173,7 @@ def solve_time_table(cursor, student_id, table):
 
 
 def get_grades(cursor, student_id, aggregated_category, table):
-    cursor.execute("select grade from" + table + " where student_id = %s and aggregated_category = %s;", [student_id, aggregated_category])
+    cursor.execute("select grade from " + table + " where student_id = %s and aggregated_category = %s;", [student_id, aggregated_category])
     return cursor.fetchall()[0][0]
 
 
