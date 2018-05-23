@@ -97,7 +97,7 @@ if __name__ == '__main__':
     if not dir.endswith('/'):
         dir += '/'
     conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="eLearning")
-    terms = speaking_terms
+    terms = writing_terms
     #Java_102.1x
     # module_id = ['pre@ae687c1204b84885a4797f517715722a', 'M01@1ee4603833d742e698d27695d2aa25b5',
     #              'M02@db78e7f298c345f3af42589e06c470a2', 'M03@b57525ba4b974719b9ce4eca914e1c39',
@@ -114,18 +114,18 @@ if __name__ == '__main__':
     #              'M04@4f6e3c6c28564d2f84289d7eaceebcb1', 'M05@93ca675ee54240d79cddc6219556011f']
 
     # Speaking
-    module_id = ['pre@7bb6213618344dd9a3d6eed0679cd1da', 'M01@786a1e9b72a4426aa0faae7ea8dfd458',
-                 'M02@9f97ebac81584d4d82c2278c04466f72', 'M03@0347ec2e8ed84434a3ffdd0aeb9b29ca',
-                 'M04@8dfb41aede1b4adc98354c5ff05335d8', 'M05@d49f74961ee74674950be979f2365f82',
-                 'M06@d0f02e09d13c41d1a1e1135ecb54cbe9', 'M07@c588e52413634310b2fd1aa257f840e3',
-                 'post@428e6b7750e54d92a2c5bae1561a3b62']
+    # module_id = ['pre@7bb6213618344dd9a3d6eed0679cd1da', 'M01@786a1e9b72a4426aa0faae7ea8dfd458',
+    #              'M02@9f97ebac81584d4d82c2278c04466f72', 'M03@0347ec2e8ed84434a3ffdd0aeb9b29ca',
+    #              'M04@8dfb41aede1b4adc98354c5ff05335d8', 'M05@d49f74961ee74674950be979f2365f82',
+    #              'M06@d0f02e09d13c41d1a1e1135ecb54cbe9', 'M07@c588e52413634310b2fd1aa257f840e3',
+    #              'post@428e6b7750e54d92a2c5bae1561a3b62']
 
     # Writing 1T2016
-    # module_id = ['pre@4efc576a67bc4d3f97c9e5826cc1af83', 'M01@df20fa07b6ae4e84bd0d51cd7c407e56',
-    #              'M02@174183c4cc9844508e4a98556614b7f0', 'M03@16b9fe2877fc413d88e2a0008a85b36e',
-    #              'M04@81f50f96e4c44d87ae19452270f1aa6d', 'M05@d2e89afb6cd743218d80f92272c98bff',
-    #              'M06@60ffad0df6d94b8f8016ede87ebca6bd', 'M07@2406dcc97b9c4aa1a2b8fd8ebd38d7b7',
-    #              'post@7bcb47d024034947b7db98ebc1a0d8b5']
+    module_id = ['pre@4efc576a67bc4d3f97c9e5826cc1af83', 'M01@df20fa07b6ae4e84bd0d51cd7c407e56',
+                 'M02@174183c4cc9844508e4a98556614b7f0', 'M03@16b9fe2877fc413d88e2a0008a85b36e',
+                 'M04@81f50f96e4c44d87ae19452270f1aa6d', 'M05@d2e89afb6cd743218d80f92272c98bff',
+                 'M06@60ffad0df6d94b8f8016ede87ebca6bd', 'M07@2406dcc97b9c4aa1a2b8fd8ebd38d7b7',
+                 'post@7bcb47d024034947b7db98ebc1a0d8b5']
 
     # Writing 3T2016
     # module_id = ['pre@e6495aee35324f588fd4c87963b4b841', 'M01@df20fa07b6ae4e84bd0d51cd7c407e56',
