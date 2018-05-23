@@ -36,8 +36,8 @@ terms = {
     # '107x-1T2016': 'COMP',
     # speaking
     # '101x-3T2016': 'EBA',
-    # '101x-3T2014': 'EBA',
-    # '101x-1T2016': 'EBA',
+    '101x-3T2014': 'EBA',
+    '101x-1T2016': 'EBA',
     # writing
     '102x-4Q2015': 'EBA',
     # '102x-3T2016': 'EBA',
@@ -213,7 +213,7 @@ for term_key in terms:
             cursor.execute("SELECT element_id from " + terms[term_key] + term + "_element, HKUSTx_"
                            + terms[
                                term_key] + term + "_problem_set as P where element_id = xml_id and P.aggregated_category = \""
-                           + problem_type + "\" and module_id=%s and element_type=\"problem\"",
+                           + problem_type + "\" and module_id=%s and element_type=\"problem\" or element_type=\"openassessment\"",
                            [module_id])
             result = cursor.fetchall()
             problems = []
