@@ -13,7 +13,7 @@ def create_grades_table(conn, table):
               "(`student_id` int, `module_id` varchar(64), module_name char(16), `page_view` int, "
               "distinct_problem_view int,"
               " distinct_problem_attempt int, `submission` int, distinct_correct int, avg_solve_time double,"
-              " `start` datetime, `end` datetime, PRIMARY KEY (student_id, module_id, module_name));")
+              " `start` datetime, `end` datetime, grades decimal(10, 5), PRIMARY KEY (student_id, module_id, module_name));")
     conn.commit()
 
 
@@ -172,6 +172,11 @@ def solve_time_table(cursor, student_id, table):
     return time_table
 
 
+def get_grades(cursor, student_id, aggregated_category, table):
+    cursor.execute("select grade from" + table + " where student_id = %s and aggregated_category = %s;", [student_id, aggregated_category])
+    return cursor.fetchall()[0][0]
+
+
 for term_key in terms:
     logger.info("start term " + term_key)
     term = term_key.replace('.', '_').replace('-', '_')
@@ -246,10 +251,11 @@ for term_key in terms:
                 avg_solve_time = float(total_solve_time) / distinct_problem_attempt
                 start = row[5]
                 end = row[6]
+                grades = get_grades(cursor, student_id, problem_type, terms[term_key] + term + "_student_grade")
                 cursor.execute(
-                    "INSERT INTO " + term + "_assignment_stats VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    "INSERT INTO " + term + "_assignment_stats VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                     [student_id, module_id, problem_type, page_view, distinct_problem_view, distinct_problem_attempt,
-                     submission, distinct_correct, avg_solve_time, start, end])
+                     submission, distinct_correct, avg_solve_time, start, end, grades])
                 logger.info("finished student " + str(student_id))
             logger.info("finished problem type " + problem_type)
             conn.commit()
