@@ -251,7 +251,7 @@ for term_key in terms:
                 avg_solve_time = float(total_solve_time) / distinct_problem_attempt
                 start = row[5]
                 end = row[6]
-                grades = get_grades(cursor, student_id, problem_type, terms[term_key] + term + "_student_grade")
+                grades = get_grades(cursor, student_id, problem_type, "HKUSTx_" + terms[term_key] + term + "_student_grade")
                 cursor.execute(
                     "INSERT INTO " + term + "_assignment_stats VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                     [student_id, module_id, problem_type, page_view, distinct_problem_view, distinct_problem_attempt,
