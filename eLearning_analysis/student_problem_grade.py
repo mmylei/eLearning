@@ -33,5 +33,6 @@ conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", d
 for term in terms:
     sql = sql_template.replace('$term$', term)
     cursor = conn.cursor()
+    cursor.execute("DROP TABLE IF EXISTS " + term + "_student_grade;")
     cursor.execute(sql)
 conn.commit()
