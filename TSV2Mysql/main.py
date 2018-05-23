@@ -6,17 +6,16 @@ import sys
 import user_id_map, auth_user, auth_userprofile, certificates_generatedcertificate, courseware_studentmodule,\
     student_anonymoususerid, student_courseenrollment, student_languageproficiency, django_comment_client_role_users, student_courseaccessrole
 
-java_terms = ['102.1x-2T2015', '102.1x-2T2016', '102.1x-4T2015', '102.2x-1T2016', '102.2x-2T2016', '102.2x-4T2015',
-         '102x-2T2014', '102.1x-3T2016', '102.2x-3T2016']
+java_terms = ['102.1x-4T2015']
 java_table_prefix = [x.replace('.', '_').replace('-', '_') for x in java_terms]
 
-android_terms = ['107x-3T2016', '107x-2016_T1', '107x-1T2016']
+android_terms = ['107x-2016_T1']
 android_table_prefix = [x.replace('.', '_').replace('-', '_') for x in android_terms]
 
-speaking_terms = ['101x-3T2016', '101x-3T2014', '101x-1T2016']
+speaking_terms = ['101x-3T2014', '101x-1T2016']
 speaking_table_prefix = [x.replace('.', '_').replace('-', '_') for x in speaking_terms]
 
-writing_terms = ['102x-4Q2015', '102x-3T2016', '102x-1T2016']
+writing_terms = ['102x-4Q2015', '102x-1T2016']
 writing_table_prefix = [x.replace('.', '_').replace('-', '_') for x in writing_terms]
 
 dir = sys.argv[1]
