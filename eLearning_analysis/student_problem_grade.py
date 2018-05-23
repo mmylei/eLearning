@@ -10,7 +10,7 @@ terms = [
          # 'HKUSTx_COMP102_1x_2T2015',
          # 'HKUSTx_COMP102_1x_2T2016',
          # 'HKUSTx_COMP102_1x_3T2016',
-         'HKUSTx_102_1x_4T2015',
+         'HKUSTx_COMP102_1x_4T2015',
          # 'HKUSTx_COMP102_2x_1T2016',
          # 'HKUSTx_COMP102_2x_2T2016',
          # 'HKUSTx_COMP102_2x_3T2016',
