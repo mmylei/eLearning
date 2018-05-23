@@ -200,6 +200,7 @@ def clustering():
 
 def get_correlation():
     for term_key in terms:
+        print term_key
         features = []
         labels = []
         with open(term_key + '_assignment_stats_features.csv', 'rb') as f:
@@ -215,7 +216,7 @@ def get_correlation():
         correlation = SelectKBest(k='all')
         correlation.fit(np_features, np_labels)
         scores = correlation.scores_
-        print scores + "\n"
+        print scores
 
 if __name__ == '__main__':
     # prepare_features()
