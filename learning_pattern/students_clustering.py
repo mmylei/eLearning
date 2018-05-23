@@ -3,6 +3,7 @@ from sklearn.cluster import KMeans
 import MySQLdb
 import os
 import csv
+from sklearn.feature_selection import SelectKBest
 
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
 
@@ -196,7 +197,28 @@ def clustering():
             for label in labels:
                 writer.writerow(label)
 
+
+def get_correlation():
+    for term_key in terms:
+        features = []
+        labels = []
+        with open(term_key + '_assignment_stats_features.csv', 'rb') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                features.append(row[3:])
+        np_features = np.array(features, dtype=np.float32)
+        with open(term_key + '_assignment_stats_KMeans.csv', 'rb') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                labels.append(row[0])
+        np_labels = np.array(labels, dtype=np.float32)
+        correlation = SelectKBest(k=all)
+        correlation.fit(np_features, np_labels)
+        scores = correlation.scores_
+        print scores + "\n"
+
 if __name__ == '__main__':
-    prepare_features()
-    conn.close()
-    clustering()
+    # prepare_features()
+    # conn.close()
+    # clustering()
+    get_correlation()
