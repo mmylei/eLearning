@@ -40,7 +40,7 @@ for term in terms:
     term = term.replace('.', '_').replace('-', '_')
     cursor = conn.cursor()
     cursor.execute("SELECT module_id, student_id, grade, max_grade, course_id FROM "
-                   + term + "_courseware_studentmodule" + " WHERE module_type = \"problem\" and grade is not NULL;")
+                   + term + "_courseware_studentmodule WHERE module_type = \"problem\" or module_type = \"openassessment\" and grade is not NULL;")
     result = cursor.fetchall()
     for row in result:
         student_id = row[1]
