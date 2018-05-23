@@ -4,6 +4,7 @@ import MySQLdb
 import os
 import csv
 from sklearn.feature_selection import SelectKBest
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
 
@@ -203,11 +204,13 @@ def get_correlation():
         print term_key
         features = []
         labels = []
+        scaler = MinMaxScaler()
         with open(term_key + '_assignment_stats_features.csv', 'rb') as f:
             reader = csv.reader(f)
             for row in reader:
                 features.append(row[3:])
         np_features = np.array(features, dtype=np.float32)
+        np_features = scaler.fit_transform(np_features)
         with open(term_key + '_assignment_stats_KMeans.csv', 'rb') as f:
             reader = csv.reader(f)
             for row in reader:
