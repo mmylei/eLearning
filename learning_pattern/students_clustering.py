@@ -212,7 +212,7 @@ def get_correlation():
             for row in reader:
                 labels.append(row[0])
         np_labels = np.array(labels, dtype=np.float32)
-        correlation = SelectKBest(k=all)
+        correlation = SelectKBest(k='all')
         correlation.fit(np_features, np_labels)
         scores = correlation.scores_
         print scores + "\n"
