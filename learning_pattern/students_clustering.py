@@ -120,8 +120,8 @@ def get_complete_time(cursor, user_id, module_id, module_number, term_key):
 
 
 def get_avg_replay_times(user_id, module_name, replay):
-    if user_id in replay:
-        return float(replay[user_id][module_name])
+    if str(user_id) in replay and module_name in replay[str(user_id)]:
+        return float(replay[str(user_id)][module_name])
     else:
         return 0.0
 
