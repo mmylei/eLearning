@@ -197,35 +197,42 @@ def prepare_features():
                    + term_key.replace('.', '_').replace('-', '_') + "_video_play_piece as P where A.student_id = R.user_id and A.student_id = P.user_id and A.student_id <> 0 "
                        "and R.name = 'Student';")
         initial_data = cursor.fetchall()
+        logger.info("total row num: " + str(len(initial_data)))
         logger.info("get feature for each student")
+        finished_count = 0
+        log_bar = 100
         features = []
         for row in initial_data:
             user_id = str(row[0])
             module_id = row[1]
             module_name = row[2]
             module_number = int(row[2].split('0')[-1]) if '0' in row[2] else -10
-            logger.info("get average watch time")
+            logger.debug("get average watch time")
             avg_watch_time = get_avg_watch_time(cursor, user_id, module_number, term_key)
-            logger.info("get average solve time")
+            logger.debug("get average solve time")
             avg_solve_time = get_avg_solve_time(cursor, user_id, module_id, term, module_name)
-            logger.info("get average watch num")
+            logger.debug("get average watch num")
             avg_watch_num = get_avg_watch_num(cursor, user_id, module_number, term_key)
-            logger.info("get complete time")
+            logger.debug("get complete time")
             complete_time = get_complete_time(cursor, user_id, module_id, module_number, term_key)
-            logger.info("get average replay times")
+            logger.debug("get average replay times")
             avg_replay_times = get_avg_replay_times(user_id, module_name, replay)
-            logger.info("get average submit times")
+            logger.debug("get average submit times")
             avg_submit_times = get_avg_submit_times(cursor, user_id, module_id, term, module_name)
-            logger.info("get grades")
+            logger.debug("get grades")
             grades = get_grades(cursor, user_id, term, module_name, term_key)
-            logger.info("get correct num")
+            logger.debug("get correct num")
             correct_num = get_correct_num(cursor, user_id, term, module_id, module_name, term_key)
-            logger.info("get forum activity")
+            logger.debug("get forum activity")
             forum_activity = get_forum_activity(cursor, user_id, term, module_name)
-            logger.info("user done")
+            logger.debug("user done")
             one_feature = [user_id, module_id, module_name, avg_watch_time, avg_solve_time, avg_watch_num, complete_time,
                            avg_replay_times, avg_submit_times, grades, correct_num, forum_activity]
             features.append(one_feature)
+            finished_count += 1
+            if finished_count == log_bar:
+                logger.info("finished " + str(finished_count) + " students")
+                log_bar += log_bar
         logger.info("writing features")
         with open(term_key + '_assignment_stats_features.csv', 'wb') as f:
             writer = csv.writer(f)
