@@ -193,9 +193,9 @@ def prepare_features():
         cursor = conn.cursor()
         cursor.execute("select A.student_id, A.module_id, A.module_name from eLearning." + term +
                        "_assignment_stats as A, eLearning." + term +
-                       "_django_comment_client_role_users as R, HKUSTx_" + terms[term_key]
-                   + term_key.replace('.', '_').replace('-', '_') + "_video_play_piece as P where A.student_id = R.user_id and A.student_id = P.user_id and A.student_id <> 0 "
-                       "and R.name = 'Student';")
+                       "_django_comment_client_role_users as R where A.student_id = R.user_id and A.student_id <> 0 "
+                       "and R.name = 'Student' and exists (select * from HKUSTx_" + terms[term_key]
+                   + term_key.replace('.', '_').replace('-', '_') + "_video_play_piece as P where P.user_id = A.student_id limit 1));")
         initial_data = cursor.fetchall()
         logger.info("total row num: " + str(len(initial_data)))
         logger.info("get feature for each student")
