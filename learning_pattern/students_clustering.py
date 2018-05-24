@@ -19,7 +19,7 @@ import logging
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s [%(levelname)s] (%(name)s: %(lineno)d) %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] (%(name)s: %(lineno)d) %(message)s')
 
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
 
