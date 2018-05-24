@@ -210,6 +210,7 @@ for term_key in terms:
             problem_types = [module_name]
         logger.info("problem_types: " + str(problem_types))
         for problem_type in problem_types:
+            logger.info("problem type: " + problem_type)
             # get all problems under this module
             cursor.execute("SELECT element_id from " + terms[term_key] + term + "_element, HKUSTx_"
                            + terms[term_key] + term + "_problem_set as P where element_id = xml_id and P.aggregated_category = \""
@@ -228,9 +229,10 @@ for term_key in terms:
                            + term + "_students_grades" + " WHERE attempts > 0 and xml_id in %s GROUP BY student_id;",
                            [problems])
             result = cursor.fetchall()
+            logger.info("student num: " + str(len(result)))
             for row in result:
                 student_id = row[0]
-                logger.info("start student id " + str(student_id))
+                # logger.info("start student id " + str(student_id))
                 problem_solve_time_table = solve_time_table(cursor, student_id,
                                                             terms[term_key] + term + "_clickstream_events")
                 if student_id in page_views:
@@ -256,7 +258,7 @@ for term_key in terms:
                     "INSERT INTO " + term + "_assignment_stats VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                     [student_id, module_id, problem_type, page_view, distinct_problem_view, distinct_problem_attempt,
                      submission, distinct_correct, avg_solve_time, start, end, grades])
-                logger.info("finished student " + str(student_id))
+                # logger.info("finished student " + str(student_id))
             logger.info("finished problem type " + problem_type)
             conn.commit()
         logger.info('module ' + module_id + ' inserted')
