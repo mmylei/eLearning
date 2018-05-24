@@ -307,11 +307,10 @@ def draw():
         np_features = scaler.fit_transform(np_features)
         with open(term_key + '_assignment_stats_KMeans.csv', 'rb') as f:
             reader = csv.reader(f)
-            for row in reader:
-                labels.append(row[0])
+            labels = next(reader)
         np_labels = np.array(labels, dtype=np.float32)
         data_proj = TSNE(random_state=RS).fit_transform(np_features)
-        data_proj = np.clip(data_proj, -1000, 1000)
+        data_proj = np.clip(data_proj, -10, 10)
         scatter(data_proj, np_labels)
         plt.savefig('tsne-generated_clusters_' + term_key + '.png', dpi=120)
 
