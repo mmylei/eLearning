@@ -19,7 +19,7 @@ import logging
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] (%(name)s: %(lineno)d) %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s [%(levelname)s] (%(name)s: %(lineno)d) %(message)s')
 
 conn = MySQLdb.connect(host="localhost", user="eLearning", passwd="Mdb4Learn", db="clickstream")
 
@@ -121,6 +121,7 @@ def get_complete_time(cursor, user_id, module_id, module_number, term_key):
 
 def get_avg_replay_times(user_id, module_name, replay):
     if str(user_id) in replay and module_name in replay[str(user_id)]:
+        logger.debug("got replay data")
         return float(replay[str(user_id)][module_name])
     else:
         return 0.0
@@ -318,6 +319,6 @@ def draw():
 if __name__ == '__main__':
     prepare_features()
     conn.close()
-    clustering()
-    get_correlation()
-    draw()
+    # clustering()
+    # get_correlation()
+    # draw()
