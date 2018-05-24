@@ -36,12 +36,12 @@ terms = {
     # '107x-1T2016': 'COMP',
     # speaking
     # '101x-3T2016': 'EBA',
-    '101x-3T2014': 'EBA',
+    # '101x-3T2014': 'EBA',
     '101x-1T2016': 'EBA',
     # writing
-    '102x-4Q2015': 'EBA',
+    # '102x-4Q2015': 'EBA',
     # '102x-3T2016': 'EBA',
-    '102x-1T2016': 'EBA'
+    # '102x-1T2016': 'EBA'
 }
 
 get_problem_id = {
