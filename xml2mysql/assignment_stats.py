@@ -36,12 +36,12 @@ terms = {
     # '107x-1T2016': 'COMP',
     # speaking
     # '101x-3T2016': 'EBA',
-    # '101x-3T2014': 'EBA',
+    '101x-3T2014': 'EBA',
     '101x-1T2016': 'EBA',
     # writing
-    # '102x-4Q2015': 'EBA',
+    '102x-4Q2015': 'EBA',
     # '102x-3T2016': 'EBA',
-    # '102x-1T2016': 'EBA'
+    '102x-1T2016': 'EBA'
 }
 
 get_problem_id = {
@@ -178,6 +178,11 @@ def get_grades(cursor, student_id, aggregated_category, table):
 
 
 for term_key in terms:
+    module2task = {
+        'M04': 'T01',
+        'M05': 'T02',
+        'M06': 'T03'
+    }
     logger.info("start term " + term_key)
     term = term_key.replace('.', '_').replace('-', '_')
     create_grades_table(conn, term + "_assignment_stats")
@@ -205,7 +210,7 @@ for term_key in terms:
             problem_types = ['Exam']
         elif module_name[0] == 'M':
             problem_types = [module_name, module_name.replace('M', 'L'), module_name.replace('M', 'Q'),
-                             module_name.replace('M', 'T')]
+                             module2task[module_name]]
         else:
             problem_types = [module_name]
         logger.info("problem_types: " + str(problem_types))
