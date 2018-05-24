@@ -210,7 +210,7 @@ for term_key in terms:
             problem_types = ['Exam']
         elif module_name[0] == 'M':
             problem_types = [module_name, module_name.replace('M', 'L'), module_name.replace('M', 'Q'),
-                             module2task[module_name]]
+                             module2task[module_name] if module_name in module2task else 'NoTask']
         else:
             problem_types = [module_name]
         logger.info("problem_types: " + str(problem_types))
