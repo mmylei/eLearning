@@ -154,6 +154,7 @@ def get_replay():
         result = r.read()
         replay = {}
         for line in result:
+            line = line.split(',')
             replay[line[0]] = {}
             replay[line[0]][line[1]] = line[2].strip()
     return replay
