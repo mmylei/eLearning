@@ -120,10 +120,15 @@ def get_complete_time(cursor, user_id, module_id, module_number, term_key):
 
 
 def get_avg_replay_times(user_id, module_name, replay):
+    if str(user_id) in replay:
+        logger.debug("str user exists in replay data")
+    if int(user_id) in replay:
+        logger.debug("int user exists in replay data")
     if str(user_id) in replay and module_name in replay[str(user_id)]:
         logger.debug("got replay data")
         return float(replay[str(user_id)][module_name])
     else:
+        logger.debug("no replay data")
         return 0.0
 
 
@@ -208,25 +213,25 @@ def prepare_features():
             module_id = row[1]
             module_name = row[2]
             module_number = int(row[2].split('0')[-1]) if '0' in row[2] else -10
-            logger.debug("get average watch time")
+            # logger.debug("get average watch time")
             avg_watch_time = get_avg_watch_time(cursor, user_id, module_number, term_key)
-            logger.debug("get average solve time")
+            # logger.debug("get average solve time")
             avg_solve_time = get_avg_solve_time(cursor, user_id, module_id, term, module_name)
-            logger.debug("get average watch num")
+            # logger.debug("get average watch num")
             avg_watch_num = get_avg_watch_num(cursor, user_id, module_number, term_key)
-            logger.debug("get complete time")
+            # logger.debug("get complete time")
             complete_time = get_complete_time(cursor, user_id, module_id, module_number, term_key)
-            logger.debug("get average replay times")
+            # logger.debug("get average replay times")
             avg_replay_times = get_avg_replay_times(user_id, module_name, replay)
-            logger.debug("get average submit times")
+            # logger.debug("get average submit times")
             avg_submit_times = get_avg_submit_times(cursor, user_id, module_id, term, module_name)
-            logger.debug("get grades")
+            # logger.debug("get grades")
             grades = get_grades(cursor, user_id, term, module_name, term_key)
-            logger.debug("get correct num")
+            # logger.debug("get correct num")
             correct_num = get_correct_num(cursor, user_id, term, module_id, module_name, term_key)
-            logger.debug("get forum activity")
+            # logger.debug("get forum activity")
             forum_activity = get_forum_activity(cursor, user_id, term, module_name)
-            logger.debug("user done")
+            # logger.debug("user done")
             one_feature = [user_id, module_id, module_name, avg_watch_time, avg_solve_time, avg_watch_num, complete_time,
                            avg_replay_times, avg_submit_times, grades, correct_num, forum_activity]
             features.append(one_feature)
