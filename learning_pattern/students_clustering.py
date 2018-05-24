@@ -154,9 +154,10 @@ def get_replay():
         result = r.read()
         replay = {}
         for line in result:
-            if len(line) > 0:
+            if len(line) > 1:
                 line = line.split(',')
-                replay[line[0]] = {}
+                if line[0] not in replay:
+                    replay[line[0]] = {}
                 replay[line[0]][line[1]] = line[2].strip()
     return replay
 
