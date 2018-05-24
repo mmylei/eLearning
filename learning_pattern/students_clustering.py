@@ -254,8 +254,7 @@ def clustering():
         model.fit(np_features)
         with open(term_key + '_assignment_stats_KMeans.csv', 'wb') as f:
             writer = csv.writer(f)
-            for label in model.labels_:
-                writer.writerow(label)
+            writer.writerow(model.labels_)
 
 
 def get_correlation():
@@ -272,8 +271,7 @@ def get_correlation():
         np_features = scaler.fit_transform(np_features)
         with open(term_key + '_assignment_stats_KMeans.csv', 'rb') as f:
             reader = csv.reader(f)
-            for row in reader:
-                labels.append(row[0])
+            labels = next(reader)
         np_labels = np.array(labels, dtype=np.float32)
         correlation = SelectKBest(k='all')
         correlation.fit(np_features, np_labels)
