@@ -287,8 +287,8 @@ def scatter(x, colors):
     ax = plt.subplot(aspect='equal')
     sc = ax.scatter(x[:,0], x[:,1], lw=0, s=40,
                     c=palette[colors.astype(np.int)])
-    plt.xlim(-25, 25)
-    plt.ylim(-25, 25)
+    plt.xlim(-10, 10)
+    plt.ylim(-10, 10)
     ax.axis('off')
     ax.axis('tight')
 
