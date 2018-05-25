@@ -4,6 +4,7 @@ import MySQLdb
 import os
 import csv
 from sklearn.manifold import TSNE
+from sklearn.cluster import SpectralClustering
 RS = 20150101
 from sklearn.feature_selection import SelectKBest
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
@@ -263,6 +264,23 @@ def clustering():
             writer.writerow(model.labels_)
 
 
+def clustering2():
+    for term_key in terms:
+        scaler = MinMaxScaler()
+        features = []
+        with open(term_key + '_assignment_stats_features.csv', 'rb') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                features.append(row[3:])
+        np_features = np.array(features, dtype=np.float32)
+        np_features = scaler.fit_transform(np_features)
+        model = SpectralClustering(n_clusters=4, eigen_solver='arpack', n_jobs=4)
+        model.fit(np_features)
+        with open(term_key + '_assignment_stats_SC.csv', 'wb') as f:
+            writer = csv.writer(f)
+            writer.writerow(model.labels_)
+
+
 def get_correlation():
     for term_key in terms:
         print term_key
@@ -275,7 +293,7 @@ def get_correlation():
                 features.append(row[3:])
         np_features = np.array(features, dtype=np.float32)
         np_features = scaler.fit_transform(np_features)
-        with open(term_key + '_assignment_stats_KMeans.csv', 'rb') as f:
+        with open(term_key + '_assignment_stats_SC.csv', 'rb') as f:
             reader = csv.reader(f)
             labels = next(reader)
         np_labels = np.array(labels, dtype=np.float32)
@@ -293,8 +311,8 @@ def scatter(x, colors):
     ax = plt.subplot(aspect='equal')
     sc = ax.scatter(x[:,0], x[:,1], lw=0, s=40,
                     c=palette[colors.astype(np.int)])
-    plt.xlim(-10, 10)
-    plt.ylim(-10, 10)
+    plt.xlim(-25, 25)
+    plt.ylim(-25, 25)
     ax.axis('off')
     ax.axis('tight')
 
@@ -311,19 +329,19 @@ def draw():
                 features.append(row[3:])
         np_features = np.array(features, dtype=np.float32)
         np_features = scaler.fit_transform(np_features)
-        with open(term_key + '_assignment_stats_KMeans.csv', 'rb') as f:
+        with open(term_key + '_assignment_stats_SC.csv', 'rb') as f:
             reader = csv.reader(f)
             labels = next(reader)
         np_labels = np.array(labels, dtype=np.float32)
         data_proj = TSNE(random_state=RS).fit_transform(np_features)
-        data_proj = np.clip(data_proj, -10, 10)
+        data_proj = np.clip(data_proj, -1000, 1000)
         scatter(data_proj, np_labels)
-        plt.savefig('tsne-generated_clusters_' + term_key + '.png', dpi=120)
+        plt.savefig('assignment_clusters_sc_' + term_key + '.png', dpi=120)
 
 
 if __name__ == '__main__':
     prepare_features()
     conn.close()
-    # clustering()
-    # get_correlation()
-    # draw()
+    clustering2()
+    get_correlation()
+    draw()
