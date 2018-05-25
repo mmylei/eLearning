@@ -209,6 +209,7 @@ def prepare_features():
         finished_count = 0
         log_bar = 100
         features = []
+        scaler = MinMaxScaler()
         for row in initial_data:
             user_id = str(row[0])
             module_id = row[1]
@@ -241,6 +242,7 @@ def prepare_features():
                 logger.info("finished " + str(finished_count) + " students")
                 log_bar += log_bar
         logger.info("writing features")
+        features = scaler.fit_transform(features)
         with open(term_key + '_assignment_stats_features.csv', 'wb') as f:
             writer = csv.writer(f)
             for feature in features:
@@ -259,7 +261,7 @@ def clustering():
         np_features = scaler.fit_transform(np_features)
         model = KMeans(n_clusters=4)
         model.fit(np_features)
-        with open(term_key + '_assignment_stats_KMeans.csv', 'wb') as f:
+        with open(term_key + '_assignment_stats_KM.csv', 'wb') as f:
             writer = csv.writer(f)
             writer.writerow(model.labels_)
 
@@ -293,7 +295,7 @@ def get_correlation():
                 features.append(row[3:])
         np_features = np.array(features, dtype=np.float32)
         np_features = scaler.fit_transform(np_features)
-        with open(term_key + '_assignment_stats_SC.csv', 'rb') as f:
+        with open(term_key + '_assignment_stats_KM.csv', 'rb') as f:
             reader = csv.reader(f)
             labels = next(reader)
         np_labels = np.array(labels, dtype=np.float32)
@@ -329,19 +331,19 @@ def draw():
                 features.append(row[3:])
         np_features = np.array(features, dtype=np.float32)
         np_features = scaler.fit_transform(np_features)
-        with open(term_key + '_assignment_stats_SC.csv', 'rb') as f:
+        with open(term_key + '_assignment_stats_KM.csv', 'rb') as f:
             reader = csv.reader(f)
             labels = next(reader)
         np_labels = np.array(labels, dtype=np.float32)
         data_proj = TSNE(random_state=RS).fit_transform(np_features)
         data_proj = np.clip(data_proj, -1000, 1000)
         scatter(data_proj, np_labels)
-        plt.savefig('assignment_clusters_sc_' + term_key + '.png', dpi=120)
+        plt.savefig('assignment_clusters_KM_' + term_key + '.png', dpi=120)
 
 
 if __name__ == '__main__':
     prepare_features()
     conn.close()
-    clustering2()
+    clustering()
     get_correlation()
     draw()
