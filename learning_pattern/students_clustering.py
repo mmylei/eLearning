@@ -274,7 +274,7 @@ def clustering2():
                 features.append(row[3:])
         np_features = np.array(features, dtype=np.float32)
         np_features = scaler.fit_transform(np_features)
-        model = SpectralClustering(n_clusters=4, eigen_solver='arpack', n_jobs=4)
+        model = SpectralClustering(n_clusters=4, eigen_solver='arpack', n_jobs=1)
         model.fit(np_features)
         with open(term_key + '_assignment_stats_SC.csv', 'wb') as f:
             writer = csv.writer(f)
