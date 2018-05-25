@@ -242,10 +242,14 @@ def prepare_features():
                 logger.info("finished " + str(finished_count) + " students")
                 log_bar += log_bar
         logger.info("writing features")
-        features = scaler.fit_transform(features)
+        real_feature = []
+        for row in features:
+            real_feature.append(row[3:])
+        real_feature = np.array(real_feature, dtype=np.float32)
+        real_feature = scaler.fit_transform(real_feature)
         with open(term_key + '_assignment_stats_features.csv', 'wb') as f:
             writer = csv.writer(f)
-            for feature in features:
+            for feature in real_feature:
                 writer.writerow(feature)
 
 
@@ -256,9 +260,9 @@ def clustering():
         with open(term_key + '_assignment_stats_features.csv', 'rb') as f:
             reader = csv.reader(f)
             for row in reader:
-                features.append(row[3:])
+                features.append(row)
         np_features = np.array(features, dtype=np.float32)
-        np_features = scaler.fit_transform(np_features)
+        # np_features = scaler.fit_transform(np_features)
         model = KMeans(n_clusters=4)
         model.fit(np_features)
         with open(term_key + '_assignment_stats_KM.csv', 'wb') as f:
@@ -273,9 +277,9 @@ def clustering2():
         with open(term_key + '_assignment_stats_features.csv', 'rb') as f:
             reader = csv.reader(f)
             for row in reader:
-                features.append(row[3:])
+                features.append(row)
         np_features = np.array(features, dtype=np.float32)
-        np_features = scaler.fit_transform(np_features)
+        # np_features = scaler.fit_transform(np_features)
         model = SpectralClustering(n_clusters=4, eigen_solver='arpack', n_jobs=1)
         model.fit(np_features)
         with open(term_key + '_assignment_stats_SC.csv', 'wb') as f:
@@ -292,9 +296,9 @@ def get_correlation():
         with open(term_key + '_assignment_stats_features.csv', 'rb') as f:
             reader = csv.reader(f)
             for row in reader:
-                features.append(row[3:])
+                features.append(row)
         np_features = np.array(features, dtype=np.float32)
-        np_features = scaler.fit_transform(np_features)
+        # np_features = scaler.fit_transform(np_features)
         with open(term_key + '_assignment_stats_KM.csv', 'rb') as f:
             reader = csv.reader(f)
             labels = next(reader)
@@ -328,9 +332,9 @@ def draw():
         with open(term_key + '_assignment_stats_features.csv', 'rb') as f:
             reader = csv.reader(f)
             for row in reader:
-                features.append(row[3:])
+                features.append(row)
         np_features = np.array(features, dtype=np.float32)
-        np_features = scaler.fit_transform(np_features)
+        # np_features = scaler.fit_transform(np_features)
         with open(term_key + '_assignment_stats_KM.csv', 'rb') as f:
             reader = csv.reader(f)
             labels = next(reader)
